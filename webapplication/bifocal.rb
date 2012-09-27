@@ -9,14 +9,21 @@ class Bifocal < Sinatra::Base
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get '/' do
-		send_file File.join(settings.public_folder, 'index.html')
+		@region_types = RegionType.all
+		@regions = Region.all
+		haml :frontpage
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/regions.:format" do
 		format = params[:format]
+		@regions = Region.all
 
 		if format == 'json'
-			Region.all.to_json
+			@regions.to_json
+		end
+
+		if format == 'html'
+			haml :regionlist
 		end
 
 	end

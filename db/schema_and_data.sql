@@ -2,13 +2,31 @@ PRAGMA foreign_keys=OFF;
 
 BEGIN TRANSACTION;
 
-CREATE TABLE "region_types" ("regiontype" VARCHAR(16) NOT NULL, "regiontypename" VARCHAR(32), "regiontypeurl" VARCHAR(255), PRIMARY KEY("regiontype"));
-INSERT INTO "region_types" VALUES('NRM','Natural Resource Management regions','http://www.nrm.gov.au/about/nrm/regions/');
-INSERT INTO "region_types" VALUES('IBRA','geographically distinct bioregions','http://www.environment.gov.au/parks/nrs/science/bioregion-framework/ibra/');
+CREATE TABLE "region_types" (
+    "regiontype" VARCHAR(16) NOT NULL,
+    "regiontypename" VARCHAR(32),
+    "regiontypeurl" VARCHAR(255),
+
+    PRIMARY KEY("regiontype")
+);
+
+INSERT INTO "region_types" VALUES('NRM','Natural Resource Management (NRM) regions','http://www.nrm.gov.au/about/nrm/regions/');
+INSERT INTO "region_types" VALUES('IBRA','geographically distinct (IBRA) bioregions','http://www.environment.gov.au/parks/nrs/science/bioregion-framework/ibra/');
 INSERT INTO "region_types" VALUES('State','states of Australia','http://www.gov.au/');
 INSERT INTO "region_types" VALUES('National','countries','http://australia.gov.au/');
 
-CREATE TABLE "regions" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "type_local_code" VARCHAR(16), "shapefile_id" INTEGER, "name" VARCHAR(64), "long_name" VARCHAR(64), "state" VARCHAR(16), "governing_body" VARCHAR(128), "reportable" BOOLEAN, "includes_sea" BOOLEAN, "region_type_regiontype" VARCHAR(16) NOT NULL);
+CREATE TABLE "regions" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "type_local_code" VARCHAR(16),
+    "shapefile_id" INTEGER,
+    "name" VARCHAR(64),
+    "long_name" VARCHAR(64),
+    "state" VARCHAR(16),
+    "governing_body" VARCHAR(128),
+    "reportable" BOOLEAN,
+    "includes_significant_sea" BOOLEAN,
+    "region_type_regiontype" VARCHAR(16) NOT NULL
+);
 
 -- sql for inserting countries
 INSERT INTO regions VALUES(1,null,null,'Australia','Australia',null,null,'t','t','National');
@@ -91,95 +109,95 @@ INSERT INTO regions VALUES(74,null,62,'Wet Tropics','Wet Tropics Region','QLD','
 INSERT INTO regions VALUES(75,null,63,'Wimmera','Wimmera Region','VIC','Wimmera CMA','t','f','NRM');
 
 -- sql for inserting IBRA regions
-INSERT INTO regions VALUES(77,'ARC',1,'Arnhem Coast','Arnhem Coast Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(78,'ARP',2,'Arnhem Plateau','Arnhem Plateau Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(79,'AUA',3,'Australian Alps','Australian Alps Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(80,'AVW',4,'Avon Wheatbelt','Avon Wheatbelt Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(81,'BBN',5,'Brigalow Belt North','Brigalow Belt North Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(82,'BBS',6,'Brigalow Belt South','Brigalow Belt South Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(83,'BEL',7,'Ben Lomond','Ben Lomond Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(84,'BHC',8,'Broken Hill Complex','Broken Hill Complex Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(85,'BRT',9,'Burt Plain','Burt Plain Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(86,'CAR',10,'Carnarvon','Carnarvon Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(87,'CEA',11,'Central Arnhem','Central Arnhem Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(88,'CEK',12,'Central Kimberley','Central Kimberley Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(89,'CER',13,'Central Ranges','Central Ranges Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(90,'CHC',14,'Channel Country','Channel Country Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(91,'CMC',15,'Central Mackay Coast','Central Mackay Coast Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(92,'COO',16,'Coolgardie','Coolgardie Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(93,'COP',17,'Cobar Peneplain','Cobar Peneplain Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(94,'COS',18,'Coral Sea','Coral Sea Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(95,'CYP',19,'Cape York Peninsula','Cape York Peninsula Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(96,'DAB',20,'Daly Basin','Daly Basin Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(97,'DAC',21,'Darwin Coastal','Darwin Coastal Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(98,'DAL',22,'Dampierland','Dampierland Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(99,'DEU',23,'Desert Uplands','Desert Uplands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(100,'DMR',24,'Davenport Murchison Ranges','Davenport Murchison Ranges Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(101,'DRP',25,'Darling Riverine Plains','Darling Riverine Plains Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(102,'EIU',26,'Einasleigh Uplands','Einasleigh Uplands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(103,'ESP',27,'Esperance Plains','Esperance Plains Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(104,'EYB',28,'Eyre Yorke Block','Eyre Yorke Block Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(105,'FIN',29,'Finke','Finke Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(106,'FLB',30,'Flinders Lofty Block','Flinders Lofty Block Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(107,'FUR',31,'Furneaux','Furneaux Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(108,'GAS',32,'Gascoyne','Gascoyne Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(109,'GAW',33,'Gawler','Gawler Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(110,'GES',34,'Geraldton Sandplains','Geraldton Sandplains Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(111,'GFU',35,'Gulf Fall and Uplands','Gulf Fall and Uplands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(112,'GID',36,'Gibson Desert','Gibson Desert Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(113,'GSD',37,'Great Sandy Desert','Great Sandy Desert Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(114,'GUC',38,'Gulf Coastal','Gulf Coastal Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(115,'GUP',39,'Gulf Plains','Gulf Plains Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(116,'GVD',40,'Great Victoria Desert','Great Victoria Desert Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(117,'HAM',41,'Hampton','Hampton Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(118,'ITI',42,'Indian Tropical Islands','Indian Tropical Islands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(119,'JAF',43,'Jarrah Forest','Jarrah Forest Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(120,'KAN',44,'Kanmantoo','Kanmantoo Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(121,'KIN',45,'King','King Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(122,'LSD',46,'Little Sandy Desert','Little Sandy Desert Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(123,'MAC',47,'MacDonnell Ranges','MacDonnell Ranges Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(124,'MAL',48,'Mallee','Mallee Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(125,'MDD',49,'Murray Darling Depression','Murray Darling Depression Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(126,'MGD',50,'Mitchell Grass Downs','Mitchell Grass Downs Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(127,'MII',51,'Mount Isa Inlier','Mount Isa Inlier Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(128,'MUL',52,'Mulga Lands','Mulga Lands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(129,'MUR',53,'Murchison','Murchison Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(130,'NAN',54,'Nandewar','Nandewar Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(131,'NCP',55,'Naracoorte Coastal Plain','Naracoorte Coastal Plain Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(132,'NET',56,'New England Tablelands','New England Tablelands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(133,'NNC',57,'NSW North Coast','NSW North Coast Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(134,'NOK',58,'Northern Kimberley','Northern Kimberley Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(135,'NSS',59,'NSW South Western Slopes','NSW South Western Slopes Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(136,'NUL',60,'Nullarbor','Nullarbor Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(137,'OVP',61,'Ord Victoria Plain','Ord Victoria Plain Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(138,'PCK',62,'Pine Creek','Pine Creek Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(139,'PIL',63,'Pilbara','Pilbara Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(140,'PSI',64,'Pacific Subtropical Islands','Pacific Subtropical Islands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(141,'RIV',65,'Riverina','Riverina Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(142,'SAI',66,'Subantarctic Islands','Subantarctic Islands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(143,'SCP',67,'South East Coastal Plain','South East Coastal Plain Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(144,'SEC',68,'South East Corner','South East Corner Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(145,'SEH',69,'South Eastern Highlands','South Eastern Highlands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(146,'SEQ',70,'South Eastern Queensland','South Eastern Queensland Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(147,'SSD',71,'Simpson Strzelecki Dunefields','Simpson Strzelecki Dunefields Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(148,'STP',72,'Stony Plains','Stony Plains Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(149,'STU',73,'Sturt Plateau','Sturt Plateau Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(150,'SVP',74,'Southern Volcanic Plain','Southern Volcanic Plain Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(151,'SWA',75,'Swan Coastal Plain','Swan Coastal Plain Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(152,'SYB',76,'Sydney Basin','Sydney Basin Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(153,'TAN',77,'Tanami','Tanami Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(154,'TCH',78,'Tasmanian Central Highlands','Tasmanian Central Highlands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(155,'TIW',79,'Tiwi Cobourg','Tiwi Cobourg Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(156,'TNM',80,'Tasmanian Northern Midlands','Tasmanian Northern Midlands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(157,'TNS',81,'Tasmanian Northern Slopes','Tasmanian Northern Slopes Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(158,'TSE',82,'Tasmanian South East','Tasmanian South East Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(159,'TSR',83,'Tasmanian Southern Ranges','Tasmanian Southern Ranges Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(160,'TWE',84,'Tasmanian West','Tasmanian West Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(161,'VIB',85,'Victoria Bonaparte','Victoria Bonaparte Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(162,'VIM',86,'Victorian Midlands','Victorian Midlands Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(163,'WAR',87,'Warren','Warren Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(164,'WET',88,'Wet Tropics','Wet Tropics Region',null,null,'t','t','IBRA');
-INSERT INTO regions VALUES(165,'YAL',89,'Yalgoo','Yalgoo Region',null,null,'t','t','IBRA');
+INSERT INTO regions VALUES(77,'ARC',1,'Arnhem Coast','Arnhem Coast Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(78,'ARP',2,'Arnhem Plateau','Arnhem Plateau Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(79,'AUA',3,'Australian Alps','Australian Alps Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(80,'AVW',4,'Avon Wheatbelt','Avon Wheatbelt Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(81,'BBN',5,'Brigalow Belt North','Brigalow Belt North Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(82,'BBS',6,'Brigalow Belt South','Brigalow Belt South Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(83,'BEL',7,'Ben Lomond','Ben Lomond Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(84,'BHC',8,'Broken Hill Complex','Broken Hill Complex Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(85,'BRT',9,'Burt Plain','Burt Plain Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(86,'CAR',10,'Carnarvon','Carnarvon Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(87,'CEA',11,'Central Arnhem','Central Arnhem Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(88,'CEK',12,'Central Kimberley','Central Kimberley Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(89,'CER',13,'Central Ranges','Central Ranges Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(90,'CHC',14,'Channel Country','Channel Country Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(91,'CMC',15,'Central Mackay Coast','Central Mackay Coast Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(92,'COO',16,'Coolgardie','Coolgardie Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(93,'COP',17,'Cobar Peneplain','Cobar Peneplain Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(94,'COS',18,'Coral Sea','Coral Sea Region',null,null,'f','t','IBRA');
+INSERT INTO regions VALUES(95,'CYP',19,'Cape York Peninsula','Cape York Peninsula Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(96,'DAB',20,'Daly Basin','Daly Basin Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(97,'DAC',21,'Darwin Coastal','Darwin Coastal Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(98,'DAL',22,'Dampierland','Dampierland Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(99,'DEU',23,'Desert Uplands','Desert Uplands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(100,'DMR',24,'Davenport Murchison Ranges','Davenport Murchison Ranges Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(101,'DRP',25,'Darling Riverine Plains','Darling Riverine Plains Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(102,'EIU',26,'Einasleigh Uplands','Einasleigh Uplands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(103,'ESP',27,'Esperance Plains','Esperance Plains Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(104,'EYB',28,'Eyre Yorke Block','Eyre Yorke Block Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(105,'FIN',29,'Finke','Finke Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(106,'FLB',30,'Flinders Lofty Block','Flinders Lofty Block Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(107,'FUR',31,'Furneaux','Furneaux Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(108,'GAS',32,'Gascoyne','Gascoyne Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(109,'GAW',33,'Gawler','Gawler Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(110,'GES',34,'Geraldton Sandplains','Geraldton Sandplains Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(111,'GFU',35,'Gulf Fall and Uplands','Gulf Fall and Uplands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(112,'GID',36,'Gibson Desert','Gibson Desert Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(113,'GSD',37,'Great Sandy Desert','Great Sandy Desert Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(114,'GUC',38,'Gulf Coastal','Gulf Coastal Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(115,'GUP',39,'Gulf Plains','Gulf Plains Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(116,'GVD',40,'Great Victoria Desert','Great Victoria Desert Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(117,'HAM',41,'Hampton','Hampton Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(118,'ITI',42,'Indian Tropical Islands','Indian Tropical Islands Region',null,null,'f','t','IBRA');
+INSERT INTO regions VALUES(119,'JAF',43,'Jarrah Forest','Jarrah Forest Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(120,'KAN',44,'Kanmantoo','Kanmantoo Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(121,'KIN',45,'King','King Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(122,'LSD',46,'Little Sandy Desert','Little Sandy Desert Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(123,'MAC',47,'MacDonnell Ranges','MacDonnell Ranges Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(124,'MAL',48,'Mallee','Mallee Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(125,'MDD',49,'Murray Darling Depression','Murray Darling Depression Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(126,'MGD',50,'Mitchell Grass Downs','Mitchell Grass Downs Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(127,'MII',51,'Mount Isa Inlier','Mount Isa Inlier Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(128,'MUL',52,'Mulga Lands','Mulga Lands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(129,'MUR',53,'Murchison','Murchison Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(130,'NAN',54,'Nandewar','Nandewar Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(131,'NCP',55,'Naracoorte Coastal Plain','Naracoorte Coastal Plain Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(132,'NET',56,'New England Tablelands','New England Tablelands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(133,'NNC',57,'NSW North Coast','NSW North Coast Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(134,'NOK',58,'Northern Kimberley','Northern Kimberley Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(135,'NSS',59,'NSW South Western Slopes','NSW South Western Slopes Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(136,'NUL',60,'Nullarbor','Nullarbor Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(137,'OVP',61,'Ord Victoria Plain','Ord Victoria Plain Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(138,'PCK',62,'Pine Creek','Pine Creek Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(139,'PIL',63,'Pilbara','Pilbara Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(140,'PSI',64,'Pacific Subtropical Islands','Pacific Subtropical Islands Region',null,null,'f','t','IBRA');
+INSERT INTO regions VALUES(141,'RIV',65,'Riverina','Riverina Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(142,'SAI',66,'Subantarctic Islands','Subantarctic Islands Region',null,null,'f','t','IBRA');
+INSERT INTO regions VALUES(143,'SCP',67,'South East Coastal Plain','South East Coastal Plain Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(144,'SEC',68,'South East Corner','South East Corner Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(145,'SEH',69,'South Eastern Highlands','South Eastern Highlands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(146,'SEQ',70,'South Eastern Queensland','South Eastern Queensland Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(147,'SSD',71,'Simpson Strzelecki Dunefields','Simpson Strzelecki Dunefields Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(148,'STP',72,'Stony Plains','Stony Plains Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(149,'STU',73,'Sturt Plateau','Sturt Plateau Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(150,'SVP',74,'Southern Volcanic Plain','Southern Volcanic Plain Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(151,'SWA',75,'Swan Coastal Plain','Swan Coastal Plain Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(152,'SYB',76,'Sydney Basin','Sydney Basin Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(153,'TAN',77,'Tanami','Tanami Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(154,'TCH',78,'Tasmanian Central Highlands','Tasmanian Central Highlands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(155,'TIW',79,'Tiwi Cobourg','Tiwi Cobourg Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(156,'TNM',80,'Tasmanian Northern Midlands','Tasmanian Northern Midlands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(157,'TNS',81,'Tasmanian Northern Slopes','Tasmanian Northern Slopes Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(158,'TSE',82,'Tasmanian South East','Tasmanian South East Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(159,'TSR',83,'Tasmanian Southern Ranges','Tasmanian Southern Ranges Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(160,'TWE',84,'Tasmanian West','Tasmanian West Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(161,'VIB',85,'Victoria Bonaparte','Victoria Bonaparte Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(162,'VIM',86,'Victorian Midlands','Victorian Midlands Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(163,'WAR',87,'Warren','Warren Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(164,'WET',88,'Wet Tropics','Wet Tropics Region',null,null,'t','f','IBRA');
+INSERT INTO regions VALUES(165,'YAL',89,'Yalgoo','Yalgoo Region',null,null,'t','f','IBRA');
 
 
 DELETE FROM sqlite_sequence;

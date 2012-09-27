@@ -5,6 +5,7 @@ class RegionType
     include DataMapper::Resource
 
     property :regiontype,         String, length: 16, key: true
+    property :regiontypename,     String, length: 32
     property :regiontypeurl,      String, length: 255
 
     has n, :regions
