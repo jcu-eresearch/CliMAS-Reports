@@ -21,7 +21,9 @@ define [
             @region_types.each (r) ->
                 type_choices.push AppView.type_choice(r.attributes)
 
-            @$el.append $(AppView.type_chooser type_choices.join())
+            console.log type_choices
+
+            @$el.append AppView.type_chooser({ regiontypes: type_choices.join() })
 
             @$el.append $("<br>")
 
@@ -36,11 +38,13 @@ define [
         # templates here
 
         type_chooser: _.template """
-            region type chooser
+            <select>
+            <%= regiontypes %>
+            </select>
         """
 
         type_choice: _.template """
-            region type
+            <option><%= regiontypename %></option>
         """
 
     }

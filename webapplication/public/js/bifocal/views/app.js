@@ -14,7 +14,10 @@ define(['jquery', 'underscore', 'backbone', 'bifocal/collections/regions', 'bifo
       this.region_types.each(function(r) {
         return type_choices.push(AppView.type_choice(r.attributes));
       });
-      this.$el.append($(AppView.type_chooser(type_choices.join())));
+      console.log(type_choices);
+      this.$el.append(AppView.type_chooser({
+        regiontypes: type_choices.join()
+      }));
       this.$el.append($("<br>"));
       this.regions.each(function(r) {
         me.$el.append(r.get("name"));
@@ -23,8 +26,8 @@ define(['jquery', 'underscore', 'backbone', 'bifocal/collections/regions', 'bifo
       return $('body').prepend(this.$el);
     }
   }, {
-    type_chooser: _.template("region type chooser"),
-    type_choice: _.template("region type")
+    type_chooser: _.template("<select>\n<%= regiontypes %>\n</select>"),
+    type_choice: _.template("<option><%= regiontypename %></option>")
   });
   return AppView;
 });
