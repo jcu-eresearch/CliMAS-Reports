@@ -35,6 +35,7 @@ class Bifocal < Sinatra::Base
 			File.read(data_file_path)
 		else
 			File.read(File.join('public', 'assets', 'data', 'sampledata.json'))
+		end
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/regions/:regionid.:format" do

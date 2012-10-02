@@ -1,3 +1,25 @@
 {
-    "test": 123
+
+    "region_long_name": "Thingy and Thing Region",
+    "region_short_name": "Thingy and Thing",
+    "region_data_url": "http://tropicaldatahub/data/bifocal/region/NRM_Thingy_and_Thing",
+
+    "report_year": 2035,
+
+    "species_current_total": 123,
+    "species_2015_total": 123,
+    "species_2025_total": 123,
+    "species_2035_total": 123,
+    "species_2045_total": 123,
+    "species_2055_total": 123,
+    "species_2065_total": 123,
+    "species_2075_total": 123,
+    "species_2085_total": 123,
+
+    "species_added_reportyear": 123,
+    "species_lost_reportyear": 123,
+    "species_positive_delta_reportyear": 123,
+    "species_negative_delta_reportyear": 123,
+
+    "one": 1
 }
