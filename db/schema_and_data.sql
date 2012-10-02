@@ -4,16 +4,35 @@ BEGIN TRANSACTION;
 
 CREATE TABLE "region_types" (
     "regiontype" VARCHAR(16) NOT NULL,
-    "regiontypename" VARCHAR(32),
+    "regiontypename_singular" VARCHAR(32),
+    "regiontypename_plural" VARCHAR(32),
     "regiontypeurl" VARCHAR(255),
 
     PRIMARY KEY("regiontype")
 );
 
-INSERT INTO "region_types" VALUES('NRM','Natural Resource Management (NRM) regions','http://www.nrm.gov.au/about/nrm/regions/');
-INSERT INTO "region_types" VALUES('IBRA','geographically distinct (IBRA) bioregions','http://www.environment.gov.au/parks/nrs/science/bioregion-framework/ibra/');
-INSERT INTO "region_types" VALUES('State','states of Australia','http://www.gov.au/');
-INSERT INTO "region_types" VALUES('National','countries','http://australia.gov.au/');
+INSERT INTO "region_types" VALUES(
+    'NRM',
+    'Natural Resource Management (NRM) region',
+    'Natural Resource Management (NRM) regions',
+    'http://www.nrm.gov.au/about/nrm/regions/'
+);
+INSERT INTO "region_types" VALUES(
+    'IBRA',
+    'IBRA bioregion',
+    'IBRA bioregions',
+    'http://www.environment.gov.au/parks/nrs/science/bioregion-framework/ibra/'
+);
+INSERT INTO "region_types" VALUES('State',
+    'state of Australia',
+    'states of Australia',
+    'http://www.gov.au/'
+);
+INSERT INTO "region_types" VALUES('National',
+    'country',
+    'countries',
+    'http://australia.gov.au/'
+);
 
 CREATE TABLE "regions" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,

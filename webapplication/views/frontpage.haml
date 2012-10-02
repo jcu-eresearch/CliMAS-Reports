@@ -1,4 +1,8 @@
+%h1 Report Generator
 %script
     ==
+    window.settings = {
+    dataUrlPrefix: "#{ @dataurlprefix }"
+    };
     window.region_type_list = #{ @region_types.to_json };
     window.region_list = #{ @regions.to_json };

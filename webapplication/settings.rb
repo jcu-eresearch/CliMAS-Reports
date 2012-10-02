@@ -4,7 +4,7 @@
 #
 module Settings
 
-	DataUrlPrefix = '/sampledata/'
+	DataUrlPrefix = '/assets/data/'
 	Dev           = true
 
 end

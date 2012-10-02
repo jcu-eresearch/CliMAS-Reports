@@ -6,7 +6,9 @@ require.config({
   paths: {
     jquery: 'lib/jquery-1.8.2.min',
     underscore: 'lib/underscore-min.AMD',
-    backbone: 'lib/backbone-min.AMD'
+    backbone: 'lib/backbone-min.AMD',
+    showdown: 'lib/showdown',
+    ra: 'lib/ra'
   }
 });
 

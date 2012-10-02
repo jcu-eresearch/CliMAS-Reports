@@ -11,6 +11,7 @@ class Bifocal < Sinatra::Base
 	get '/' do
 		@region_types = RegionType.all
 		@regions = Region.all
+		@dataurlprefix = Settings::DataUrlPrefix
 		haml :frontpage
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -26,6 +27,14 @@ class Bifocal < Sinatra::Base
 			haml :regionlist
 		end
 
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	get "/assets/data/regions/:regidentifier/data.json" do
+		data_file_path = 'public/assets/data/regions/#{params[:regidentifier]}/data.json'
+		if File.exists? data_file_path
+			File.read(data_file_path)
+		else
+			File.read(File.join('public', 'assets', 'data', 'sampledata.json'))
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/regions/:regionid.:format" do
