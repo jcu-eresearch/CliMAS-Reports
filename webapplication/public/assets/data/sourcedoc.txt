@@ -1,10 +1,18 @@
-Climate Change and Biodiversity Report For $$region_long_name
-=============================================================
+<span>Climate Change</span> and <span>Biodiversity Report</span>
+================================================================
+for
+===
+$$rg_long_name
+==================
+
+<p class="frontpagecredits">
+Prepared by the James Cook University eResearch Centre or someone like that, using data from somewhere and somewhere else.
+</p>
 
 Introduction
 ------------
 
-This report covers blah and blah by doing blah and blah.  It uses data projected out to 2085[[report_year == 2085]].[[report_year < 2085]], but focusses on the projected climate and biodiversity situation in $$report_year.[[always]]
+This report covers blah and blah by doing blah and blah.  It uses data projected out to 2085[[year == 2085]].[[year < 2085]], but focusses on the projected climate and biodiversity situation in $$year.[[always]]
 
 Projection of Future Climate
 ----------------------------
@@ -23,33 +31,127 @@ Uncertainties remain in climate projection, selection of bioclim variables, anth
 Regional Climate Projections
 ----------------------------
 
-Figure 1 shows the projected change in annual average temperature across $$region_short_name, in low and high emission scenarios.  Projections are shown for 10th percentile etc etc.
+Figure 1 shows the projected change in annual average temperature across $$rg_short_name, in low and high emission scenarios.  Projections are shown for 10th percentile etc etc.
 
-[[report_year < 2085]]Note that this figure shows projections for 2085.[[always]]
+[[year < 2085]]Note that this figure shows projections for 2085.[[always]]
 
-![Figure 1: Projected Temperature Change]($$region_data_url/figure1.png)
+![Figure 1: Projected Temperature Change]($$rg_url/figure1.png)
 
 Highest change across the region is blah blah.
 
-Figure 2 shows the annual average temperature for $$region_short_name, in low and high emission scenarios.
+Figure 2 shows the annual average temperature for $$rg_short_name, in low and high emission scenarios.
 
-![Figure 2: Average Projected Temperature]($$region_data_url/figure2.png)
+![Figure 2: Average Projected Temperature]($$rg_url/figure2.png)
 
 Regional Biodiversity Implications
 ----------------------------------
 
-$$region_long_name currently has climate suitable for $$species_current_total species.
+$$rg_long_name currently has climate suitable for $$sp_current_total species.
 
-Projections for $$report_year indicate that the region's climate will
-[[species_added_reportyear > 0]]become suitable for $$species_added_reportyear new species,
-[[species_lost_reportyear > 0]]become unsuitable for $$species_lost_reportyear existing species,
-[[species_positive_delta_reportyear > 0]] for a net gain of $$species_positive_delta_reportyear.
-[[species_negative_delta_reportyear > 0]] for a net loss of $$species_negative_delta_reportyear.
+Projections for $$year indicate that the region's climate will
+[[species_added_reportyear > 0]]become suitable for $$sp_added_reportyear new species,
+[[species_lost_reportyear > 0]]become unsuitable for $$sp_lost_reportyear existing species,
+[[species_positive_delta_reportyear > 0]] for a net gain of $$sp_positive_delta_reportyear.
+[[species_negative_delta_reportyear > 0]] for a net loss of $$sp_negative_delta_reportyear.
 [[always]]
 
 blah blah
 
-[Summary table of species by taxa: total, gains, losses, by percentile, for 2 scenarios]
+Tabular Biodiversity Summary
+----------------------------
+
+<table>
+    <tr>
+        <td></td>
+        <th rowspan="2">Current species count</th>
+        <th colspan="2">
+            Projected species count in $$year
+        </th>
+    </tr><tr>
+        <th>Class</th>
+        <th>
+            Low emission scenario<br>
+            Count
+            (<span class="gained">+gained</span>
+            <span class="lost">-lost</span>)
+        </th>
+        <th>
+            High emission scenario<br>
+            Count
+            (<span class="gained">+gained</span>
+            <span class="lost">-lost</span>)
+        </th>
+    </tr><tr>
+        <td>Mammals</td>
+        <td>
+            $$mammals_current_total
+        </td><td>
+            $$mammals_low_$$year_total
+            (<span class="gained">+$$mammals_low_$$year_d_up</span>
+            <span class="lost">-$$mammals_low_$$year_d_down</span>)
+        </td><td>
+            $$mammals_low_$$year_total
+            (<span class="gained">+$$mammals_high_$$year_d_up</span>
+            <span class="lost">-$$mammals_high_$$year_d_down</span>)
+        </td>
+    </tr><tr>
+        <td>Birds</td>
+        <td>
+            $$birds_current_total
+        </td><td>
+            $$birds_low_$$year_total
+            (<span class="gained">+$$birds_low_$$year_d_up</span>
+            <span class="lost">-$$birds_low_$$year_d_down</span>)
+        </td>
+        <td>
+            $$birds_low_$$year_total
+            (<span class="gained">+$$birds_high_$$year_d_up</span>
+            <span class="lost">-$$birds_high_$$year_d_down</span>)
+        </td>
+    </tr><tr>
+        <td>Amphibians</td>
+        <td>
+            $$amphibians_current_total
+        </td><td>
+            $$amphibians_low_$$year_total
+            (<span class="gained">+$$amphibians_low_$$year_d_up</span>
+            <span class="lost">-$$amphibians_low_$$year_d_down</span>)
+        </td>
+        <td>
+            $$amphibians_low_$$year_total
+            (<span class="gained">+$$amphibians_high_$$year_d_up</span>
+            <span class="lost">-$$amphibians_high_$$year_d_down</span>)
+        </td>
+    </tr><tr>
+        <td>Reptiles</td>
+        <td>
+            $$reptiles_current_total
+        </td><td>
+            $$reptiles_low_$$year_total
+            (<span class="gained">+$$reptiles_low_$$year_d_up</span>
+            <span class="lost">-$$reptiles_low_$$year_d_down</span>)
+        </td>
+        <td>
+            $$reptiles_low_$$year_total
+            (<span class="gained">+$$reptiles_high_$$year_d_up</span>
+            <span class="lost">-$$reptiles_high_$$year_d_down</span>)
+        </td>
+    </tr><tr class="totals">
+        <td>Totals</td>
+        <td>
+            $$sp_current_total
+        </td><td>
+            $$sp_low_$$year_total
+            (<span class="gained">+$$sp_low_$$year_d_up</span>
+            <span class="lost">-$$sp_low_$$year_d_down</span>)
+        </td>
+        <td>
+            $$sp_low_$$year_total
+            (<span class="gained">+$$sp_high_$$year_d_up</span>
+            <span class="lost">-$$sp_high_$$year_d_down</span>)
+        </td>
+    </tr>
+</table>
 
 
 

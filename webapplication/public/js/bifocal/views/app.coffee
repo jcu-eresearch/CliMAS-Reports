@@ -8,7 +8,7 @@ define [
     AppView = Backbone.View.extend {
         # ----------------------------------------------------------------
         events:
-            'click #generate': 'startReport'
+            'click .generate': 'startReport'
             'change select': 'changeRegion'
             'change input[type=radio].rtype': 'changeRegionType'
         # ----------------------------------------------------------------
@@ -38,9 +38,14 @@ define [
 
             @html_type_chooser = AppView.type_chooser({ regiontypes: type_choices.join('') })
             @form_content = @html_type_chooser
-            @html_form = AppView.form {formcontent: @form_content }
 
-            @$el.append $(@html_form)
+            buttons = []
+            for year in [2015..2085] by 10
+                buttons.push AppView.gobutton({year: year})
+
+            @html_form = AppView.form {formcontent: @form_content, gobuttons: buttons.join(' ') }
+
+            @$el.append $('<div id="notreport">' + @html_form + '</div>')
             @$el.append $('<div id="report"></div>')
 
             @updateReportButton()
@@ -68,13 +73,16 @@ define [
         # ----------------------------------------------------------------
         updateReportButton: () ->
             if @selected_region
-                @$('#generate').show 'fast'
+                @$('.gobutton').show 'fast'
             else
-                @$('#generate').hide 'fast'
+                @$('.gobutton').hide 'fast'
         # ----------------------------------------------------------------
-        startReport: () ->
+        startReport: (e) ->
 
             @$('#report').empty()
+
+            @year = $(e.srcElement).val()
+            console.log ["year selected was:", @year]
 
             # fresh data every time
             @data = null
@@ -128,11 +136,11 @@ define [
         # ----------------------------------------------------------------
         progress: () ->
             if @doc and @data
-                console.log ["producing report with: ", @data]
                 @generateReport()
         # ----------------------------------------------------------------
         generateReport: () ->
             # do the thing
+            @data['year'] = parseInt @year
             resolution = RA.resolve @doc, @data
             @$('#report').append(new Showdown.converter().makeHtml(resolution))
         # ----------------------------------------------------------------
@@ -140,12 +148,17 @@ define [
         # templates here
         # ----------------------------------------------------------------
         form: _.template """
+            <h1>Report Generator</h1>
             <form id="kickoffform">
                 <%= formcontent %>
                 <div class="onefield gobutton">
-                    <button id="generate">generate report</button>
+                    Generate report for <%= gobuttons %>
                 </div>
             </form>
+        """
+        # ----------------------------------------------------------------
+        gobutton: _.template """
+            <input type="button" class="generate" value="<%= year %>" />
         """
         # ----------------------------------------------------------------
         type_chooser: _.template """
@@ -158,7 +171,7 @@ define [
                 <div class="regiontypeselector">
                     <label><input type="radio" class="rtype" name="regiontyperadio"
                             value="<%= regiontype %>"><%= regiontypename_plural %></label>
-                    <select name="chosen_<%= regiontype %>" id="chosen_<%= regiontype %>">
+                    <select class="regionselect" name="chosen_<%= regiontype %>" id="chosen_<%= regiontype %>">
                         <option disabled="disabled" selected="selected" value="invalid">choose <%= regiontypename_singular %>...</option>
                         <%= regions %>
                     </select>

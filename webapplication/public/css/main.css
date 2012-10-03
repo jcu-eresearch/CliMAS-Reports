@@ -5,7 +5,16 @@ body {
     line-height: 1.5;
 }
 
-h1 {
+/* ----------------------------------------------------- */
+/* things that aren't the report */
+
+@media print {
+    #notreport {
+        display: none;
+    }
+}
+
+#notreport h1 {
     text-align: center;
     background: #eee;
     padding: 1em;
@@ -23,11 +32,27 @@ h1 {
     border-top: 1px solid #ccc;
 }
 
-.regiontypeselection input[type="radio"] {
+#kickoffform .regiontypeselection {
+    position: relative;
+    padding-bottom: 3em;
+}
+
+#kickoffform .regionselect {
+    position: absolute;
+    bottom: 1em;
+    left: 0;
+    display: none;
+}
+
+#kickoffform .gobutton {
+    display: none;
+}
+
+#kickoffform .regiontypeselection input[type="radio"] {
     margin-right: 0.5em;
 }
 
-.regiontypeselector {
+#kickoffform .regiontypeselector {
     display: block;
 }
 
@@ -35,13 +60,81 @@ h1 {
 /* the report itself */
 
 #report {
+    max-width: 210mm;
+    padding: 20mm;
     font-family: "Book Antiqua", Georgia, serif;
-    padding: 30mm;
-    max-width: 150mm;
-    margin: 0 auto;
+    font-size: 12pt;
     background: #fff;
+    margin: 0 auto;
+}
+
+@media print {
+    #report {
+        background: transparent;
+        xxmargin: 0;
+        xxpadding: 0;
+    }
+
+    #report .frontpagecredits {
+        page-break-after: always;
+    }
+}
+
+#report .frontpagecredits {
+    font-style: italic;
+    margin: 3em 25mm;
+}
+
+#report p, #report h2 {
+    orphans: 2;
+    widows: 2;
+}
+
+#report img {
+    margin: 0 auto;
+    width: 99%;
+}
+
+#report h1 {
+    text-align: center;
+}
+
+#report h1 span {
+    white-space: nowrap;
+}
+
+#report h2 {
+    margin: 3em 0 1em 0;
+    page-break-after: avoid;
+    font-size: 14pt;
+    font-family: "Segoe UI", Segoe, Tahoma, Geneva, Verdana, sans-serif;;
+}
+
+#report table {
+    width: 99%;
+    margin: 0 auto;
+    border-top: 1mm solid #ccc;
+    border-bottom: 1mm solid #ccc;
+    border-collapse: separate;
+    border-spacing: 4mm 0;
+}
+
+#report td, #report th {
+    text-align: center;
+    padding: 2mm;
+    margin: 2mm;
 }
 
 
+#report .gained { color: #060; }
+#report .lost   { color: #600; }
 
+#report th {
+    border-bottom: 0.5mm solid #ccc;
+}
 
+#report .totals td, #report .totals th {
+    font-weight: bold;
+    border-top: 0.5mm solid #ccc;
+    border-bottom: none;
+}

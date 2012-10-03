@@ -2,7 +2,10 @@ define [
     'underscore'
 ], (_) ->
 
-    return {
+    RA = {
+        # ----------------------------------------------------------------
+        initialize: () ->
+            _.bindAll this
         # ----------------------------------------------------------------
         resolve: (doc, data) ->
             # doc: a string
@@ -46,7 +49,7 @@ define [
         # ----------------------------------------------------------------
         _conditionHolds: (condition, data) ->
             # protect loss of "this"
-            resolveTerm = @_resolveTerm
+            resolveTerm = RA._resolveTerm
 
             conditions = {
 
@@ -83,12 +86,19 @@ define [
         _fillOut: (content, data) ->
             filledOut = content
             for varname, value of data
-                filledOut = filledOut.replace("\$\$" + varname, value)
+                # split/join to replace all instances :)
+                filledOut = filledOut.split("\$\$" + varname).join(value)
 
             filledOut
         # ----------------------------------------------------------------
         _resolveTerm: (term, data) ->
             if isNaN term
+                console.log ['term is:', term]
+                if term.indexOf("$$") isnt -1
+                    console.log ['term is:', term]
+                    term = RA._fillOut term, data
+                    console.log ['filled out term is:', term]
+
                 data[term]
             else
                 parseInt term

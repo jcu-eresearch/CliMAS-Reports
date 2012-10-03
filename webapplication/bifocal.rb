@@ -29,15 +29,6 @@ class Bifocal < Sinatra::Base
 
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	get "/assets/data/regions/:regidentifier/data.json" do
-		data_file_path = 'public/assets/data/regions/#{params[:regidentifier]}/data.json'
-		if File.exists? data_file_path
-			File.read(data_file_path)
-		else
-			File.read(File.join('public', 'assets', 'data', 'sampledata.json'))
-		end
-	end
-	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/regions/:regionid.:format" do
 		format = params[:format]
 		regionid = params[:regionid]
@@ -56,6 +47,35 @@ class Bifocal < Sinatra::Base
 			"i don't have a #{format} format for region #{regionid}."
 		end
 
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	# serve default data when real data not available..
+	# this is for testing, remove for production
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	get "/assets/data/regions/:regidentifier/figure:num.png" do
+
+		data_file_path = "public/assets/data/regions/#{params[:regidentifier]}/figure#{params[:num]}.png"
+
+		content_type 'image/png'
+
+		if File.exists? data_file_path
+			File.read(data_file_path)
+		else
+			File.read(File.join('public', 'assets', 'data', "sampleFig#{params[:num]}.png"))
+		end
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	get "/assets/data/regions/:regidentifier/data.json" do
+
+		data_file_path = 'public/assets/data/regions/#{params[:regidentifier]}/data.json'
+
+		content_type 'application/json'
+
+		if File.exists? data_file_path
+			File.read(data_file_path)
+		else
+			File.read(File.join('public', 'assets', 'data', 'sampledata.json'))
+		end
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

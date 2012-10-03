@@ -4,7 +4,7 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
   var AppView;
   AppView = Backbone.View.extend({
     events: {
-      'click #generate': 'startReport',
+      'click .generate': 'startReport',
       'change select': 'changeRegion',
       'change input[type=radio].rtype': 'changeRegionType'
     },
@@ -14,7 +14,7 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
       return _.bindAll(this);
     },
     render: function() {
-      var me, type_choices;
+      var buttons, me, type_choices, year, _i;
       me = this;
       type_choices = [];
       this.region_types.each(function(rt) {
@@ -34,10 +34,17 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
         regiontypes: type_choices.join('')
       });
       this.form_content = this.html_type_chooser;
+      buttons = [];
+      for (year = _i = 2015; _i <= 2085; year = _i += 10) {
+        buttons.push(AppView.gobutton({
+          year: year
+        }));
+      }
       this.html_form = AppView.form({
-        formcontent: this.form_content
+        formcontent: this.form_content,
+        gobuttons: buttons.join(' ')
       });
-      this.$el.append($(this.html_form));
+      this.$el.append($('<div id="notreport">' + this.html_form + '</div>'));
       this.$el.append($('<div id="report"></div>'));
       this.updateReportButton();
       return $('body').append(this.$el);
@@ -62,13 +69,15 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
     },
     updateReportButton: function() {
       if (this.selected_region) {
-        return this.$('#generate').show('fast');
+        return this.$('.gobutton').show('fast');
       } else {
-        return this.$('#generate').hide('fast');
+        return this.$('.gobutton').hide('fast');
       }
     },
-    startReport: function() {
+    startReport: function(e) {
       this.$('#report').empty();
+      this.year = $(e.srcElement).val();
+      console.log(["year selected was:", this.year]);
       this.data = null;
       this.fetchData();
       if (this.doc) {
@@ -119,19 +128,20 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
     },
     progress: function() {
       if (this.doc && this.data) {
-        console.log(["producing report with: ", this.data]);
         return this.generateReport();
       }
     },
     generateReport: function() {
       var resolution;
+      this.data['year'] = parseInt(this.year);
       resolution = RA.resolve(this.doc, this.data);
       return this.$('#report').append(new Showdown.converter().makeHtml(resolution));
     }
   }, {
-    form: _.template("<form id=\"kickoffform\">\n    <%= formcontent %>\n    <div class=\"onefield gobutton\">\n        <button id=\"generate\">generate report</button>\n    </div>\n</form>"),
+    form: _.template("<h1>Report Generator</h1>\n<form id=\"kickoffform\">\n    <%= formcontent %>\n    <div class=\"onefield gobutton\">\n        Generate report for <%= gobuttons %>\n    </div>\n</form>"),
+    gobutton: _.template("<input type=\"button\" class=\"generate\" value=\"<%= year %>\" />"),
     type_chooser: _.template("<div class=\"onefield regiontypeselection\">\n    <%= regiontypes %>\n</div>"),
-    type_choice: _.template("<div class=\"regiontypeselector\">\n    <label><input type=\"radio\" class=\"rtype\" name=\"regiontyperadio\"\n            value=\"<%= regiontype %>\"><%= regiontypename_plural %></label>\n    <select name=\"chosen_<%= regiontype %>\" id=\"chosen_<%= regiontype %>\">\n        <option disabled=\"disabled\" selected=\"selected\" value=\"invalid\">choose <%= regiontypename_singular %>...</option>\n        <%= regions %>\n    </select>\n</div>"),
+    type_choice: _.template("<div class=\"regiontypeselector\">\n    <label><input type=\"radio\" class=\"rtype\" name=\"regiontyperadio\"\n            value=\"<%= regiontype %>\"><%= regiontypename_plural %></label>\n    <select class=\"regionselect\" name=\"chosen_<%= regiontype %>\" id=\"chosen_<%= regiontype %>\">\n        <option disabled=\"disabled\" selected=\"selected\" value=\"invalid\">choose <%= regiontypename_singular %>...</option>\n        <%= regions %>\n    </select>\n</div>"),
     region_choice: _.template("<option value=\"<%= id %>\"><%= name %></option>")
   });
   return AppView;
