@@ -61,14 +61,26 @@ body {
 
 #report {
     max-width: 210mm;
-    padding: 20mm;
+    xxpadding: 20mm;
     font-family: "Book Antiqua", Georgia, serif;
     font-size: 12pt;
     background: #fff;
-    margin: 0 auto;
+    xxmargin: 0 auto;
+}
+
+@media screen {
+    #report {
+        padding: 20mm;
+        margin: 0 auto;
+    }
 }
 
 @media print {
+    @page {
+        size: 210mm 297mm;
+        margin: 12mm;
+    }
+
     #report {
         background: transparent;
         xxmargin: 0;

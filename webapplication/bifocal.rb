@@ -15,6 +15,32 @@ class Bifocal < Sinatra::Base
 		haml :frontpage
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	get "/region/:regionid/speciestables.:format" do
+		region = Region.get params[:regionid]
+		
+		answer = ""
+
+		[2015, 2035, 2055, 2075].each do |year|
+			answer += "\n\n<h1>#{year}</h1><table border='1'><tr>\n"
+
+			['add', 'lost', 'kept'].each do |presence_type|
+
+				answer += "<td><h2>#{presence_type}</h2>\n<pre>\n"
+
+				presences = region.presences.all year: year, presence: presence_type
+				
+				presences.each do |presence|
+					answer += "#{presence.species.common_name}\n"
+				end
+				answer += "\n</pre></td>\n"
+			end
+
+			answer += "\n</tr></table>\n"
+		end
+
+		answer
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/regions.:format" do
 		format = params[:format]
 		@regions = Region.all

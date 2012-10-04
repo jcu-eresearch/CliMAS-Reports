@@ -5,3 +5,4 @@ require_relative './species_models'
 # --------------------------------------------------------------
 DataMapper.finalize
 # --------------------------------------------------------------
+DataMapper.auto_migrate!

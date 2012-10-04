@@ -43,6 +43,9 @@ class Region
     property :includes_sea,       Boolean
 
     belongs_to :region_type
+
+    has n, :presences
+    has n, :species, :through => :presences
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def data_url
         # the url for this region's data files

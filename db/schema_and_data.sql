@@ -2,6 +2,8 @@ PRAGMA foreign_keys=OFF;
 
 BEGIN TRANSACTION;
 
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 CREATE TABLE "region_types" (
     "regiontype" VARCHAR(16) NOT NULL,
     "regiontypename_singular" VARCHAR(32),
@@ -33,6 +35,8 @@ INSERT INTO "region_types" VALUES('National',
     'countries',
     'http://australia.gov.au/'
 );
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 CREATE TABLE "regions" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -218,9 +222,56 @@ INSERT INTO regions VALUES(163,'WAR',87,'Warren','Warren Region',null,null,'t','
 INSERT INTO regions VALUES(164,'WET',88,'Wet Tropics','Wet Tropics Region',null,null,'t','f','IBRA');
 INSERT INTO regions VALUES(165,'YAL',89,'Yalgoo','Yalgoo Region',null,null,'t','f','IBRA');
 
+CREATE TABLE "species" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "class" VARCHAR(32),
+    "family" VARCHAR(32),
+    "scientific_name" VARCHAR(128),
+    "common_name" VARCHAR(64)
+);
 
-DELETE FROM sqlite_sequence;
-INSERT INTO "sqlite_sequence" VALUES('regions',1);
+insert into species values (
+    1,
+    "Mammal",
+    "Humanae",
+    "Gaius Julius Caesar Octavianus",
+    "Augustus Caesar"
+);
+
+insert into species values (
+    2,
+    "Mammal",
+    "Humanae",
+    "Daniel Baird",
+    "Daniel"
+);
+
+CREATE TABLE "presences" (
+    "year" INTEGER NOT NULL,
+    "scenario" VARCHAR(4) NOT NULL,
+    "presence" VARCHAR(4),
+    "species_id" INTEGER NOT NULL,
+    "region_id" INTEGER NOT NULL,
+    PRIMARY KEY("year", "scenario", "species_id", "region_id")
+);
+
+insert into presences values ( 2015, 'high', 'kept', 1, 1 );
+insert into presences values ( 2025, 'high', 'kept', 1, 1 );
+insert into presences values ( 2035, 'high', 'kept', 1, 1 );
+insert into presences values ( 2045, 'high', 'lost', 1, 1 );
+insert into presences values ( 2055, 'high', 'lost', 1, 1 );
+insert into presences values ( 2065, 'high', 'lost', 1, 1 );
+insert into presences values ( 2075, 'high', 'lost', 1, 1 );
+insert into presences values ( 2085, 'high', 'lost', 1, 1 );
+
+insert into presences values ( 2045, 'high', 'add', 2, 1 );
+insert into presences values ( 2055, 'high', 'add', 2, 1 );
+insert into presences values ( 2065, 'high', 'add', 2, 1 );
+insert into presences values ( 2075, 'high', 'add', 2, 1 );
+insert into presences values ( 2085, 'high', 'add', 2, 1 );
+
 CREATE INDEX "index_regions_region_type" ON "regions" ("region_type_regiontype");
-
+CREATE INDEX "index_presences_species" ON "presences" ("species_id");
+CREATE INDEX "index_presences_region" ON "presences" ("region_id");
+CREATE UNIQUE INDEX "unique_presences_key" ON "presences" ("year", "scenario", "species_id", "region_id");
 COMMIT;
