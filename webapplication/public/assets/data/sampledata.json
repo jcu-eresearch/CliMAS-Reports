@@ -2,8 +2,7 @@
 
     "rg_long_name": "Thingy and Thing Region",
     "rg_short_name": "Thingy and Thing",
-    "rg_url": "http://tropicaldatahub/data/bifocal/region/NRM_Thingy_and_Thing",
-    "rg_url": "/assets/data/regions/NRM_Thingy_and_Thing",
+    "rg_url": "http://tool3:9292/assets/data/regions/NRM_Thingy_and_Thing",
 
     "year": 2045,
 

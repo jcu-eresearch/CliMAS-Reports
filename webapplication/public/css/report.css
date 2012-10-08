@@ -1,0 +1,90 @@
+
+body {
+    line-height: 1.5;
+}
+
+@media print {
+    @page {
+        size: 210mm 297mm;
+        margin: 12mm;
+    }
+}
+
+/* ----------------------------------------------------- */
+/* the report itself */
+
+#report {
+    max-width: 210mm;
+    width: 210mm;
+    font-family: "Book Antiqua", Georgia, serif;
+    font-size: 12pt;
+    background: transparent;
+    padding: 20mm;
+    margin: 0 auto;
+}
+
+@media screen {
+    #report {
+        background: #fff;
+    }
+}
+
+#report .frontpagecredits {
+    page-break-after: always;
+    font-style: italic;
+    margin: 3em 25mm;
+}
+
+#report p, #report h2 {
+    orphans: 2;
+    widows: 2;
+}
+
+#report img {
+    margin: 0 auto;
+    width: 99%;
+}
+
+#report h1 {
+    text-align: center;
+}
+
+#report h1 span {
+    white-space: nowrap;
+}
+
+#report h2 {
+    margin: 3em 0 1em 0;
+    page-break-after: avoid;
+    font-size: 14pt;
+    font-family: "Segoe UI", Segoe, Tahoma, Geneva, Verdana, sans-serif;;
+}
+
+#report table {
+    width: 99%;
+    margin: 0 auto;
+    border-top: 1mm solid #ccc;
+    border-bottom: 1mm solid #ccc;
+    border-collapse: separate;
+    border-spacing: 4mm 0;
+}
+
+#report td, #report th {
+    text-align: center;
+    padding: 2mm;
+    margin: 2mm;
+}
+
+
+#report .gained { color: #060; }
+#report .lost   { color: #600; }
+
+#report th {
+    border-bottom: 0.5mm solid #ccc;
+}
+
+#report .totals td, #report .totals th {
+    font-weight: bold;
+    border-top: 0.5mm solid #ccc;
+    border-bottom: none;
+}

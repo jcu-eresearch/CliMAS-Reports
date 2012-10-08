@@ -141,8 +141,40 @@ define [
         generateReport: () ->
             # do the thing
             @data['year'] = parseInt @year
+            @data['rg_url'] = 
             resolution = RA.resolve @doc, @data
-            @$('#report').append(new Showdown.converter().makeHtml(resolution))
+            html = new Showdown.converter().makeHtml resolution
+
+            # this appends the report into the current window
+            @$('#report').append html
+
+            # this posts the report content back to the server so it returns as a url document
+            @postback html, 'report'
+
+            # this pushes the report to the user as a download, except in IE9-
+#            document.location = 'data:Application/octet-stream,' + encodeURIComponent(html);
+
+            # this opens a new window with the report, except for popup blocking
+#            report_window = window.open()
+#            report_window.document.write(new Showdown.converter().makeHtml(resolution))
+
+        # ----------------------------------------------------------------
+        postback: (content, cssFiles) ->
+            # content: what you want back from the server
+            # cssFiles: a comma-separated list of css files, without the .css
+            form = $ '<form method="post" action="/reflect"></form>'
+
+            contentField = $ '<input type="hidden" name="content" />'
+            contentField.attr 'value', content
+            form.append contentField
+
+            if cssFiles
+                cssField = $ '<input type="hidden" name="css" />'
+                cssField.attr 'value', cssFiles
+                form.append cssField
+
+            form.appendTo('body').submit()
+
         # ----------------------------------------------------------------
     },{ # ================================================================
         # templates here

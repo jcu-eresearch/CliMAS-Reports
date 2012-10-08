@@ -30,7 +30,7 @@ $$rg_long_name
 <p class="frontpagecredits">
 Prepared by the James Cook University eResearch Centre or someone like that, using data from somewhere and somewhere else.
 </p>
-
+<br style="page-break-before: always" />
 Introduction
 ------------
 
@@ -129,13 +129,12 @@ Tabular Biodiversity Summary
 
 <table>
     <tr>
-        <td></td>
+        <th rowspan="2">Class</th>
         <th rowspan="2">Current species count</th>
         <th colspan="2">
             Projected species count in $$year
         </th>
     </tr><tr>
-        <th>Class</th>
         <th>
             Low emission scenario<br>
             Count
