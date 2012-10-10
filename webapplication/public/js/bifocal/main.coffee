@@ -1,3 +1,7 @@
+
+unless window.console
+    window.console = { log: () -> {} }
+
 require.config {
     baseUrl: '/js'
     waitSeconds: 30

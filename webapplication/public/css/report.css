@@ -35,7 +35,7 @@ body {
     margin: 3em 25mm;
 }
 
-#report p, #report h2 {
+#report p, #report h3 {
     orphans: 2;
     widows: 2;
 }
@@ -55,14 +55,28 @@ body {
 
 #report h2 {
     margin: 3em 0 1em 0;
+    page-break-before: always;
+    font-size: 24pt;
+    font-family: "Segoe UI", Segoe, Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media print {
+    #report h2 {
+        margin: 0 0 1em 0;
+        page-break-before: always;
+    }
+}
+
+#report h3 {
+    margin: 3em 0 1em 0;
     page-break-after: avoid;
     font-size: 14pt;
-    font-family: "Segoe UI", Segoe, Tahoma, Geneva, Verdana, sans-serif;;
+    font-family: "Segoe UI", Segoe, Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #report table {
     width: 99%;
-    margin: 0 auto;
+    margin: 10mm auto;
     border-top: 1mm solid #ccc;
     border-bottom: 1mm solid #ccc;
     border-collapse: separate;
@@ -75,10 +89,6 @@ body {
     margin: 2mm;
 }
 
-
-#report .gained { color: #060; }
-#report .lost   { color: #600; }
-
 #report th {
     border-bottom: 0.5mm solid #ccc;
 }
@@ -88,3 +98,12 @@ body {
     border-top: 0.5mm solid #ccc;
     border-bottom: none;
 }
+
+#report .add    { color: #060; }
+#report .lost   { color: #600; }
+
+#report td.specieslist {
+    font-size: 8pt;
+    line-height: 1.1;
+}
+

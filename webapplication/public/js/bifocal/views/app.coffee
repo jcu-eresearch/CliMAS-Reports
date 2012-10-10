@@ -22,45 +22,86 @@ define [
 
             me = this
 
-            type_choices = []
+            form_parts = []
 
+            # regiontype and region -----
+
+            type_choices = []
             @region_types.each (rt) ->
 
                 # make a list of that region type's regions
                 region_list = []
                 me.regions.each (r) ->
                     if r.get('region_type_regiontype') == rt.get('regiontype')
-                        region_list.push AppView.region_choice(r.attributes)
+                        region_list.push AppView.region_option(r.attributes)
 
                 # merge the region list into the region type attributes
                 info = _.extend({regions: region_list.join('')}, rt.attributes)
                 type_choices.push AppView.type_choice(info)
 
-            @html_type_chooser = AppView.type_chooser({ regiontypes: type_choices.join('') })
-            @form_content = @html_type_chooser
+            form_parts.push AppView.type_chooser({ regiontypes: type_choices.join('') })
 
-            buttons = []
+            # year -----
+
+            years = []
             for year in [2015..2085] by 10
-                buttons.push AppView.gobutton({year: year})
+                years.push AppView.year_option { year: year }
 
-            @html_form = AppView.form {formcontent: @form_content, gobuttons: buttons.join(' ') }
+            form_parts.push AppView.year_chooser { years: years.join('\n') }
 
-            @$el.append $('<div id="notreport">' + @html_form + '</div>')
+            # format -----
+
+            formats = []
+            for f, n of {
+                'msword-html': 'MS Word-compatible HTML document'
+                'html'       : 'Clean HTML document'
+                'preview'    : 'Preview in this browser window'
+            }
+                formats.push AppView.format_option { format: f, formatname: n }
+
+            form_parts.push AppView.format_chooser { formats: formats.join('') }
+
+            # final form -----
+
+            html_form = AppView.form { formcontent: form_parts.join('') }
+
+            @$el.append $('<div id="notreport">' + html_form + '</div>')
             @$el.append $('<div id="report"></div>')
 
             @updateReportButton()
 
             $('body').append @$el
         # ----------------------------------------------------------------
+        regionDataUrl: (region) ->
+            # did we get a region id or actual model?
+            if typeof(region) == 'string'
+                # if it's a region id, fetch the model
+                the_region = @regions.get region
+            else
+                # if it's a model, great
+                the_region = region
+
+            url = [
+                window.settings.dataUrlPrefix
+                "regions/"
+                the_region.get 'region_type_regiontype'
+                "_"
+                the_region.get('name').replace /[^A-Za-z0-9-]/g, '_'
+            ].join ""
+
+            url
+        # ----------------------------------------------------------------
         changeRegionType: () ->
             selected_region_type = @$('.rtype:checked').val()
 
             # show the good region selector dropdown
-            $('#chosen_' + selected_region_type).show 'fast'
+#            $('#chosen_' + selected_region_type).show 'fast'
+            $('#chosen_' + selected_region_type).css "visibility", "visible"
 
             # hide the other dropdowns
             @$('.rtype').not(':checked').each (i, elem) ->
-                $('#chosen_' + $(elem).val()).hide 'fast'
+#                $('#chosen_' + $(elem).val()).hide 'fast'
+                $('#chosen_' + $(elem).val()).css "visibility", "hidden"
 
             # reset the region to the selected one for this type
             @changeRegion { srcElement: $('#chosen_' + selected_region_type) }
@@ -73,16 +114,17 @@ define [
         # ----------------------------------------------------------------
         updateReportButton: () ->
             if @selected_region
-                @$('.gobutton').show 'fast'
+#                @$('.gobutton').show 'fast'
+                @$('.gobutton').removeAttr 'disabled'
             else
-                @$('.gobutton').hide 'fast'
+#                @$('.gobutton').hide 'fast'
+                @$('.gobutton').attr 'disabled', 'disabled'
         # ----------------------------------------------------------------
         startReport: (e) ->
 
             @$('#report').empty()
 
             @year = $(e.srcElement).val()
-            console.log ["year selected was:", @year]
 
             # fresh data every time
             @data = null
@@ -94,21 +136,17 @@ define [
             else
                 @fetchDoc()
 
+            # fresh appendix every time
+            @appendix = null
+            @fetchAppendix()
+
             false
         # ----------------------------------------------------------------
         fetchData: () ->
             if @data
                 @progress
             else
-                the_region = @regions.get @selected_region
-                data_url = [
-                    window.settings.dataUrlPrefix
-                    "regions/"
-                    the_region.get 'region_type_regiontype'
-                    "_"
-                    the_region.get('name').replace /[^A-Za-z0-9-]/g, '_'
-                    "/data.json"
-                ].join ""
+                data_url = @regionDataUrl(@selected_region) + "/data.json"
                 $.ajax data_url, {
                     context: this
                     dataType: 'json'
@@ -134,24 +172,41 @@ define [
                         console.log "oops didn't get doc"
                 }
         # ----------------------------------------------------------------
+        fetchAppendix: () ->
+            if @appendix
+                @progress
+            else
+                appendix_url = "/region/#{@selected_region}/#{@year}/speciestables.html"
+                $.ajax appendix_url, {
+                    context: this
+                    dataType: 'html'
+                    success: (data) ->
+                        @appendix = data
+                        @progress()
+                    error: () ->
+                        console.log "oops didn't get appendix"
+                }
+        # ----------------------------------------------------------------
         progress: () ->
-            if @doc and @data
+            if @doc and @data and @appendix
                 @generateReport()
         # ----------------------------------------------------------------
         generateReport: () ->
             # do the thing
             @data['year'] = parseInt @year
-            @data['rg_url'] = 
+            @data['rg_url'] = @regionDataUrl @selected_region
             resolution = RA.resolve @doc, @data
             html = new Showdown.converter().makeHtml resolution
+
+            html += @appendix
 
             # this appends the report into the current window
             @$('#report').append html
 
             # this posts the report content back to the server so it returns as a url document
-            @postback html, 'report'
+            @postback html, 'report', 'msword-html'
 
-            # this pushes the report to the user as a download, except in IE9-
+            # this pushes the report to the user as an html download, except in IE 6,7,8,9
 #            document.location = 'data:Application/octet-stream,' + encodeURIComponent(html);
 
             # this opens a new window with the report, except for popup blocking
@@ -159,10 +214,16 @@ define [
 #            report_window.document.write(new Showdown.converter().makeHtml(resolution))
 
         # ----------------------------------------------------------------
-        postback: (content, cssFiles) ->
+        postback: (content, cssFiles, format) ->
             # content: what you want back from the server
             # cssFiles: a comma-separated list of css files, without the .css
+            # format: the format you want back, e.g. 'msword_html' or 'html'
+
             form = $ '<form method="post" action="/reflect"></form>'
+
+            formatField = $ '<input type="hidden" name="format" />'
+            formatField.attr 'value', format
+            form.append formatField
 
             contentField = $ '<input type="hidden" name="content" />'
             contentField.attr 'value', content
@@ -174,44 +235,72 @@ define [
                 form.append cssField
 
             form.appendTo('body').submit()
-
         # ----------------------------------------------------------------
     },{ # ================================================================
         # templates here
         # ----------------------------------------------------------------
         form: _.template """
-            <h1>Report Generator</h1>
-            <form id="kickoffform">
+            <div class="header clearfix">
+                <a href="http://tropicaldatahub.org/"><img class="logo" src="/images/tdhlogo.png"></a>
+                <h1>Bifocal</h1>
+                <h2>Reports on Climate Change and Biodiversity</h2>
+            </div>
+            <form id="kickoffform" class="clearfix">
                 <%= formcontent %>
-                <div class="onefield gobutton">
-                    Generate report for <%= gobuttons %>
+                <div class="onefield gobutton formsection">
                 </div>
             </form>
         """
         # ----------------------------------------------------------------
-        gobutton: _.template """
-            <input type="button" class="generate" value="<%= year %>" />
+        # ----------------------------------------------------------------
+        format_option: _.template """
+            <label><input type="radio" class="ftype" name="formatradio" value="<%= format %>">
+                <%= formatname %>
+            </label>
         """
         # ----------------------------------------------------------------
-        type_chooser: _.template """
-            <div class="onefield regiontypeselection">
-                <%= regiontypes %>
+        format_chooser: _.template """
+            <div class="onefield formatselection formsection">
+                <h3>Select an output format</h3>
+                <%= formats %>
             </div>
         """
+        # ----------------------------------------------------------------
+        # ----------------------------------------------------------------
+        year_option: _.template """
+            <label><input type="radio" class="ytype" name="yearradio" value="<%= year %>">
+                <%= year %>
+            </label>
+        """
+        # ----------------------------------------------------------------
+        year_chooser: _.template """
+            <div class="onefield yearselection formsection">
+                <h3>Select a year</h3>
+                <%= years %>
+            </div>
+        """
+        # ----------------------------------------------------------------
         # ----------------------------------------------------------------
         type_choice: _.template """
                 <div class="regiontypeselector">
                     <label><input type="radio" class="rtype" name="regiontyperadio"
                             value="<%= regiontype %>"><%= regiontypename_plural %></label>
                     <select class="regionselect" name="chosen_<%= regiontype %>" id="chosen_<%= regiontype %>">
-                        <option disabled="disabled" selected="selected" value="invalid">choose <%= regiontypename_singular %>...</option>
+                        <option disabled="disabled" selected="selected" value="invalid">choose a region...</option>
                         <%= regions %>
                     </select>
                 </div>
         """
         # ----------------------------------------------------------------
-        region_choice: _.template """
+        region_option: _.template """
             <option value="<%= id %>"><%= name %></option>
+        """
+        # ----------------------------------------------------------------
+        type_chooser: _.template """
+            <div class="onefield regiontypeselection formsection">
+                <h3>Select a region</h3>
+                <%= regiontypes %>
+            </div>
         """
         # ----------------------------------------------------------------
     }

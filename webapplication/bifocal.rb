@@ -12,30 +12,138 @@ class Bifocal < Sinatra::Base
 		haml :frontpage
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	get "/region/:regionid/speciestables.:format" do
+	get "/region/:regionid/:year/speciestables.:format" do
+
 		region = Region.get params[:regionid]
+		year = params[:year]
 		
-		answer = ""
+		answer = ["<h2>Biodiversity Details</h2>\n"]
 
-		[2015, 2035, 2055, 2075].each do |year|
-			answer += "\n\n<h1>#{year}</h1><table border='1'><tr>\n"
 
-			['add', 'lost', 'kept'].each do |presence_type|
+		#
+		#
+		# three columns across, two tables
+		#
+		#
+		['Mammal', 'Bird', 'Reptile', 'Amphibian'].each do |flavour|
 
-				answer += "<td><h2>#{presence_type}</h2>\n<pre>\n"
+			# flavour heading
+			answer << "<h3>#{flavour}s</h3>"
 
-				presences = region.presences.all year: year, presence: presence_type
-				
-				presences.each do |presence|
-					answer += "#{presence.species.common_name}\n"
+			['high', 'low'].each do |scenario|
+
+				# start the table
+				answer << "\n<table>"
+
+				# wide header row
+				answer << "<tr><th colspan='3'>"
+				answer << flavour
+				answer << "species with climate suitability in"
+				answer << region.long_name
+				answer << "<br>#{scenario} emission scenario in #{year}"
+				answer << "</th></tr>"
+
+				# presence headers
+				answer << "<tr>"
+				['added', 'kept', 'lost'].each do |presence_title|
+					answer << "<th>Species #{presence_title} by #{year}</th>"
 				end
-				answer += "\n</pre></td>\n"
-			end
+				answer << "</tr>"
 
-			answer += "\n</tr></table>\n"
+				['add', 'kept', 'lost'].each do |presence_type|
+
+					presences = region.presences.all(
+						year: year.to_i,
+						presence: presence_type,
+						scenario: scenario,
+						species: [{ class: flavour }]
+					)
+					
+					answer << "<td class='#{presence_type}'>"
+
+					presences.each do |presence|
+						answer << "#{presence.species.scientific_name}"
+						common_name = presence.species.common_name
+						if common_name
+							answer << "(#{presence.species.common_name})"
+						end
+					end
+					answer << "</td>"
+				end
+
+				answer << "</table>"
+
+			end # of scenario loop
+
+		end # of mammal/bird/etc loop
+
+
+
+		#
+		#
+		# six columns across, one table
+		#
+		#
+		['Mammal', 'Bird', 'Reptile', 'Amphibian'].each do |flavour|
+
+			# flavour heading
+			answer << "<h3>#{flavour}s</h3>"
+
+			# start the table
+			answer << "\n<table>"
+
+			# wide header row
+			answer << "<tr><th colspan='6'>"
+			answer << flavour
+			answer << "species with climate suitability in"
+			answer << "#{region.long_name}, #{year}"
+			answer << "</th></tr>"
+
+			answer << "<tr><th colspan='3'>"
+			answer << "Low emission scenario"
+			answer << "</th><th colspan='3'>"
+			answer << "High emission scenario"
+			answer << "</th></tr>"
+
+			# presence headers
+			answer << "<tr>"
+			2.times do
+				['added', 'kept', 'lost'].each do |presence_title|
+					answer << "<th>#{presence_title}</th>"
+				end
+			end
+			answer << "</tr>"
+
+			# now the data
+			answer << "<tr>"
+			['low', 'high'].each do |scenario|
+				['add', 'kept', 'lost'].each do |presence_type|
+
+					presences = region.presences.all(
+						year: year.to_i,
+						presence: presence_type,
+						scenario: scenario,
+						species: [{ class: flavour }]
+					)
+					
+					answer << "<td class='#{presence_type} specieslist'>"
+
+					presences.each do |presence|
+						answer << "#{presence.species.scientific_name}"
+						common_name = presence.species.common_name
+						if common_name
+							answer << "(#{presence.species.common_name})"
+						end
+					end
+					answer << "</td>"
+				end
+			end
+			answer << "</tr>"
+			answer << "</table>"
 		end
 
-		answer
+
+		answer.join "\n"
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/regions.:format" do
@@ -101,48 +209,75 @@ class Bifocal < Sinatra::Base
 		end
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	post "/reflect" do
+	post "/reflect/?" do
 
-		# find the file and css they wanted
+		# find the filename, css files, and format they wanted
 		filename = params['filename'] || 'RegionReport'
+		format = params['format'] || 'html'
 		css_to_include = (params['css'] && params['css'].split(',')) || []
 
 		# set up the headers
 		response['Expires'] = '0'	# don't cache
 		response['Cache-Control'] = 'must-revalidate, post-check=0, pre-check=0' # really don't cache
 		response['Content-Description'] = 'File Transfer' # download, don't open
-		response['Content-Type'] = 'application/msword' # pretend this is a word doc
-		response['Content-Disposition'] = 'attachment; filename="' + filename + '.doc"' # pretend it's a word doc
 
-		# start the doc
-		content = ['<html><head>']
+		if params['format'] == 'msword-html'
 
-		# add some MS-trickery to make Word display this properly
-		# AFAICT this doesn't work, but maybe it will in older office versions
-		content << "<!--[if gte mso 9]>"
-        content << "<xml>"
-        content << "<w:WordDocument>"
-        content << "<w:View>Print</w:View>"
-        content << "<w:Zoom>90</w:Zoom>"
-        content << "<w:DoNotOptimizeForBrowser/>"
-        content << "</w:WordDocument>"
-        content << "</xml>" 
-        content << "<![endif]-->"
+			response['Content-Type'] = 'application/msword' # pretend this is a word doc
+			response['Content-Disposition'] = 'attachment; filename="' + filename + '.doc"' # pretend it's a word doc
 
-		# add in the css files specified by the url call
-		css_to_include.each do |cssfile|
-			cssfile = cssfile.split('/')[0] # avoid directory trickery
-			content << '<style>'
-			content << File.read('public/css/' + cssfile + '.css')
-			content << '</style>'
+			# start the doc
+			content = ['<html><head>']
+
+			# add some MS-trickery to make Word display this properly
+			# AFAICT this doesn't work, but maybe it will in older office versions
+			content << "<!--[if gte mso 9]>"
+	        content << "<xml>"
+	        content << "<w:WordDocument>"
+	        content << "<w:View>Print</w:View>"
+	        content << "<w:Zoom>90</w:Zoom>"
+	        content << "<w:DoNotOptimizeForBrowser/>"
+	        content << "</w:WordDocument>"
+	        content << "</xml>" 
+	        content << "<![endif]-->"
+
+			# add in the css files specified by the url call
+			css_to_include.each do |cssfile|
+				cssfile = cssfile.split('/')[0] # avoid directory trickery
+				content << '<style>'
+				content << File.read('public/css/' + cssfile + '.css')
+				content << '</style>'
+			end
+
+	        # finish the head and start on the actual report body
+			content << '</head><body><div id="report">'
+
+			content << fix_image_sizes( prettify_table_cells(params['content']) )
+
+			content << '</div></body></html>'
+
+		else # default to a html report
+
+			response['Content-Type'] = 'application/octet-stream'
+			response['Content-Disposition'] = 'attachment; filename="' + filename + '.html"'
+
+			# start the doc
+			content = ['<html><head>']
+
+			# add in the css files specified by the url call
+			css_to_include.each do |cssfile|
+				cssfile = cssfile.split('/')[0] # avoid directory trickery
+				content << '<style>'
+				content << File.read('public/css/' + cssfile + '.css')
+				content << '</style>'
+			end
+
+	        # finish the head and start on the actual report body
+			content << '</head><body><div id="report">'
+			content << params['content']
+			content << '</div></body></html>'
+
 		end
-
-        # finish the head and start on the actual report body
-		content << '</head><body><div id="report">'
-
-		content << fix_image_sizes( prettify_table_cells(params['content']) )
-
-		content << '</div></body></html>'
 
 		# return the content
 		content.join "\n"
@@ -169,17 +304,23 @@ class Bifocal < Sinatra::Base
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	def prettify_table_cells content
-		newcontent = content.gsub /<table/ do |match|
-			"<table align='center' style='border-top: 2px solid black; border-bottom: 2px solid black; mso-cellspacing: 10px' cellpadding='5'"
-		end
 
+		newcontent = content
+
+		# centre-align and add top and bottom borders to tables
+		newcontent.gsub! '<table', "<table align='center' style='border-top: 1mm solid #cccccc; border-bottom: 1mm solid #cccccc; mso-cellspacing: 10px' cellpadding='5'"
+
+		# centre-align all content in table cells
 		newcontent.gsub! '<td', "<td align='center'"
-#		newcontent.gsub! '<th', "<th style='border-bottom: 0px solid black; border-left: 0px solid white; border-right: 0px solid white;'"
-		newcontent.gsub! '<th', "<th style='border-bottom: 0px solid black; border-left: 0px dotted white; border-right: 0px dotted white;'"
 
-		newcontent.gsub! '<span class="gained', '<span style="color: #006600" class="gained'
-		newcontent.gsub! '<span class="lost', '<span style="color: #660000" class="lost'
+		# add bottom borders to table headers
+		newcontent.gsub! '<th', "<th style='border-bottom: 0.5mm solid #cccccc; border-left: 0px dotted white; border-right: 0px dotted white;'"
 
+		# colour in the gained and lost spans
+		newcontent.gsub! /<(\w+)\s+class="gained/, '<\1 style="color: #006600" class="gained'
+		newcontent.gsub! /<(\w+)\s+class="lost/, '<\1 style="color: #660000" class="lost'
+
+		# embolden any totals rows
 		newcontent.gsub! '<tr class="totals', '<tr style="font-weight: bold" class="totals'
 
 		newcontent
