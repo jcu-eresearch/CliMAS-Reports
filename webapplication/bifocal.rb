@@ -234,6 +234,16 @@ class Bifocal < Sinatra::Base
 	# serve default data when real data not available..
 	# this is for testing, remove for production
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	get "/assets/data/sourcedoc.txt" do
+		data_file_path = "public/assets/data/sourcedoc.txt"
+
+		if File.exists? data_file_path
+			File.read(data_file_path)
+		else
+			File.read(File.join('public', 'assets', 'data', "sourcedoc.txt"))
+		end
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/assets/data/regions/:regidentifier/figure:num.png" do
 
 		data_file_path = "public/assets/data/regions/#{params[:regidentifier]}/figure#{params[:num]}.png"
