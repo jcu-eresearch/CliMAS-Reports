@@ -85,7 +85,6 @@ define [
                 # if it's a region id, fetch the model
                 the_region = @regions.get region
 
-
             url = [
                 window.settings.dataUrlPrefix
                 "regions/"
@@ -182,16 +181,18 @@ define [
             if @appendix
                 @progress
             else
-                appendix_url = "/region/#{@selected_region}/#{@year}/speciestables.html"
-                $.ajax appendix_url, {
-                    context: this
-                    dataType: 'html'
-                    success: (data) ->
-                        @appendix = data
-                        @progress()
-                    error: () ->
-                        console.log "oops didn't get appendix"
-                }
+                @appendix = "<p>(appendix will go here)</p>"
+
+#                appendix_url = "/region/#{@selected_region}/#{@year}/speciestables.html"
+#                $.ajax appendix_url, {
+#                    context: this
+#                    dataType: 'html'
+#                    success: (data) ->
+#                        @appendix = data
+#                        @progress()
+#                    error: () ->
+#                        console.log "oops didn't get appendix"
+#                }
         # ----------------------------------------------------------------
         progress: () ->
             if @doc and @data and @appendix

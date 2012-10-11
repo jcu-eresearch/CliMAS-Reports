@@ -161,22 +161,10 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
       }
     },
     fetchAppendix: function() {
-      var appendix_url;
       if (this.appendix) {
         return this.progress;
       } else {
-        appendix_url = "/region/" + this.selected_region + "/" + this.year + "/speciestables.html";
-        return $.ajax(appendix_url, {
-          context: this,
-          dataType: 'html',
-          success: function(data) {
-            this.appendix = data;
-            return this.progress();
-          },
-          error: function() {
-            return console.log("oops didn't get appendix");
-          }
-        });
+        return this.appendix = "<p>(appendix will go here)</p>";
       }
     },
     progress: function() {
