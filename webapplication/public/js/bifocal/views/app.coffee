@@ -8,9 +8,12 @@ define [
     AppView = Backbone.View.extend {
         # ----------------------------------------------------------------
         events:
-            'click .generate': 'startReport'
-            'change select': 'changeRegion'
             'change input[type=radio].rtype': 'changeRegionType'
+            'change select.regionselect': 'changeRegion'
+            'change input[type=radio].year': 'changeYear'
+            'change input[type=radio].format': 'changeFormat'
+
+            'click .generate': 'startReport'
         # ----------------------------------------------------------------
         initialize: () ->
             # window.region_list initialised in the HAML template
@@ -74,12 +77,14 @@ define [
         # ----------------------------------------------------------------
         regionDataUrl: (region) ->
             # did we get a region id or actual model?
+
+            # if it's a model, great
+            the_region = region
+
             if typeof(region) == 'string'
                 # if it's a region id, fetch the model
                 the_region = @regions.get region
-            else
-                # if it's a model, great
-                the_region = region
+
 
             url = [
                 window.settings.dataUrlPrefix
@@ -112,32 +117,33 @@ define [
                 @selected_region = null
             @updateReportButton()
         # ----------------------------------------------------------------
+        changeYear: (e) ->
+            @year = $(e.srcElement).val()
+            @updateReportButton()
+        # ----------------------------------------------------------------
+        changeFormat: (e) ->
+            @format = $(e.srcElement).val()
+            @updateReportButton()
+        # ----------------------------------------------------------------
         updateReportButton: () ->
-            if @selected_region
-#                @$('.gobutton').show 'fast'
-                @$('.gobutton').removeAttr 'disabled'
+            if @selected_region and @year and @format
+                @$('.generate').removeAttr 'disabled'
             else
-#                @$('.gobutton').hide 'fast'
-                @$('.gobutton').attr 'disabled', 'disabled'
+                @$('.generate').attr 'disabled', 'disabled'
         # ----------------------------------------------------------------
         startReport: (e) ->
 
             @$('#report').empty()
 
-            @year = $(e.srcElement).val()
-
             # fresh data every time
             @data = null
-            @fetchData()
-
-            # re-use the old doc if we already fetched it
-            if @doc
-                @progress
-            else
-                @fetchDoc()
 
             # fresh appendix every time
             @appendix = null
+
+            # re-use the old doc if we already fetched it
+            @fetchDoc() unless @doc
+            @fetchData()
             @fetchAppendix()
 
             false
@@ -193,18 +199,28 @@ define [
         # ----------------------------------------------------------------
         generateReport: () ->
             # do the thing
-            @data['year'] = parseInt @year
-            @data['rg_url'] = @regionDataUrl @selected_region
+            @data['year'] = @year
+
+            the_region = @regions.get @selected_region
+
+            @data['rg_url'] = @regionDataUrl the_region
+            @data['rg_short_name'] = the_region.get 'name'
+            @data['rg_long_name'] = the_region.get 'long_name'
+
+            console.log @data
+
             resolution = RA.resolve @doc, @data
             html = new Showdown.converter().makeHtml resolution
 
             html += @appendix
 
-            # this appends the report into the current window
-            @$('#report').append html
+            if @format == 'preview'
+                # this appends the report into the current window
+                @$('#report').append html
 
-            # this posts the report content back to the server so it returns as a url document
-            @postback html, 'report', 'msword-html'
+            else
+                # this posts the report content back to the server so it returns as a url document
+                @postback html, 'report', @format
 
             # this pushes the report to the user as an html download, except in IE 6,7,8,9
 #            document.location = 'data:Application/octet-stream,' + encodeURIComponent(html);
@@ -254,7 +270,7 @@ define [
         # ----------------------------------------------------------------
         # ----------------------------------------------------------------
         format_option: _.template """
-            <label><input type="radio" class="ftype" name="formatradio" value="<%= format %>">
+            <label><input type="radio" class="format" name="formatradio" value="<%= format %>">
                 <%= formatname %>
             </label>
         """
@@ -263,12 +279,13 @@ define [
             <div class="onefield formatselection formsection">
                 <h3>Select an output format</h3>
                 <%= formats %>
+                <button class="generate" disabled="disabled">generate report</button>
             </div>
         """
         # ----------------------------------------------------------------
         # ----------------------------------------------------------------
         year_option: _.template """
-            <label><input type="radio" class="ytype" name="yearradio" value="<%= year %>">
+            <label><input type="radio" class="year" name="yearradio" value="<%= year %>">
                 <%= year %>
             </label>
         """

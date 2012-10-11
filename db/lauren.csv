@@ -1,0 +1,163 @@
+1,National,,Australia
+2,State,1,New South Wales
+3,State,2,Victoria
+4,State,3,Queensland
+5,State,4,South Australia
+6,State,5,Western Australia
+7,State,6,Tasmania
+8,State,7,Northern Territory
+9,State,8,Australian Capital Territory
+10,State,9,Other Territories
+12,NRM,0,ACT
+13,NRM,1,Adelaide and Mount Lofty Ranges
+14,NRM,2,Alinytjara Wilurara
+15,NRM,3,Ashmore and Cartier Islands
+16,NRM,4,Avon
+17,NRM,5,Border Rivers Maranoa-Balonne
+18,NRM,6,Border Rivers-Gwydir
+19,NRM,7,Burdekin
+20,NRM,8,Burnett Mary
+21,NRM,9,Cape York
+22,NRM,10,Central West
+23,NRM,11,Christmas Island
+24,NRM,12,Cocos Keeling Islands
+25,NRM,13,Condamine
+26,NRM,14,Cooperative Management Area
+27,NRM,15,Corangamite
+28,NRM,16,Desert Channels
+29,NRM,17,East Gippsland
+30,NRM,18,Eyre Peninsula
+31,NRM,19,Fitzroy
+32,NRM,20,Glenelg Hopkins
+33,NRM,21,Goulburn Broken
+34,NRM,22,Hawkesbury-Nepean
+35,NRM,23,Heard and McDonald Islands
+36,NRM,24,Hunter-Central Rivers
+37,NRM,25,Kangaroo Island
+38,NRM,26,Lachlan
+39,NRM,27,Lower Murray Darling
+40,NRM,28,Mackay Whitsunday
+41,NRM,29,Mallee
+42,NRM,30,Murray
+43,NRM,31,Murrumbidgee
+44,NRM,32,Namoi
+45,NRM,33,Norfolk Island
+46,NRM,34,North
+47,NRM,35,North Central
+48,NRM,36,North East
+49,NRM,37,North West
+50,NRM,38,Northern Agricultural
+51,NRM,39,Northern Gulf
+52,NRM,40,Northern Rivers
+53,NRM,41,Northern Rivers - Lord Howe Island
+54,NRM,42,Northern Territory
+55,NRM,43,Northern and Yorke
+56,NRM,44,Perth
+57,NRM,45,Port Phillip and Western Port
+58,NRM,46,Rangelands
+59,NRM,47,South
+60,NRM,48,South - Macquarie Islands
+61,NRM,49,South Australian Arid Lands
+62,NRM,50,South Australian Murray Darling Basin
+63,NRM,51,South Coast
+64,NRM,52,South East
+65,NRM,53,South East Queensland
+66,NRM,54,South West
+67,NRM,55,South West Queensland
+68,NRM,56,Southern Gulf
+69,NRM,57,Southern Rivers
+70,NRM,58,Sydney Metro
+71,NRM,59,Torres Strait
+72,NRM,60,West Gippsland
+73,NRM,61,Western
+74,NRM,62,Wet Tropics
+75,NRM,63,Wimmera
+77,IBRA,1,Arnhem Coast
+78,IBRA,2,Arnhem Plateau
+79,IBRA,3,Australian Alps
+80,IBRA,4,Avon Wheatbelt
+81,IBRA,5,Brigalow Belt North
+82,IBRA,6,Brigalow Belt South
+83,IBRA,7,Ben Lomond
+84,IBRA,8,Broken Hill Complex
+85,IBRA,9,Burt Plain
+86,IBRA,10,Carnarvon
+87,IBRA,11,Central Arnhem
+88,IBRA,12,Central Kimberley
+89,IBRA,13,Central Ranges
+90,IBRA,14,Channel Country
+91,IBRA,15,Central Mackay Coast
+92,IBRA,16,Coolgardie
+93,IBRA,17,Cobar Peneplain
+94,IBRA,18,Coral Sea
+95,IBRA,19,Cape York Peninsula
+96,IBRA,20,Daly Basin
+97,IBRA,21,Darwin Coastal
+98,IBRA,22,Dampierland
+99,IBRA,23,Desert Uplands
+100,IBRA,24,Davenport Murchison Ranges
+101,IBRA,25,Darling Riverine Plains
+102,IBRA,26,Einasleigh Uplands
+103,IBRA,27,Esperance Plains
+104,IBRA,28,Eyre Yorke Block
+105,IBRA,29,Finke
+106,IBRA,30,Flinders Lofty Block
+107,IBRA,31,Furneaux
+108,IBRA,32,Gascoyne
+109,IBRA,33,Gawler
+110,IBRA,34,Geraldton Sandplains
+111,IBRA,35,Gulf Fall and Uplands
+112,IBRA,36,Gibson Desert
+113,IBRA,37,Great Sandy Desert
+114,IBRA,38,Gulf Coastal
+115,IBRA,39,Gulf Plains
+116,IBRA,40,Great Victoria Desert
+117,IBRA,41,Hampton
+118,IBRA,42,Indian Tropical Islands
+119,IBRA,43,Jarrah Forest
+120,IBRA,44,Kanmantoo
+121,IBRA,45,King
+122,IBRA,46,Little Sandy Desert
+123,IBRA,47,MacDonnell Ranges
+124,IBRA,48,Mallee
+125,IBRA,49,Murray Darling Depression
+126,IBRA,50,Mitchell Grass Downs
+127,IBRA,51,Mount Isa Inlier
+128,IBRA,52,Mulga Lands
+129,IBRA,53,Murchison
+130,IBRA,54,Nandewar
+131,IBRA,55,Naracoorte Coastal Plain
+132,IBRA,56,New England Tablelands
+133,IBRA,57,NSW North Coast
+134,IBRA,58,Northern Kimberley
+135,IBRA,59,NSW South Western Slopes
+136,IBRA,60,Nullarbor
+137,IBRA,61,Ord Victoria Plain
+138,IBRA,62,Pine Creek
+139,IBRA,63,Pilbara
+140,IBRA,64,Pacific Subtropical Islands
+141,IBRA,65,Riverina
+142,IBRA,66,Subantarctic Islands
+143,IBRA,67,South East Coastal Plain
+144,IBRA,68,South East Corner
+145,IBRA,69,South Eastern Highlands
+146,IBRA,70,South Eastern Queensland
+147,IBRA,71,Simpson Strzelecki Dunefields
+148,IBRA,72,Stony Plains
+149,IBRA,73,Sturt Plateau
+150,IBRA,74,Southern Volcanic Plain
+151,IBRA,75,Swan Coastal Plain
+152,IBRA,76,Sydney Basin
+153,IBRA,77,Tanami
+154,IBRA,78,Tasmanian Central Highlands
+155,IBRA,79,Tiwi Cobourg
+156,IBRA,80,Tasmanian Northern Midlands
+157,IBRA,81,Tasmanian Northern Slopes
+158,IBRA,82,Tasmanian South East
+159,IBRA,83,Tasmanian Southern Ranges
+160,IBRA,84,Tasmanian West
+161,IBRA,85,Victoria Bonaparte
+162,IBRA,86,Victorian Midlands
+163,IBRA,87,Warren
+164,IBRA,88,Wet Tropics
+165,IBRA,89,Yalgoo

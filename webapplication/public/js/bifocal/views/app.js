@@ -4,9 +4,11 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
   var AppView;
   AppView = Backbone.View.extend({
     events: {
-      'click .generate': 'startReport',
-      'change select': 'changeRegion',
-      'change input[type=radio].rtype': 'changeRegionType'
+      'change input[type=radio].rtype': 'changeRegionType',
+      'change select.regionselect': 'changeRegion',
+      'change input[type=radio].year': 'changeYear',
+      'change input[type=radio].format': 'changeFormat',
+      'click .generate': 'startReport'
     },
     initialize: function() {
       this.region_types = new RegionTypes(window.region_type_list);
@@ -69,10 +71,9 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
     },
     regionDataUrl: function(region) {
       var the_region, url;
+      the_region = region;
       if (typeof region === 'string') {
         the_region = this.regions.get(region);
-      } else {
-        the_region = region;
       }
       url = [window.settings.dataUrlPrefix, "regions/", the_region.get('region_type_regiontype'), "_", the_region.get('name').replace(/[^A-Za-z0-9-]/g, '_')].join("");
       return url;
@@ -95,24 +96,29 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
       }
       return this.updateReportButton();
     },
+    changeYear: function(e) {
+      this.year = $(e.srcElement).val();
+      return this.updateReportButton();
+    },
+    changeFormat: function(e) {
+      this.format = $(e.srcElement).val();
+      return this.updateReportButton();
+    },
     updateReportButton: function() {
-      if (this.selected_region) {
-        return this.$('.gobutton').removeAttr('disabled');
+      if (this.selected_region && this.year && this.format) {
+        return this.$('.generate').removeAttr('disabled');
       } else {
-        return this.$('.gobutton').attr('disabled', 'disabled');
+        return this.$('.generate').attr('disabled', 'disabled');
       }
     },
     startReport: function(e) {
       this.$('#report').empty();
-      this.year = $(e.srcElement).val();
       this.data = null;
-      this.fetchData();
-      if (this.doc) {
-        this.progress;
-      } else {
+      this.appendix = null;
+      if (!this.doc) {
         this.fetchDoc();
       }
-      this.appendix = null;
+      this.fetchData();
       this.fetchAppendix();
       return false;
     },
@@ -179,14 +185,21 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
       }
     },
     generateReport: function() {
-      var html, resolution;
-      this.data['year'] = parseInt(this.year);
-      this.data['rg_url'] = this.regionDataUrl(this.selected_region);
+      var html, resolution, the_region;
+      this.data['year'] = this.year;
+      the_region = this.regions.get(this.selected_region);
+      this.data['rg_url'] = this.regionDataUrl(the_region);
+      this.data['rg_short_name'] = the_region.get('name');
+      this.data['rg_long_name'] = the_region.get('long_name');
+      console.log(this.data);
       resolution = RA.resolve(this.doc, this.data);
       html = new Showdown.converter().makeHtml(resolution);
       html += this.appendix;
-      this.$('#report').append(html);
-      return this.postback(html, 'report', 'msword-html');
+      if (this.format === 'preview') {
+        return this.$('#report').append(html);
+      } else {
+        return this.postback(html, 'report', this.format);
+      }
     },
     postback: function(content, cssFiles, format) {
       var contentField, cssField, form, formatField;
@@ -206,9 +219,9 @@ define(['jquery', 'underscore', 'backbone', 'showdown', 'bifocal/collections/reg
     }
   }, {
     form: _.template("<div class=\"header clearfix\">\n    <a href=\"http://tropicaldatahub.org/\"><img class=\"logo\" src=\"/images/tdhlogo.png\"></a>\n    <h1>Bifocal</h1>\n    <h2>Reports on Climate Change and Biodiversity</h2>\n</div>\n<form id=\"kickoffform\" class=\"clearfix\">\n    <%= formcontent %>\n    <div class=\"onefield gobutton formsection\">\n    </div>\n</form>"),
-    format_option: _.template("<label><input type=\"radio\" class=\"ftype\" name=\"formatradio\" value=\"<%= format %>\">\n    <%= formatname %>\n</label>"),
-    format_chooser: _.template("<div class=\"onefield formatselection formsection\">\n    <h3>Select an output format</h3>\n    <%= formats %>\n</div>"),
-    year_option: _.template("<label><input type=\"radio\" class=\"ytype\" name=\"yearradio\" value=\"<%= year %>\">\n    <%= year %>\n</label>"),
+    format_option: _.template("<label><input type=\"radio\" class=\"format\" name=\"formatradio\" value=\"<%= format %>\">\n    <%= formatname %>\n</label>"),
+    format_chooser: _.template("<div class=\"onefield formatselection formsection\">\n    <h3>Select an output format</h3>\n    <%= formats %>\n    <button class=\"generate\" disabled=\"disabled\">generate report</button>\n</div>"),
+    year_option: _.template("<label><input type=\"radio\" class=\"year\" name=\"yearradio\" value=\"<%= year %>\">\n    <%= year %>\n</label>"),
     year_chooser: _.template("<div class=\"onefield yearselection formsection\">\n    <h3>Select a year</h3>\n    <%= years %>\n</div>"),
     type_choice: _.template("<div class=\"regiontypeselector\">\n    <label><input type=\"radio\" class=\"rtype\" name=\"regiontyperadio\"\n            value=\"<%= regiontype %>\"><%= regiontypename_plural %></label>\n    <select class=\"regionselect\" name=\"chosen_<%= regiontype %>\" id=\"chosen_<%= regiontype %>\">\n        <option disabled=\"disabled\" selected=\"selected\" value=\"invalid\">choose a region...</option>\n        <%= regions %>\n    </select>\n</div>"),
     region_option: _.template("<option value=\"<%= id %>\"><%= name %></option>"),

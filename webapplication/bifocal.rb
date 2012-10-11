@@ -16,78 +16,21 @@ class Bifocal < Sinatra::Base
 
 		region = Region.get params[:regionid]
 		year = params[:year]
+
 		
 		answer = ["<h2>Biodiversity Details</h2>\n"]
 
-
-		#
-		#
-		# three columns across, two tables
-		#
-		#
-		['Mammal', 'Bird', 'Reptile', 'Amphibian'].each do |flavour|
-
-			# flavour heading
-			answer << "<h3>#{flavour}s</h3>"
-
-			['high', 'low'].each do |scenario|
-
-				# start the table
-				answer << "\n<table>"
-
-				# wide header row
-				answer << "<tr><th colspan='3'>"
-				answer << flavour
-				answer << "species with climate suitability in"
-				answer << region.long_name
-				answer << "<br>#{scenario} emission scenario in #{year}"
-				answer << "</th></tr>"
-
-				# presence headers
-				answer << "<tr>"
-				['added', 'kept', 'lost'].each do |presence_title|
-					answer << "<th>Species #{presence_title} by #{year}</th>"
-				end
-				answer << "</tr>"
-
-				['add', 'kept', 'lost'].each do |presence_type|
-
-					presences = region.presences.all(
-						year: year.to_i,
-						presence: presence_type,
-						scenario: scenario,
-						species: [{ class: flavour }]
-					)
-					
-					answer << "<td class='#{presence_type}'>"
-
-					presences.each do |presence|
-						answer << "#{presence.species.scientific_name}"
-						common_name = presence.species.common_name
-						if common_name
-							answer << "(#{presence.species.common_name})"
-						end
-					end
-					answer << "</td>"
-				end
-
-				answer << "</table>"
-
-			end # of scenario loop
-
-		end # of mammal/bird/etc loop
-
-
-
+=begin
+		answer << "<h2>Six columns, one table</h2>\n"
 		#
 		#
 		# six columns across, one table
 		#
 		#
-		['Mammal', 'Bird', 'Reptile', 'Amphibian'].each do |flavour|
+		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
 
 			# flavour heading
-			answer << "<h3>#{flavour}s</h3>"
+			answer << "<h3>#{flavour.capitalize}</h3>"
 
 			# start the table
 			answer << "\n<table>"
@@ -117,7 +60,7 @@ class Bifocal < Sinatra::Base
 			# now the data
 			answer << "<tr>"
 			['low', 'high'].each do |scenario|
-				['add', 'kept', 'lost'].each do |presence_type|
+				['gained', 'kept', 'lost'].each do |presence_type|
 
 					presences = region.presences.all(
 						year: year.to_i,
@@ -126,20 +69,128 @@ class Bifocal < Sinatra::Base
 						species: [{ class: flavour }]
 					)
 					
-					answer << "<td class='#{presence_type} specieslist'>"
+					answer << "<td class='#{presence_type} specieslist' valign='top'>"
 
 					presences.each do |presence|
+						answer << "<p>"
 						answer << "#{presence.species.scientific_name}"
 						common_name = presence.species.common_name
 						if common_name
-							answer << "(#{presence.species.common_name})"
+							answer << "<br>(#{presence.species.common_name})"
 						end
+						answer << "</p>"
 					end
 					answer << "</td>"
 				end
 			end
 			answer << "</tr>"
 			answer << "</table>"
+		end
+=end
+
+		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
+
+			# flavour heading
+			answer << "<h3>#{flavour.capitalize}</h3>"
+
+			# start the table
+			answer << "\n<table>"
+
+			# wide header row
+			answer << "<tr><th colspan='4'>"
+			answer << flavour
+			answer << "with climate suitability in"
+			answer << "#{region.long_name}, #{year}"
+			answer << "</th></tr>"
+
+			answer << "<tr>"
+			answer << "<th rowspan='2'>current</th>"
+			answer << "<th colspan='2'>Change by #{year}</th>"
+			answer << "<th rowspan='2'>Species</th>"
+			answer << "</tr>"
+
+			answer << "<tr>"
+			answer << "<th>high emission scenario</th>"
+			answer << "<th>low emission scenario</th>"
+			answer << "</tr>"
+
+			# the data
+
+			spp_gained_high = region.presences(
+				year: year.to_i, 
+				presence: 'gained', 
+				scenario: 'high'
+			).species.all( class: flavour )
+
+			spp_lost_high = region.presences(
+				year: year.to_i, 
+				presence: 'lost', 
+				scenario: 'high'
+			).species.all( class: flavour )
+
+			spp_gained_low = region.presences(
+				year: year.to_i, 
+				presence: 'gained', 
+				scenario: 'low'
+			).species.all( class: flavour )
+
+			spp_lost_low = region.presences(
+				year: year.to_i, 
+				presence: 'lost', 
+				scenario: 'low'
+			).species.all( class: flavour )
+
+			allspecieses = region.presences(year: year.to_i).species.all(
+				class: flavour
+			)
+
+			allspecieses.each do |species|
+				answer << "<tr><td>"
+				answer << "current" unless (spp_gained_high.get(species.id) or spp_gained_low.get(species.id))
+				answer << "</td><td>"
+				answer << "gained" if spp_gained_low.get(species.id)
+				answer << "lost" if spp_lost_low.get(species.id)
+				answer << "</td><td>"
+				answer << "gained" if spp_gained_high.get(species.id)
+				answer << "lost" if spp_lost_high.get(species.id)
+				answer << "</td><td>"
+				answer << species.scientific_name
+				answer << "</td></tr>"
+			end
+
+			answer << "</table>"
+
+=begin
+			answer << "<tr>"
+
+			['low', 'high'].each do |scenario|
+				['gained', 'kept', 'lost'].each do |presence_type|
+
+					presences = region.presences.all(
+						year: year.to_i,
+						presence: presence_type,
+						scenario: scenario,
+						species: [{ class: flavour }]
+					)
+					
+					answer << "<td class='#{presence_type} specieslist' valign='top'>"
+
+					presences.each do |presence|
+						answer << "<p>"
+						answer << "#{presence.species.scientific_name}"
+						common_name = presence.species.common_name
+						if common_name
+							answer << "<br>(#{presence.species.common_name})"
+						end
+						answer << "</p>"
+					end
+					answer << "</td>"
+				end
+			end
+			answer << "</tr>"
+			answer << "</table>"
+=end
+
 		end
 
 

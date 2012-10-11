@@ -1,10 +1,10 @@
 {
 
-    "rg_long_name": "Thingy and Thing Region",
-    "rg_short_name": "Thingy and Thing",
-    "rg_url": "http://tool3:9292/assets/data/regions/NRM_Thingy_and_Thing",
+    "rg_long_name": "(Region Long Name)",
+    "rg_short_name": "(Region Short Name)",
+    "rg_url": "(Region URL)",
 
-    "year": 2045,
+    "year": "(Report Year)",
 
     "sp_current_total": 123,
 
