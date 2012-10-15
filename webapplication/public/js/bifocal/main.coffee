@@ -3,7 +3,8 @@ unless window.console
     window.console = { log: () -> {} }
 
 require.config {
-    baseUrl: '/js'
+#    baseUrl: '/js'
+    baseUrl: '/bifocal/js'
     waitSeconds: 30
     paths:
         jquery: 'lib/jquery-1.8.2.min'
