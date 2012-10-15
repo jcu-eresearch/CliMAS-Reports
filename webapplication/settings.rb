@@ -30,8 +30,8 @@ module Settings
     #        figure2: { width: 1600, height: 600 }
     #    }
     ImageSizes = {
-        figure1:  {    :width => 1327,    :height => 1600    },
-        figure2:  {    :width => 1600,    :height =>  600    }
+        :figure1 => {    :width => 1327,    :height => 1600    },
+        :figure2 => {    :width => 1600,    :height =>  600    }
     }
 
 
