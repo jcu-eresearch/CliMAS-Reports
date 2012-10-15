@@ -14,12 +14,12 @@
     %meta{ :name => "description", :content => "" }
     %meta{ :name => "viewport", :content => "width=device-width" }
 
-    %link{ :rel => "stylesheet", :href => "css/normalize.min.css" }
-    %link{ :rel => "stylesheet", :href => "css/h5bp.css" }
-    %link{ :rel => "stylesheet", :href => "css/main.css" }
+    %link{ :rel => "stylesheet", :href => url("/css/normalize.min.css") }
+    %link{ :rel => "stylesheet", :href => url("/css/h5bp.css") }
+    %link{ :rel => "stylesheet", :href => url("/css/main.css") }
 
-    %script{ :src => "js/lib/modernizr-2.6.1.min.js" }
-    %script{ :'data-main' => 'js/bifocal/main', :src => 'js/lib/require.js' }
+    %script{ :src => url("js/lib/modernizr-2.6.1.min.js") }
+    %script{ :'data-main' => url('js/bifocal/main'), :src => url('js/lib/require.js') }
 
 %body
     /[if lt IE 7]><p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p><![endif]
