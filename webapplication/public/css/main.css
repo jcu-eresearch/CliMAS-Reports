@@ -2,7 +2,7 @@
 @import url("report.css");
 
 body {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif; /* facebook fontstack */    font-size: 100%;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, "Arial Unicode MS", sans-serif; /* facebook fontstack */    font-size: 100%;
     line-height: 1.4;
     background: #eee;
     color: #000;

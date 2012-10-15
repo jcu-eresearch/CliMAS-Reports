@@ -17,7 +17,8 @@ module Settings
     # the URL prefix that comes before ..."regions/NRM_My_Favourite_Region/figure1.png"
     # For example:
     #    DataUrlPrefix = 'http://tool3:9292/assets/data/'
-    DataUrlPrefix = 'http://tdh-tools-2.hpc.jcu.edu.au:9292/assets/data/'
+#    DataUrlPrefix = 'http://tdh-tools-2.hpc.jcu.edu.au:9292/assets/data/'
+    DataUrlPrefix = 'http://localhost:9292/assets/data/'
 
 
     # bifocal's report reflector will use this to scale the images to fit
@@ -29,8 +30,8 @@ module Settings
     #        figure2: { width: 1600, height: 600 }
     #    }
     ImageSizes = {
-        figure1:  {    width: 1327,    height: 1600    },
-        figure2:  {    width: 1600,    height:  600    }
+        figure1:  {    :width => 1327,    :height => 1600    },
+        figure2:  {    :width => 1600,    :height =>  600    }
     }
 
 

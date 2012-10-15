@@ -33,12 +33,12 @@ class Region
     include DataMapper::Resource
 
     property :id,                 Serial
-    property :type_local_code,    String, length: 16
+    property :type_local_code,    String, :length => 16
     property :shapefile_id,       Integer
-    property :name,               String, length: 64
-    property :long_name,          String, length: 64
-    property :state,              String, length: 16
-    property :governing_body,     String, length: 128
+    property :name,               String, :length => 64
+    property :long_name,          String, :length => 64
+    property :state,              String, :length => 16
+    property :governing_body,     String, :length => 128
     property :reportable,         Boolean
     property :includes_sea,       Boolean
 
@@ -53,7 +53,7 @@ class Region
     end
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def to_good_json
-        to_json( methods: [:data_url] )
+        to_json( :methods => [:data_url] )
     end
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 end

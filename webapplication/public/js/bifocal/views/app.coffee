@@ -134,6 +134,10 @@ define [
 
             @$('#report').empty()
 
+            document.body.style.cursor = 'wait'
+
+            @updateProgress()
+
             # fresh data every time
             @data = null
 
@@ -145,7 +149,28 @@ define [
             @fetchData()
             @fetchAppendix()
 
+            @updateProgress()
+
             false
+        # ----------------------------------------------------------------
+        updateProgress: () ->
+            fetchlist = { 
+                'template': @doc
+                'data': @data
+                'tables': @appendix
+            }
+            progress = ''
+            for name, item of fetchlist
+                console.log [name]
+                if item
+                    progress += '&#10003;'
+                    console.log [name, 'is gotten']
+                else
+                    progress += '&#8987;'
+                    console.log [name, 'is NOT gotten']
+                progress += name
+                progress += ' '
+            @$('.generate').html progress
         # ----------------------------------------------------------------
         fetchData: () ->
             if @data
@@ -181,20 +206,21 @@ define [
             if @appendix
                 @progress
             else
-                @appendix = "<p>(appendix will go here)</p>"
+#                @appendix = "<p>(appendix will go here)</p>"
 
-#                appendix_url = "/region/#{@selected_region}/#{@year}/speciestables.html"
-#                $.ajax appendix_url, {
-#                    context: this
-#                    dataType: 'html'
-#                    success: (data) ->
-#                        @appendix = data
-#                        @progress()
-#                    error: () ->
-#                        console.log "oops didn't get appendix"
-#                }
+                appendix_url = "/region/#{@selected_region}/#{@year}/speciestables.html"
+                $.ajax appendix_url, {
+                    context: this
+                    dataType: 'html'
+                    success: (data) ->
+                        @appendix = data
+                        @progress()
+                    error: () ->
+                        console.log "oops didn't get appendix"
+                }
         # ----------------------------------------------------------------
         progress: () ->
+            @updateProgress()
             if @doc and @data and @appendix
                 @generateReport()
         # ----------------------------------------------------------------
@@ -223,12 +249,14 @@ define [
                 # this posts the report content back to the server so it returns as a url document
                 @postback html, 'report', @format
 
-            # this pushes the report to the user as an html download, except in IE 6,7,8,9
-#            document.location = 'data:Application/octet-stream,' + encodeURIComponent(html);
+            document.body.style.cursor = 'default'
+
+            # this would push the report to the user as an html download, except in IE 6,7,8,9
+            # document.location = 'data:Application/octet-stream,' + encodeURIComponent(html);
 
             # this opens a new window with the report, except for popup blocking
-#            report_window = window.open()
-#            report_window.document.write(new Showdown.converter().makeHtml(resolution))
+            # report_window = window.open()
+            # report_window.document.write(new Showdown.converter().makeHtml(resolution))
 
         # ----------------------------------------------------------------
         postback: (content, cssFiles, format) ->

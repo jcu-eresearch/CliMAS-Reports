@@ -117,31 +117,31 @@ class Bifocal < Sinatra::Base
 			# the data
 
 			spp_gained_high = region.presences(
-				year: year.to_i, 
-				presence: 'gained', 
-				scenario: 'high'
-			).species.all( class: flavour )
+				:year => year.to_i, 
+				:presence => 'gained', 
+				:scenario => 'high'
+			).species.all( :class => flavour )
 
 			spp_lost_high = region.presences(
-				year: year.to_i, 
-				presence: 'lost', 
-				scenario: 'high'
-			).species.all( class: flavour )
+				:year => year.to_i, 
+				:presence => 'lost', 
+				:scenario => 'high'
+			).species.all( :class => flavour )
 
 			spp_gained_low = region.presences(
-				year: year.to_i, 
-				presence: 'gained', 
-				scenario: 'low'
-			).species.all( class: flavour )
+				:year => year.to_i, 
+				:presence => 'gained', 
+				:scenario => 'low'
+			).species.all( :class => flavour )
 
 			spp_lost_low = region.presences(
-				year: year.to_i, 
-				presence: 'lost', 
-				scenario: 'low'
-			).species.all( class: flavour )
+				:year => year.to_i, 
+				:presence => 'lost', 
+				:scenario => 'low'
+			).species.all( :class => flavour )
 
-			allspecieses = region.presences(year: year.to_i).species.all(
-				class: flavour
+			allspecieses = region.presences(:year => year.to_i).species.all(
+				:class => flavour
 			)
 
 			allspecieses.each do |species|
