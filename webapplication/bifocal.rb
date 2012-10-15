@@ -1,6 +1,6 @@
 
-require_relative './settings.rb'
-require_relative './data/init_data_structures.rb'
+require './settings.rb'
+require './data/init_data_structures.rb'
 # --------------------------------------------------------------
 class Bifocal < Sinatra::Base
 

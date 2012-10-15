@@ -1,7 +1,7 @@
 # --------------------------------------------------------------
-require_relative './connect_db'
-require_relative './region_models'
-require_relative './species_models'
+require './data/connect_db'
+require './data/region_models'
+require './data/species_models'
 # --------------------------------------------------------------
 DataMapper.finalize
 # --------------------------------------------------------------

@@ -1,4 +1,4 @@
-require_relative '../settings'
+require './settings'
 
 # --------------------------------------------------------------
 class Species
