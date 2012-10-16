@@ -18,77 +18,8 @@ class Bifocal < Sinatra::Base
 
 		region = Region.get params[:regionid]
 		year = params[:year]
-
 		
 		answer = ["<h2>Biodiversity Details</h2>\n"]
-
-=begin
-		answer << "<h2>Six columns, one table</h2>\n"
-		#
-		#
-		# six columns across, one table
-		#
-		#
-		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
-
-			# flavour heading
-			answer << "<h3>#{flavour.capitalize}</h3>"
-
-			# start the table
-			answer << "\n<table>"
-
-			# wide header row
-			answer << "<tr><th colspan='6'>"
-			answer << flavour
-			answer << "species with climate suitability in"
-			answer << "#{region.long_name}, #{year}"
-			answer << "</th></tr>"
-
-			answer << "<tr><th colspan='3'>"
-			answer << "Low emission scenario"
-			answer << "</th><th colspan='3'>"
-			answer << "High emission scenario"
-			answer << "</th></tr>"
-
-			# presence headers
-			answer << "<tr>"
-			2.times do
-				['added', 'kept', 'lost'].each do |presence_title|
-					answer << "<th>#{presence_title}</th>"
-				end
-			end
-			answer << "</tr>"
-
-			# now the data
-			answer << "<tr>"
-			['low', 'high'].each do |scenario|
-				['gained', 'kept', 'lost'].each do |presence_type|
-
-					presences = region.presences.all(
-						year: year.to_i,
-						presence: presence_type,
-						scenario: scenario,
-						species: [{ class: flavour }]
-					)
-					
-					answer << "<td class='#{presence_type} specieslist' valign='top'>"
-
-					presences.each do |presence|
-						answer << "<p>"
-						answer << "#{presence.species.scientific_name}"
-						common_name = presence.species.common_name
-						if common_name
-							answer << "<br>(#{presence.species.common_name})"
-						end
-						answer << "</p>"
-					end
-					answer << "</td>"
-				end
-			end
-			answer << "</tr>"
-			answer << "</table>"
-		end
-=end
 
 		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
 
@@ -237,7 +168,7 @@ class Bifocal < Sinatra::Base
 	# this is for testing, remove for production
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/assets/data/sourcedoc.txt" do
-		data_file_path = "public/assets/data/sourcedoc.txt"
+		data_file_path = Settings::DataFilePrefix + "sourcedoc.txt"
 
 		if File.exists? data_file_path
 			File.read(data_file_path)
@@ -248,7 +179,7 @@ class Bifocal < Sinatra::Base
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/assets/data/regions/:regidentifier/figure:num.png" do
 
-		data_file_path = "public/assets/data/regions/#{params[:regidentifier]}/figure#{params[:num]}.png"
+		data_file_path = Settings::DataFilePrefix + "#{params[:regidentifier]}/figure#{params[:num]}.png"
 
 		content_type 'image/png'
 
@@ -261,7 +192,7 @@ class Bifocal < Sinatra::Base
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/assets/data/regions/:regidentifier/data.json" do
 
-		data_file_path = 'public/assets/data/regions/#{params[:regidentifier]}/data.json'
+		data_file_path = Settings::DataFilePrefix + "#{params[:regidentifier]}/data.json"
 
 		content_type 'application/json'
 
