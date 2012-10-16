@@ -8,12 +8,11 @@ define [
     AppView = Backbone.View.extend {
         # ----------------------------------------------------------------
         events:
-            'change input[type=radio].rtype': 'changeRegionType'
-            'change select.regionselect': 'changeRegion'
-            'change input[type=radio].year': 'changeYear'
+            'change input[type=radio].rtype':  'changeRegionType'
+            'change select.regionselect':      'changeRegion'
+            'change input[type=radio].year':   'changeYear'
             'change input[type=radio].format': 'changeFormat'
-
-            'click .generate': 'startReport'
+            'click .generate':                 'startReport'
         # ----------------------------------------------------------------
         initialize: () ->
             # window.region_list initialised in the HAML template
@@ -91,6 +90,7 @@ define [
                 the_region.get 'region_type_regiontype'
                 "_"
                 the_region.get('name').replace /[^A-Za-z0-9-]/g, '_'
+                "/"
             ].join ""
 
             url
@@ -154,29 +154,35 @@ define [
             false
         # ----------------------------------------------------------------
         updateProgress: () ->
-            fetchlist = { 
+            fetchlist = {
                 'template': @doc
                 'data': @data
                 'tables': @appendix
             }
             progress = ''
+            done = true
             for name, item of fetchlist
-                console.log [name]
                 if item
                     progress += '&#10003;'
-                    console.log [name, 'is gotten']
                 else
                     progress += '&#8987;'
-                    console.log [name, 'is NOT gotten']
+                    done = false
                 progress += name
                 progress += ' '
+            $button = @$('.generate')
+            if done
+                $button.removeAttr 'disabled'
+                $button.css 'cursor', 'pointer'
+            else
+                $button.attr 'disabled', 'disabled'
+                $button.css 'cursor', 'wait'
             @$('.generate').html progress
         # ----------------------------------------------------------------
         fetchData: () ->
             if @data
                 @progress
             else
-                data_url = @regionDataUrl(@selected_region) + "/data.json"
+                data_url = @regionDataUrl(@selected_region) + "data.json"
                 $.ajax data_url, {
                     context: this
                     dataType: 'json'
@@ -208,7 +214,7 @@ define [
             else
 #                @appendix = "<p>(appendix will go here)</p>"
 
-                appendix_url = "/region/#{@selected_region}/#{@year}/speciestables.html"
+                appendix_url = window.settings.siteUrlPrefix + "region/#{@selected_region}/#{@year}/speciestables.html"
                 $.ajax appendix_url, {
                     context: this
                     dataType: 'html'

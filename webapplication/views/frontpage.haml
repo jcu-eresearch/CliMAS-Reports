@@ -1,7 +1,13 @@
 %script
     ==
     window.settings = {
-    dataUrlPrefix: "#{ @dataurlprefix }"
+    dataUrlPrefix: "#{ @dataurlprefix }",
+    siteUrlPrefix: "#{ @siteurlprefix }"
     };
     window.region_type_list = #{ @region_types.to_json };
     window.region_list = #{ @regions.to_json };
+
+%script{ :'data-main' => url('js/bifocal/main'), :src => url('js/lib/require.js') }
+
+
+

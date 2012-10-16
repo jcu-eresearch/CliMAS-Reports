@@ -1,14 +1,16 @@
 
 require './settings.rb'
 require './data/init_data_structures.rb'
+
+require 'pp'
 # --------------------------------------------------------------
 class Bifocal < Sinatra::Base
-
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get '/' do
 		@region_types = RegionType.all
 		@regions = Region.all
 		@dataurlprefix = Settings::DataUrlPrefix
+		@siteurlprefix = Settings::SiteUrlPrefix
 		haml :frontpage
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

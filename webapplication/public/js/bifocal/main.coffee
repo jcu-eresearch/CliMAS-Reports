@@ -4,7 +4,7 @@ unless window.console
 
 require.config {
 #    baseUrl: '/js'
-    baseUrl: '/bifocal/js'
+    baseUrl: window.settings.siteUrlPrefix + 'js'
     waitSeconds: 30
     paths:
         jquery: 'lib/jquery-1.8.2.min'
