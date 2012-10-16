@@ -1,8 +1,11 @@
 # --------------------------------------------------------------
+require './settings'
+
 # connect to the database
 require_relative './data/connect_db'
 
 # tell datamapper about the tables
+require_relative './data/species_models'
 require_relative './data/region_models'
 
 # create tables

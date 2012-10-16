@@ -25,12 +25,14 @@ INSERT INTO "region_types" VALUES(
     'IBRA bioregions',
     'http://www.environment.gov.au/parks/nrs/science/bioregion-framework/ibra/'
 );
-INSERT INTO "region_types" VALUES('State',
+INSERT INTO "region_types" VALUES(
+    'State',
     'state of Australia',
     'states of Australia',
     'http://www.gov.au/'
 );
-INSERT INTO "region_types" VALUES('National',
+INSERT INTO "region_types" VALUES(
+    'National',
     'country',
     'countries',
     'http://australia.gov.au/'
@@ -1172,8 +1174,44 @@ CREATE TABLE "presences" (
     PRIMARY KEY("year", "scenario", "species_id", "region_id")
 );
 
+CREATE TABLE "presence_lists" (
+
+    "species_id" INTEGER NOT NULL,
+    "region_id" INTEGER NOT NULL,
+
+    "presence2015low" VARCHAR(4),
+    "presence2025low" VARCHAR(4),
+    "presence2035low" VARCHAR(4),
+    "presence2045low" VARCHAR(4),
+    "presence2055low" VARCHAR(4),
+    "presence2065low" VARCHAR(4),
+    "presence2075low" VARCHAR(4),
+    "presence2085low" VARCHAR(4),
+
+    "presence2015high" VARCHAR(4),
+    "presence2025high" VARCHAR(4),
+    "presence2035high" VARCHAR(4),
+    "presence2045high" VARCHAR(4),
+    "presence2055high" VARCHAR(4),
+    "presence2065high" VARCHAR(4),
+    "presence2075high" VARCHAR(4),
+    "presence2085high" VARCHAR(4),
+
+    PRIMARY KEY("species_id", "region_id")
+);
+
+CREATE INDEX "index_presence_lists_region" ON "presence_lists" ("region_id");
+CREATE INDEX "index_presence_lists_species" ON "presence_lists" ("species_id");
+
 CREATE INDEX "index_regions_region_type" ON "regions" ("region_type_regiontype");
+CREATE INDEX "index_regions_shapefile_id" ON "regions" ("shapefile_id");
+
 CREATE INDEX "index_presences_species" ON "presences" ("species_id");
 CREATE INDEX "index_presences_region" ON "presences" ("region_id");
+
+create index "index_species_scientific_name" on "species" ("scientific_name");
+create index "index_species_class" on "species" ("class");
+
 CREATE UNIQUE INDEX "unique_presences_key" ON "presences" ("year", "scenario", "species_id", "region_id");
+
 COMMIT;

@@ -27,7 +27,9 @@ class Bifocal < Sinatra::Base
 			answer << "<h3>#{flavour.capitalize}</h3>"
 
 			# start the table
-			answer << "\n<table>"
+			answer << "\n<table class='specieslist'>"
+
+			answer << "<thead>"
 
 			# wide header row
 			answer << "<tr><th colspan='4'>"
@@ -47,85 +49,36 @@ class Bifocal < Sinatra::Base
 			answer << "<th>low emission scenario</th>"
 			answer << "</tr>"
 
+			answer << "</thead><tbody>"
+
 			# the data
 
-			spp_gained_high = region.presences(
-				:year => year.to_i, 
-				:presence => 'gained', 
-				:scenario => 'high'
-			).species.all( :class => flavour )
-
-			spp_lost_high = region.presences(
-				:year => year.to_i, 
-				:presence => 'lost', 
-				:scenario => 'high'
-			).species.all( :class => flavour )
-
-			spp_gained_low = region.presences(
-				:year => year.to_i, 
-				:presence => 'gained', 
-				:scenario => 'low'
-			).species.all( :class => flavour )
-
-			spp_lost_low = region.presences(
-				:year => year.to_i, 
-				:presence => 'lost', 
-				:scenario => 'low'
-			).species.all( :class => flavour )
-
-			allspecieses = region.presences(:year => year.to_i).species.all(
-				:class => flavour
+			allpresences = region.presence_lists.all(
+				:species => { :class => flavour }
 			)
 
-			allspecieses.each do |species|
+			allpresences.each do |presence|
+
+				low = presence.send :"presence#{year}low"
+				high = presence.send :"presence#{year}high"
+
 				answer << "<tr><td>"
-				answer << "current" unless (spp_gained_high.get(species.id) or spp_gained_low.get(species.id))
+				answer << "current" unless high == 'gain' or low == 'gain'
 				answer << "</td><td>"
-				answer << "gained" if spp_gained_low.get(species.id)
-				answer << "lost" if spp_lost_low.get(species.id)
+				answer << "gained" if low == 'gain'
+				answer << "lost" if low == 'lost'
 				answer << "</td><td>"
-				answer << "gained" if spp_gained_high.get(species.id)
-				answer << "lost" if spp_lost_high.get(species.id)
+				answer << "gained" if high == 'gain'
+				answer << "lost" if high == 'lost'
 				answer << "</td><td>"
-				answer << species.scientific_name
+				answer << presence.species.scientific_name
 				answer << "</td></tr>"
 			end
 
+			answer << "</tbody>"
 			answer << "</table>"
-
-=begin
-			answer << "<tr>"
-
-			['low', 'high'].each do |scenario|
-				['gained', 'kept', 'lost'].each do |presence_type|
-
-					presences = region.presences.all(
-						year: year.to_i,
-						presence: presence_type,
-						scenario: scenario,
-						species: [{ class: flavour }]
-					)
-					
-					answer << "<td class='#{presence_type} specieslist' valign='top'>"
-
-					presences.each do |presence|
-						answer << "<p>"
-						answer << "#{presence.species.scientific_name}"
-						common_name = presence.species.common_name
-						if common_name
-							answer << "<br>(#{presence.species.common_name})"
-						end
-						answer << "</p>"
-					end
-					answer << "</td>"
-				end
-			end
-			answer << "</tr>"
-			answer << "</table>"
-=end
 
 		end
-
 
 		answer.join "\n"
 	end
