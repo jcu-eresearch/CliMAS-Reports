@@ -254,7 +254,7 @@
         return form.appendTo('body').submit();
       }
     }, {
-      form: _.template("<div class=\"header clearfix\">\n    <a href=\"http://tropicaldatahub.org/\"><img class=\"logo\" src=\"/images/tdhlogo.png\"></a>\n    <h1>Bifocal</h1>\n    <h2>Reports on Climate Change and Biodiversity</h2>\n</div>\n<form id=\"kickoffform\" class=\"clearfix\">\n    <%= formcontent %>\n    <div class=\"onefield gobutton formsection\">\n    </div>\n</form>"),
+      form: _.template("<div class=\"header clearfix\">\n    <a href=\"http://tropicaldatahub.org/\"><img class=\"logo\" src=\"images/tdhlogo.png\"></a>\n    <h1>Bifocal</h1>\n    <h2>Reports on Climate Change and Biodiversity</h2>\n</div>\n<form id=\"kickoffform\" class=\"clearfix\">\n    <%= formcontent %>\n    <div class=\"onefield gobutton formsection\">\n    </div>\n</form>"),
       format_option: _.template("<label><input type=\"radio\" class=\"format\" name=\"formatradio\" value=\"<%= format %>\">\n    <%= formatname %>\n</label>"),
       format_chooser: _.template("<div class=\"onefield formatselection formsection\">\n    <h3>Select an output format</h3>\n    <%= formats %>\n    <button class=\"generate\" disabled=\"disabled\">generate report</button>\n</div>"),
       year_option: _.template("<label><input type=\"radio\" class=\"year\" name=\"yearradio\" value=\"<%= year %>\">\n    <%= year %>\n</label>"),

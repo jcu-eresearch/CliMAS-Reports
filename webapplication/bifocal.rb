@@ -179,7 +179,7 @@ class Bifocal < Sinatra::Base
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/assets/data/regions/:regidentifier/figure:num.png" do
 
-		data_file_path = Settings::DataFilePrefix + "#{params[:regidentifier]}/figure#{params[:num]}.png"
+		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/figure#{params[:num]}.png"
 
 		content_type 'image/png'
 
@@ -192,7 +192,7 @@ class Bifocal < Sinatra::Base
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/assets/data/regions/:regidentifier/data.json" do
 
-		data_file_path = Settings::DataFilePrefix + "#{params[:regidentifier]}/data.json"
+		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/data.json"
 
 		content_type 'application/json'
 

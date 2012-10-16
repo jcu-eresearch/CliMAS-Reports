@@ -16,8 +16,7 @@ module Settings
 
     # the file path that comes before ..."regions/NRM_My_Favourite_Region/data.json"
     # For example:
-    #    DataUrlPrefix = 'http://tool3:9292/assets/data/'
-#    DataUrlPrefix = 'http://tdh-tools-2.hpc.jcu.edu.au:9292/assets/data/'
+    #    DataFilePrefix = '/home/TDH/data/tool3/assets/data/'
     DataFilePrefix = '/home/daniel/projects/ap02/tool3/assets/data/'
 
     # the URL prefix that comes before ..."regions/NRM_My_Favourite_Region/figure1.png"

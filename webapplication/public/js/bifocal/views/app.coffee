@@ -292,7 +292,7 @@ define [
         # ----------------------------------------------------------------
         form: _.template """
             <div class="header clearfix">
-                <a href="http://tropicaldatahub.org/"><img class="logo" src="/images/tdhlogo.png"></a>
+                <a href="http://tropicaldatahub.org/"><img class="logo" src="images/tdhlogo.png"></a>
                 <h1>Bifocal</h1>
                 <h2>Reports on Climate Change and Biodiversity</h2>
             </div>
