@@ -270,7 +270,7 @@ define [
             # cssFiles: a comma-separated list of css files, without the .css
             # format: the format you want back, e.g. 'msword_html' or 'html'
 
-            form = $ '<form method="post" action="/reflect"></form>'
+            form = $ '<form method="post" action="' + window.settings.siteUrlPrefix + 'reflect"></form>'
 
             formatField = $ '<input type="hidden" name="format" />'
             formatField.attr 'value', format

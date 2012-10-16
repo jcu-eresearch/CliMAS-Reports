@@ -239,7 +239,7 @@
       },
       postback: function(content, cssFiles, format) {
         var contentField, cssField, form, formatField;
-        form = $('<form method="post" action="/reflect"></form>');
+        form = $('<form method="post" action="' + window.settings.siteUrlPrefix + 'reflect"></form>');
         formatField = $('<input type="hidden" name="format" />');
         formatField.attr('value', format);
         form.append(formatField);

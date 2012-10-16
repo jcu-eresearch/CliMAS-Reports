@@ -66,4 +66,3 @@ puts "done!"
 
 
 
-        sudo /etc/init.d/httpd configtest
