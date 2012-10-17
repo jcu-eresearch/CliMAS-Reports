@@ -87,8 +87,8 @@ class Bifocal < Sinatra::Base
 				high = 'gained' if high == 'gain'
 				high = '&ndash;' if high == ''
 
-				answer << "<td style='text-align: center' class='#{low}'>#{low}</td>"
 				answer << "<td style='text-align: center' class='#{high}'>#{high}</td>"
+				answer << "<td style='text-align: center' class='#{low}'>#{low}</td>"
 
 				answer << "</td><td>"
 				answer << presence.species.scientific_name
@@ -98,71 +98,6 @@ class Bifocal < Sinatra::Base
 				answer << "</tr>" if index % 2 == 1
 
 				index += 1
-			end
-
-			answer << "</tbody>"
-			answer << "</table>"
-
-		end
-
-		if false
-#		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
-
-			# flavour heading
-			answer << "<h3>#{flavour.capitalize}</h3>"
-
-			# start the table
-			answer << "\n<table class='specieslist'>"
-
-			answer << "<thead>"
-
-			# wide header row
-			answer << "<tr><th colspan='4'>"
-			answer << flavour
-			answer << "with climate suitability in"
-			answer << "#{region.long_name}, #{year}"
-			answer << "</th></tr>"
-
-			answer << "<tr>"
-			answer << "<th rowspan='2'>current</th>"
-			answer << "<th colspan='2'>Change by #{year}</th>"
-			answer << "<th rowspan='2'>Species</th>"
-			answer << "</tr>"
-
-			answer << "<tr>"
-			answer << "<th>high emission scenario</th>"
-			answer << "<th>low emission scenario</th>"
-			answer << "</tr>"
-
-			answer << "</thead><tbody>"
-
-			# the data
-
-			allpresences = region.presence_lists.all(
-				:species => { :class => flavour }
-			)
-
-			allpresences.each_with_index do |presence, index|
-
-				low = presence.send :"presence#{year}low"
-				high = presence.send :"presence#{year}high"
-
-				answer << "<tr>"
-
-				answer << "<td>"
-				answer << "current" unless high == 'gain' or low == 'gain'
-				answer << "</td><td>"
-				answer << "gained" if low == 'gain'
-				answer << "lost" if low == 'lost'
-				answer << "</td><td>"
-				answer << "gained" if high == 'gain'
-				answer << "lost" if high == 'lost'
-				answer << "</td><td>"
-				answer << presence.species.scientific_name
-				answer << "</td>"
-
-				answer << "</tr>"
-
 			end
 
 			answer << "</tbody>"
