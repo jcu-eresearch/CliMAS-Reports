@@ -1,24 +1,3 @@
-[[never]]
-**no change at all**
-$$rg_long_name currently has climate suitable for $$sp_current_total species.  The climate in YEAR is projected to remain suitable for all species.
-
-**no overall change, ins = outs**
-$$rg_long_name currently has climate suitable for $$sp_current_total species.  By YEAR, the total species is projected to remain unchanged, however the species composition changes, with XX species new to the region replacing the XX species lost.
-
-**overall change up, ins, no outs**
-$$rg_long_name currently has climate suitable for $$sp_current_total species.  By YEAR this number is projected to increase to TT, due to XX species new to the region.
-
-**overall change up, ins > outs**
-$$rg_long_name currently has climate suitable for $$sp_current_total species.  By YEAR this number is projected to increase/decrease to TT species.  This change will be caused by XX losses and YY gains.
-
-**overall change down, outs, no ins**
-$$rg_long_name currently has climate suitable for $$sp_current_total species.  By YEAR this number is projected to decrease to TT, a loss of XX species.
-
-**overall change down, outs > ins**
-$$rg_long_name currently has climate suitable for $$sp_current_total species.  By YEAR this number is projected to increase/decrease to TT species.  This change will be caused by XX losses and YY gains.
-
-**all cases, if added > 0**
-Note that where additional species are mentioned, this refers to climate suitability only, and the actual  presence of species in a region will depend on factors such as dispersal capacity.
 [[always]]
 <span>Climate Change</span> and <span>Biodiversity Report</span>
 ================================================================
@@ -28,6 +7,7 @@ $$rg_long_name
 ==============
 
 <p class="frontpagecredits">
+(sourcedoc from TDH data) 
 Prepared by the James Cook University eResearch Centre and Centre for Tropical Biodiversity and Climate Change, using species occurence data from the Atlas of Living Australia (ALA) and climate layers derived from http://climascope.wwfus.org prepared by Jeremy VanDerWal.
 </p>
 
@@ -63,13 +43,13 @@ Figure 1 shows the projected change in annual average temperature across $$rg_sh
 
 [[year < 2085]]Note that this figure shows projections for 2085.[[always]]
 
-![Figure 1: Projected Temperature Change]($$rg_url/figure1.png)
+![Figure 1: Projected Temperature Change]($$rg_url/delta.temperature.png)
 
 Highest change across the region is blah blah.
 
 Figure 2 shows the annual average temperature for $$rg_short_name, in low and high emission scenarios.
 
-![Figure 2: Average Projected Temperature]($$rg_url/figure2.png)
+![Figure 2: Average Projected Temperature]($$rg_url/absolute.climate.rainfall.png)
 
 ### Regional Biodiversity Implications
 
@@ -77,13 +57,13 @@ Figure 2 shows the annual average temperature for $$rg_short_name, in low and hi
     and sp_high_$$year_d_down == 0
 ]] (no change at all)
 
-$$rg_long_name currently has climate suitable for $$sp_current_total species. The climate in $$year is projected to remain suitable for all species.
+$$rg_long_name currently has climate suitable for $$sp_total_current species. The climate in $$year is projected to remain suitable for all species.
 
 [[      sp_high_$$year_d_up != 0
     and sp_high_$$year_d_up == sp_high_$$year_d_down
 ]] (no overall change, ins = outs)
 
-$$rg_long_name currently has climate suitable for $$sp_current_total
+$$rg_long_name currently has climate suitable for $$sp_total_current
 species. By $$year, the total number of species is projected to stay the same, however a change in climate suitability suggests a change in species composition.  The climate is projected to become
 unsuitable for $$sp_high_$$year_d_down species XnativeXtoXtheXregionX (losses) and suitable for $$sp_high_$$year_d_up species (gains).
 
@@ -91,8 +71,8 @@ unsuitable for $$sp_high_$$year_d_down species XnativeXtoXtheXregionX (losses) a
     and sp_high_$$year_d_down == 0
 ]] (overall change up, ins, no outs)
 
-$$rg_long_name currently has climate suitable for $$sp_current_total
-species. By $$year this number is projected to increase by $$sp_high_$$year_d_up species to sp_high_$$year_total.
+$$rg_long_name currently has climate suitable for $$sp_total_current
+species. By $$year this number is projected to increase by $$sp_high_$$year_d_up species to sp_high_total_$$year.
 The climate is likely to remain suitable for species currently
 found in the region.
 
@@ -101,8 +81,8 @@ found in the region.
     and sp_high_$$year_d_up    > sp_high_$$year_d_down
 ]] (overall change up, ins > outs)
 
-$$rg_long_name currently has climate suitable for $$sp_current_total
-species. By $$year this number is projected to increase to sp_high_$$year_total species.
+$$rg_long_name currently has climate suitable for $$sp_total_current
+species. By $$year this number is projected to increase to sp_high_total_$$year species.
 While there is an overall increase in biodiversity, the region is
 likely to suffer the loss of some species XnativeXtoXtheXregionX.  The climate is projected to become unsuitable for $$sp_high_$$year_d_down species (losses) and suitable for $$sp_high_$$year_d_up species species from outside the region (gains).
 
@@ -110,16 +90,16 @@ likely to suffer the loss of some species XnativeXtoXtheXregionX.  The climate i
     and sp_high_$$year_d_down  > 0
 ]] (overall change down, outs, no ins)
 
-$$rg_long_name currently has climate suitable for $$sp_current_total
-species. By $$year this number is projected to decrease by $$sp_high_$$year_d_down to sp_high_$$year_total.
+$$rg_long_name currently has climate suitable for $$sp_total_current
+species. By $$year this number is projected to decrease by $$sp_high_$$year_d_down to sp_high_total_$$year.
 
 [[      sp_high_$$year_d_up   != 0
     and sp_high_$$year_d_down != 0
     and sp_high_$$year_d_down  > sp_high_$$year_d_up
 ]] (overall change down, outs > ins)
 
-$$rg_long_name currently has climate suitable for $$sp_current_total
-species. By $$year this number is projected to decrease to sp_high_$$year_total species. While there is an overall decrease in biodiversity, the region is likely to become suitable for some species not XnativeXtoXtheXregionX.  The climate is projected to become unsuitable for $$sp_high_$$year_d_down species (losses) and suitable for $$sp_high_$$year_d_up species species from outside the region (gains).
+$$rg_long_name currently has climate suitable for $$sp_total_current
+species. By $$year this number is projected to decrease to sp_high_total_$$year species. While there is an overall decrease in biodiversity, the region is likely to become suitable for some species not XnativeXtoXtheXregionX.  The climate is projected to become unsuitable for $$sp_high_$$year_d_down species (losses) and suitable for $$sp_high_$$year_d_up species species from outside the region (gains).
 
 [[ sp_high_$$year_d_up > 0 ]]
 Note that independent movement of species
@@ -129,6 +109,7 @@ consider that even Australian natives may behave like invasive pests
 when invading new space.  Species movement capacity and interaction
 with other species is not modelled here.
 
+[[ always ]]
 ### Tabular Biodiversity Summary
 
 <table>
@@ -142,83 +123,83 @@ with other species is not modelled here.
         <th>
             Low emission scenario<br>
             Count
-            (<span class="add">+gained</span>
+            (<span class="gained">+gained</span>
             <span class="lost">-lost</span>)
         </th>
         <th>
             High emission scenario<br>
             Count
-            (<span class="add">+gained</span>
+            (<span class="gained">+gained</span>
             <span class="lost">-lost</span>)
         </th>
     </tr><tr>
         <td>Mammals</td>
         <td>
-            $$mammals_current_total
+            $$low_mammals_total_current
         </td><td>
-            $$mammals_low_$$year_total
-            (<span class="add">+$$mammals_low_$$year_d_up</span>
-            <span class="lost">-$$mammals_low_$$year_d_down</span>)
+            $$low_mammals_total_$$year
+            (<span class="gained">+$$low_mammals_added_$$year</span>
+            <span class="lost">-$$low_mammals_lost_$$year</span>)
         </td><td>
-            $$mammals_low_$$year_total
-            (<span class="add">+$$mammals_high_$$year_d_up</span>
-            <span class="lost">-$$mammals_high_$$year_d_down</span>)
+            $$high_mammals_total_$$year
+            (<span class="gained">+$$high_mammals_added_$$year</span>
+            <span class="lost">-$$high_mammals_lost_$$year</span>)
         </td>
     </tr><tr>
         <td>Birds</td>
         <td>
-            $$birds_current_total
+            $$low_birds_total_current
         </td><td>
-            $$birds_low_$$year_total
-            (<span class="add">+$$birds_low_$$year_d_up</span>
-            <span class="lost">-$$birds_low_$$year_d_down</span>)
+            $$low_birds_total_$$year
+            (<span class="gained">+$$low_birds_added_$$year</span>
+            <span class="lost">-$$low_birds_lost_$$year</span>)
         </td>
         <td>
-            $$birds_low_$$year_total
-            (<span class="add">+$$birds_high_$$year_d_up</span>
-            <span class="lost">-$$birds_high_$$year_d_down</span>)
+            $$high_birds_total_$$year
+            (<span class="gained">+$$high_birds_added_$$year</span>
+            <span class="lost">-$$high_birds_lost_$$year</span>)
         </td>
     </tr><tr>
         <td>Amphibians</td>
         <td>
-            $$amphibians_current_total
+            $$low_amphibians_total_current
         </td><td>
-            $$amphibians_low_$$year_total
-            (<span class="add">+$$amphibians_low_$$year_d_up</span>
-            <span class="lost">-$$amphibians_low_$$year_d_down</span>)
+            $$low_amphibians_total_$$year
+            (<span class="gained">+$$low_amphibians_added_$$year</span>
+            <span class="lost">-$$low_amphibians_lost_$$year</span>)
         </td>
         <td>
-            $$amphibians_low_$$year_total
-            (<span class="add">+$$amphibians_high_$$year_d_up</span>
-            <span class="lost">-$$amphibians_high_$$year_d_down</span>)
+            $$high_amphibians_total_$$year
+            (<span class="gained">+$$high_amphibians_added_$$year</span>
+            <span class="lost">-$$high_amphibians_lost_$$year</span>)
         </td>
     </tr><tr>
         <td>Reptiles</td>
         <td>
-            $$reptiles_current_total
+            $$low_reptiles_total_current
         </td><td>
-            $$reptiles_low_$$year_total
-            (<span class="add">+$$reptiles_low_$$year_d_up</span>
-            <span class="lost">-$$reptiles_low_$$year_d_down</span>)
+            $$low_reptiles_total_$$year
+            (<span class="gained">+$$low_reptiles_added_$$year</span>
+            <span class="lost">-$$low_reptiles_lost_$$year</span>)
         </td>
         <td>
-            $$reptiles_low_$$year_total
-            (<span class="add">+$$reptiles_high_$$year_d_up</span>
-            <span class="lost">-$$reptiles_high_$$year_d_down</span>)
+            $$high_reptiles_total_$$year
+            (<span class="gained">+$$high_reptiles_added_$$year</span>
+            <span class="lost">-$$high_reptiles_lost_$$year</span>)
         </td>
     </tr><tr class="totals">
         <td>Totals</td>
         <td>
-            $$sp_current_total
+            $$low_total_total_current
         </td><td>
-            $$sp_low_$$year_total
-            (<span class="add">+$$sp_low_$$year_d_up</span>
-            <span class="lost">-$$sp_low_$$year_d_down</span>)
+            $$low_total_total_$$year
+            (<span class="gained">+$$low_total_added_$$year</span>
+            <span class="lost">-$$low_total_lost_$$year</span>)
         </td>
         <td>
-            $$sp_low_$$year_total
-            (<span class="add">+$$sp_high_$$year_d_up</span>
-            <span class="lost">-$$sp_high_$$year_d_down</span>)
+            $$low_total_total_$$year
+            (<span class="gained">+$$high_total_added_$$year</span>
+            <span class="lost">-$$high_total_lost_$$year</span>)
         </td>
     </tr>
 </table>
