@@ -207,29 +207,26 @@ class Bifocal < Sinatra::Base
 
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	# serve default data when real data not available..
-	# this is for testing, remove for production
-	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/assets/data/sourcedoc.txt" do
 		data_file_path = Settings::DataFilePrefix + "sourcedoc.txt"
 
 		if File.exists? data_file_path
 			File.read(data_file_path)
 		else
-			File.read(File.join('public', 'assets', 'data', "sourcedoc.txt"))
+			error 404
 		end
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	get "/assets/data/regions/:regidentifier/figure:num.png" do
+	get "/assets/data/regions/:regidentifier/:figure.png" do
 
-		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/figure#{params[:num]}.png"
+		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/#{params[:figure]}.png"
 
 		content_type 'image/png'
 
 		if File.exists? data_file_path
 			File.read(data_file_path)
 		else
-			File.read(File.join('public', 'assets', 'data', "sampleFig#{params[:num]}.png"))
+			error 404
 		end
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -242,7 +239,7 @@ class Bifocal < Sinatra::Base
 		if File.exists? data_file_path
 			File.read(data_file_path)
 		else
-			File.read(File.join('public', 'assets', 'data', 'sampledata.json'))
+			error 404
 		end
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
