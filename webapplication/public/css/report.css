@@ -107,7 +107,7 @@ body {
 }
 
 #report table.specieslist td {
-    margin: 0;
+    margin: 1px 0;
     padding: 0;
     font-size: 8pt;
     line-height: 1.0;

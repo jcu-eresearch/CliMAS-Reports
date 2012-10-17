@@ -32,6 +32,91 @@ class Bifocal < Sinatra::Base
 			answer << "<thead>"
 
 			# wide header row
+			answer << "<tr>"
+
+			answer << "<th colspan='7'>"
+			answer << flavour
+			answer << "with climate suitability in"
+			answer << "#{region.long_name}, #{year}"
+			answer << "</th></tr>"
+
+
+			answer << "<tr>"
+
+			answer << "<th colspan='2'>emission scenario</th>"
+			answer << "<th rowspan='2'>Species</th>"
+
+			answer << "<td rowspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+
+			answer << "<th colspan='2'>emission scenario</th>"
+			answer << "<th rowspan='2'>Species</th>"
+
+			answer << "</tr>"
+
+
+			answer << "<tr>"
+			answer << "<th>high</th>"
+			answer << "<th>low</th>"
+
+			answer << "<th>high</th>"
+			answer << "<th>low</th>"
+			answer << "</tr>"
+
+			answer << "</thead><tbody>"
+
+			# the data
+
+			allpresences = region.presence_lists.all(
+				:species => { :class => flavour }
+			)
+
+			index = 0
+
+			allpresences.each do |presence|
+
+				low = presence.send :"presence#{year}low"
+				high = presence.send :"presence#{year}high"
+
+				next if low == '' and high == ''
+
+				answer << "<tr>" if index % 2 == 0
+
+				low = 'gained' if low == 'gain'
+				low = '&ndash;' if low == ''
+
+				high = 'gained' if high == 'gain'
+				high = '&ndash;' if high == ''
+
+				answer << "<td style='text-align: center' class='#{low}'>#{low}</td>"
+				answer << "<td style='text-align: center' class='#{high}'>#{high}</td>"
+
+				answer << "</td><td>"
+				answer << presence.species.scientific_name
+				answer << "</td>"
+
+				answer << "<td></td>" if index % 2 == 0
+				answer << "</tr>" if index % 2 == 1
+
+				index += 1
+			end
+
+			answer << "</tbody>"
+			answer << "</table>"
+
+		end
+
+		if false
+#		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
+
+			# flavour heading
+			answer << "<h3>#{flavour.capitalize}</h3>"
+
+			# start the table
+			answer << "\n<table class='specieslist'>"
+
+			answer << "<thead>"
+
+			# wide header row
 			answer << "<tr><th colspan='4'>"
 			answer << flavour
 			answer << "with climate suitability in"
@@ -57,12 +142,14 @@ class Bifocal < Sinatra::Base
 				:species => { :class => flavour }
 			)
 
-			allpresences.each do |presence|
+			allpresences.each_with_index do |presence, index|
 
 				low = presence.send :"presence#{year}low"
 				high = presence.send :"presence#{year}high"
 
-				answer << "<tr><td>"
+				answer << "<tr>"
+
+				answer << "<td>"
 				answer << "current" unless high == 'gain' or low == 'gain'
 				answer << "</td><td>"
 				answer << "gained" if low == 'gain'
@@ -72,7 +159,10 @@ class Bifocal < Sinatra::Base
 				answer << "lost" if high == 'lost'
 				answer << "</td><td>"
 				answer << presence.species.scientific_name
-				answer << "</td></tr>"
+				answer << "</td>"
+
+				answer << "</tr>"
+
 			end
 
 			answer << "</tbody>"
@@ -254,15 +344,20 @@ class Bifocal < Sinatra::Base
 
 		newcontent = content
 
+		# reserve specieslist tables for now..
+		newcontent.gsub! "<table class='specieslist'", "<spptable class='specieslist'"
+
 		# centre-align and add top and bottom borders to tables
 		newcontent.gsub! '<table', "<table align='center' style='border-top: 1mm solid #cccccc; border-bottom: 1mm solid #cccccc; mso-cellspacing: 10px' cellpadding='5'"
+
+		# find those specieslist tables and do the same, but with less padding
+		newcontent.gsub! '<spptable', "<table align='center' style='border-top: 1mm solid #cccccc; border-bottom: 1mm solid #cccccc; mso-cellspacing: 3px' cellpadding='2'"
 
 		# centre-align all content in table cells
 		newcontent.gsub! '<td', "<td align='center'"
 
 		# add bottom borders to table headers
-		newcontent.gsub! '<th', "<th style='border-bottom: 0.5mm solid #cccccc; border-left: 0px dotted white; border-right: 0px dotted white;'"
-
+		newcontent.gsub! /<th(\s|>)/, "<th style='border-bottom: 0.5mm solid #cccccc; border-left: 0px dotted white; border-right: 0px dotted white;' \\1"
 		# colour in the gained and lost spans
 		newcontent.gsub! /<(\w+)\s+class="gained/, '<\1 style="color: #006600" class="gained'
 		newcontent.gsub! /<(\w+)\s+class="lost/, '<\1 style="color: #660000" class="lost'
