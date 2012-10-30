@@ -5,7 +5,5 @@
                 generate reports
         - @pagelist.each do |linkpage, linkdesc|
             %li
-                %a{ :href => "#{@siteurlprefix}#{linkpage}",
-                 :class => ((@page && @page.to_s == linkpage.to_s) ? ('current') : ('')),
-                 }= linkdesc
+                %a{ :href => "#{@siteurlprefix}#{linkpage}", :class => ((@page && @page.to_s == linkpage.to_s) ? ('current') : ('')) }= linkdesc
 
