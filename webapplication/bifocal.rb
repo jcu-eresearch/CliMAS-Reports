@@ -11,7 +11,7 @@ class Bifocal < Sinatra::Base
 		@regions = Region.all
 		@dataurlprefix = Settings::DataUrlPrefix
 		@siteurlprefix = Settings::SiteUrlPrefix
-		@siteurlprefix = Settings::SiteUrlPrefix
+		@custommapsurl = Settings::CustomMapsUrl
 
 		@pagelist = {
 			:about => 'about Bifocal',
@@ -27,8 +27,14 @@ class Bifocal < Sinatra::Base
 		haml :'page.partial'
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	# remove trailing slash from content pages
+	get %r{(about|using|science|credits)\/} do
+		redirect params[:captures].first
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	# serve the about, using, science, and credits pages
-	get %r{(about|using|science|credits)\/?} do
+	get %r{(about|using|science|credits)} do
+
 		@siteurlprefix = Settings::SiteUrlPrefix
 
 		# @page is the page they wanted

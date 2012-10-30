@@ -291,6 +291,13 @@ a:hover {
     opacity: 0.5;
 }
 
+p.linkselsewhere {
+    text-align: right;
+    font-size: 90%;
+    margin-top: 1em;
+    padding-top: 2em;
+    border-top: 2px groove rgba(255,255,255, 0.45);
+}
 
 /* credits ---------------------------------------------------- */
 

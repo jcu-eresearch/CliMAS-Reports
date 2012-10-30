@@ -30,8 +30,13 @@ module Settings
     #    SiteUrlPrefix = '/bifocal/'
     SiteUrlPrefix = 'http://tool3:9292/'
 
+    # the URL for the alternate 'custom maps' front end.
+    # For example:
+    #    CustomMapsUrl = 'http://tdh-tools-2.hpc.jcu.edu.au/tools/applications/HotSpots.php'
+    CustomMapsUrl = 'http://tdh-tools-2.hpc.jcu.edu.au/tools/applications/HotSpots.php'
+
     # bifocal's report reflector will use this to scale the images to fit
-    # onto a page in the word doc.  Use the image's filename as the key, but 
+    # onto a page in the word doc.  Use the image's filename as the key, but
     # leave off the image suffix.
     # Example:
     #    ImageSizes = {

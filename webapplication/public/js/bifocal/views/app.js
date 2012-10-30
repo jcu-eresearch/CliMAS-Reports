@@ -231,7 +231,8 @@
         html += this.appendix;
         if (this.format === 'preview') {
           $('body').append($('<div id="report"></div>'));
-          this.$('#report').append(html);
+          $('#report').append(html);
+          $('#report').scrollIntoView(true);
         } else {
           this.postback(html, 'report', this.format);
         }

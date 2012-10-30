@@ -249,8 +249,9 @@ define [
             if @format == 'preview'
                 # this appends the report into the current window
                 $('body').append $('<div id="report"></div>')
+                $('#report').append html
+                $('#report').scrollIntoView true
 
-                @$('#report').append html
 
             else
                 # this posts the report content back to the server so it returns as a url document
