@@ -66,9 +66,8 @@
           formcontent: form_parts.join('')
         });
         this.$el.append($('<div id="notreport">' + html_form + '</div>'));
-        this.$el.append($('<div id="report"></div>'));
         this.updateReportButton();
-        return $('body').append(this.$el);
+        return $('.maincontent').append(this.$el);
       },
       regionDataUrl: function(region) {
         var the_region, url;
@@ -231,6 +230,7 @@
         html = new Showdown.converter().makeHtml(resolution);
         html += this.appendix;
         if (this.format === 'preview') {
+          $('body').append($('<div id="report"></div>'));
           this.$('#report').append(html);
         } else {
           this.postback(html, 'report', this.format);
@@ -254,7 +254,7 @@
         return form.appendTo('body').submit();
       }
     }, {
-      form: _.template("<div class=\"header clearfix\">\n    <a href=\"http://tropicaldatahub.org/\"><img class=\"logo\" \n        src=\"<%= window.window.settings.siteUrlPrefix %>images/tdhlogo.png\"></a>\n    <h1>Bifocal</h1>\n    <h2>Reports on Climate Change and Biodiversity</h2>\n</div>\n<form id=\"kickoffform\" class=\"clearfix\">\n    <%= formcontent %>\n    <div class=\"onefield gobutton formsection\">\n    </div>\n</form>"),
+      form: _.template("<form id=\"kickoffform\" class=\"clearfix\">\n    <%= formcontent %>\n</form>"),
       format_option: _.template("<label><input type=\"radio\" class=\"format\" name=\"formatradio\" value=\"<%= format %>\">\n    <%= formatname %>\n</label>"),
       format_chooser: _.template("<div class=\"onefield formatselection formsection\">\n    <h3>Select an output format</h3>\n    <%= formats %>\n    <button class=\"generate\" disabled=\"disabled\">generate report</button>\n</div>"),
       year_option: _.template("<label><input type=\"radio\" class=\"year\" name=\"yearradio\" value=\"<%= year %>\">\n    <%= year %>\n</label>"),

@@ -71,17 +71,145 @@ a:hover {
     margin: 60px 0 2px;
     padding: 0;
     text-align: left;
-    text-shadow: 2px 2px 2px #000;
+    text-shadow: 2px 2px 5px #000;
     line-height: 1.1em;
 }
 
 #notreport .header h2 { /* a h2 in the header is a subheading */
     font-weight: normal;
     font-size: inherit;
-    text-shadow: 1px 1px 2px #000;
+    text-shadow: 1px 1px 3px #000;
     padding: 0;
     margin: 2px 0 30px;
 }
+
+/* nav  - - - - - - - - - - - - */
+/* navbar ------------------------------------------------------ */
+
+/*
+    normal background: #242732 / 36,39,50
+    darker: #1e212a / 30,33,42
+    lighter: #2e3240 / 46,50,64
+*/
+
+#notreport .navbarwrapper {
+    background: #242732;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e3240', endColorstr='#1e212a');
+    background: -webkit-linear-gradient(top, rgba(46,50,64, 1) 0%, rgba(30,33,42, 1) 100%);
+    background: -moz-linear-gradient(top, rgba(46,50,64, 1) 0%, rgba(30,33,42, 1) 100%);
+    background: -o-linear-gradient(top, rgba(46,50,64, 1) 0%, rgba(30,33,42, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(46,50,64, 1) 0%, rgba(30,33,42, 1) 100%);
+    background: linear-gradient(top, rgba(46,50,64, 1) 0%, rgba(30,33,42, 1) 100%);
+}
+
+#notreport .nav {
+    margin: 0 4% 0;  /* 8% text border = 4% margin, 4% padding */
+
+    padding: 0 4%;
+    border-left:  1px solid rgba(46,50,64, 0.75);
+    border-right: 1px solid rgba(30,33,42, 0.75);
+}
+
+#notreport .nav li {
+    padding: 0;
+    margin: 0;
+    display: block;
+    float: left;
+    border: none;
+}
+
+#notreport .nav li a {
+    display: block;
+    float: left;
+    height: 2em;
+    padding: 0 2em;
+    margin: 0;
+
+    line-height: 2em;
+    font-size: 90%;
+    color: #efe6c5;
+    text-shadow: 0 1px 0 rgba(46,50,64, 1), 0 -1px 0 rgba(30,33,42, 1);
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+
+    border: 1px solid rgba(46,50,64, 1);
+    border-right: 1px solid rgba(30,33,42, 1);
+    border-bottom: 1px solid rgba(30,33,42, 1);
+    white-space: nowrap;
+    overflow: hidden;
+
+    -moz-transition: opacity 0.1s ease-in-out;
+    -webkit-transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
+}
+
+#notreport .nav li a:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    text-decoration: none;
+}
+
+#notreport .nav li a.current {
+    opacity: 1;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e212a', endColorstr='#2e3240');
+    background: -webkit-linear-gradient(top, rgba(30,33,42, 1) 0%, rgba(46,50,64, 1) 100%);
+    background: -moz-linear-gradient(top, rgba(30,33,42, 1) 0%, rgba(46,50,64, 1) 100%);
+    background: -o-linear-gradient(top, rgba(30,33,42, 1) 0%, rgba(46,50,64, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(30,33,42, 1) 0%, rgba(46,50,64, 1) 100%);
+    background: linear-gradient(top, rgba(30,33,42, 1) 0%, rgba(46,50,64, 1) 100%);
+    border:  1px solid rgba(46,50,64, 1);
+    border-left: 1px solid rgba(30,33,42, 1);
+    border-top: 1px solid rgba(30,33,42, 1);
+}
+
+
+/* page content - - - - - - - - */
+
+
+#notreport h2 {
+    font-size: 150%;
+    padding: 2em 0 0.33em;
+    margin-bottom: 1em;
+}
+
+#notreport .maincontent {
+    background: #efe6c5;
+    margin: 0 4% 0;  /* 8% text border = 4% margin, 4% padding */
+    padding: 1em 4% 5em;
+    line-height: 1.4;
+}
+
+/*
+    normal: efe6c5 / 239,230,197
+    lighter: fff5d1 / 255,245,209 (or just #fff)
+    darker: cfc6a9 / 207,198,169
+*/
+
+#notreport .maincontent h2 {
+    text-shadow: 0 1px 0 #fff, 0 -1px 0 #cfc6a9;
+    border-bottom: 2px groove rgba(255,255,255, 0.45);
+}
+
+#notreport td, #notreport th {
+    padding: 0.5em;
+}
+
+#notreport .intro {
+    margin: 2em 0;
+}
+
+#notreport p, #notreport ul {
+    margin: 0.67em 0 0;
+}
+
+#notreport ul {
+    margin-left: 2em;
+}
+
+#notreport li {
+    margin: 0.33em 0;
+}
+
 
 /* form - - - - - - - - - - - - */
 
@@ -90,6 +218,8 @@ a:hover {
     background: #efe6c5;
     padding: 3em 4%; /* 8% text border = 4% margin, 4% padding */
     margin: 0 4% 0;  /* 8% text border = 4% margin, 4% padding */
+    padding: 3em 0;
+    margin: 0;
 }
 
 #kickoffform .onefield {
@@ -161,32 +291,59 @@ a:hover {
     opacity: 0.5;
 }
 
-/* footer and credits ----------------------------------------- */
 
-.footer a {
-    color: #abf;
-}
+/* credits ---------------------------------------------------- */
 
-.footer {
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 3em 1em;
+.maincontent .bottom.credits {
+    margin: 2em -4.7619% -5em; /* bottom margin = (-1) * .maincontent bottom margin */
 }
 
 .credits {
     background: white;
     padding: 1.5em 3em 2em;
     text-align: center;
-    -webkit-box-shadow: inset 0 1em 1.5em -0.5em #000, inset 0 -0.8em 1.5em -0.5em #000;
-    -moz-box-shadow:    inset 0 1em 1.5em -0.5em #000, inset 0 -0.8em 1.5em -0.5em #000;
-    box-shadow:         inset 0 1em 1.5em -0.5em #000, inset 0 -0.8em 1.5em -0.5em #000;
-}   
+    -webkit-box-shadow: inset 0 1em 1.5em -0.5em rgba(0,0,0, 0.5), inset 0 -0.8em 1.5em -0.5em rgba(0,0,0, 0.5);
+    -moz-box-shadow:    inset 0 1em 1.5em -0.5em rgba(0,0,0, 0.5), inset 0 -0.8em 1.5em -0.5em rgba(0,0,0, 0.5);
+    box-shadow:         inset 0 1em 1.5em -0.5em rgba(0,0,0, 0.5), inset 0 -0.8em 1.5em -0.5em rgba(0,0,0, 0.5);
+}
 
 .credits a {
     margin: 1em 2em;
-    display: inline-block; 
-}   
-    
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .credits img { border: none; }
+
+
+/* footer ----------------------------------------------------- */
+
+.footer-wrapper {
+    text-align: center;
+    font-size: 80%;
+    margin: 0 4% 2em;  /* 8% text border = 4% margin, 4% padding */
+    padding: 3px 4% 6px;
+    background: #242732;
+    color: rgba(255,255,255, 1);
+}
+
+.footer img {
+    vertical-align: middle;
+}
+.footer a {
+    color: rgba(170,187,255, 1);
+}
+
+.footer {
+    opacity: 0.5;
+    -moz-transition: opacity 0.33s ease-in-out;
+    -webkit-transition: opacity 0.33s ease-in-out;
+    transition: opacity 0.33s ease-in-out;
+}
+
+.footer:hover {
+    opacity: 1;
+}
+
+
 

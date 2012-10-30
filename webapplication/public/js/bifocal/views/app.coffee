@@ -68,11 +68,10 @@ define [
             html_form = AppView.form { formcontent: form_parts.join('') }
 
             @$el.append $('<div id="notreport">' + html_form + '</div>')
-            @$el.append $('<div id="report"></div>')
 
             @updateReportButton()
 
-            $('body').append @$el
+            $('.maincontent').append @$el
         # ----------------------------------------------------------------
         regionDataUrl: (region) ->
             # did we get a region id or actual model?
@@ -249,6 +248,8 @@ define [
 
             if @format == 'preview'
                 # this appends the report into the current window
+                $('body').append $('<div id="report"></div>')
+
                 @$('#report').append html
 
             else
@@ -291,16 +292,8 @@ define [
         # templates here
         # ----------------------------------------------------------------
         form: _.template """
-            <div class="header clearfix">
-                <a href="http://tropicaldatahub.org/"><img class="logo" 
-                    src="<%= window.window.settings.siteUrlPrefix %>images/tdhlogo.png"></a>
-                <h1>Bifocal</h1>
-                <h2>Reports on Climate Change and Biodiversity</h2>
-            </div>
             <form id="kickoffform" class="clearfix">
                 <%= formcontent %>
-                <div class="onefield gobutton formsection">
-                </div>
             </form>
         """
         # ----------------------------------------------------------------

@@ -11,14 +11,48 @@ class Bifocal < Sinatra::Base
 		@regions = Region.all
 		@dataurlprefix = Settings::DataUrlPrefix
 		@siteurlprefix = Settings::SiteUrlPrefix
-		haml :frontpage
+		@siteurlprefix = Settings::SiteUrlPrefix
+
+		@pagelist = {
+			:about => 'about Bifocal',
+			:using => 'using Bifocal',
+			:science => 'the science',
+			:credits => 'credits'
+		}
+
+		# fetch the page content from the corresponding html file
+		@content = haml :frontpage
+
+		# render the page using the page-partial
+		haml :'page.partial'
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	# serve the about, using, science, and credits pages
+	get %r{(about|using|science|credits)\/?} do
+		@siteurlprefix = Settings::SiteUrlPrefix
+
+		# @page is the page they wanted
+		@page = params[:captures].first
+
+		@pagelist = {
+			:about => 'about Bifocal',
+			:using => 'using Bifocal',
+			:science => 'the science',
+			:credits => 'credits'
+		}
+
+		# fetch the page content from the corresponding html file
+		@content = File.read "pages/#{@page}.html"
+
+		# render the page using the page-partial
+		haml :'page.partial'
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	get "/region/:regionid/:year/speciestables.:format" do
 
 		region = Region.get params[:regionid]
 		year = params[:year]
-		
+
 		answer = ["<h2>Biodiversity Details</h2>\n"]
 
 		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
@@ -207,7 +241,7 @@ class Bifocal < Sinatra::Base
 	        content << "<w:Zoom>90</w:Zoom>"
 	        content << "<w:DoNotOptimizeForBrowser/>"
 	        content << "</w:WordDocument>"
-	        content << "</xml>" 
+	        content << "</xml>"
 	        content << "<![endif]-->"
 
 			# add in the css files specified by the url call
