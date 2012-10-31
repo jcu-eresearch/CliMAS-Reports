@@ -232,7 +232,7 @@
         if (this.format === 'preview') {
           $('body').append($('<div id="report"></div>'));
           $('#report').append(html);
-          $('#report').scrollIntoView(true);
+          $('#report').get(0).scrollIntoView(true);
         } else {
           this.postback(html, 'report', this.format);
         }
