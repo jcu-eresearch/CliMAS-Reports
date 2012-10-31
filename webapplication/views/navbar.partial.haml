@@ -3,6 +3,7 @@
         %li
             %a{ :href => "#{@siteurlprefix}", :class => (@page ? ('') : ('current')) }
                 generate reports
-        - @pagelist.each do |linkpage, linkdesc|
+        - @pagelist.each do |page|
+
             %li
-                %a{ :href => "#{@siteurlprefix}#{linkpage}", :class => ((@page && @page.to_s == linkpage.to_s) ? ('current') : ('')) }= linkdesc
+                %a{ :href => "#{@siteurlprefix}#{page[:name]}", :class => ((@page && @page.to_s == page[:name]) ? ('current') : ('')) }= page[:desc]

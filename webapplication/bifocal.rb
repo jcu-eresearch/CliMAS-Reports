@@ -13,12 +13,12 @@ class Bifocal < Sinatra::Base
 		@siteurlprefix = Settings::SiteUrlPrefix
 		@custommapsurl = Settings::CustomMapsUrl
 
-		@pagelist = {
-			:about => 'about Bifocal',
-			:using => 'using Bifocal',
-			:science => 'the science',
-			:credits => 'credits'
-		}
+		@pagelist = [
+			{ :name => 'about',   :desc => 'about Bifocal' },
+			{ :name => 'using',   :desc => 'using Bifocal' },
+			{ :name => 'science', :desc => 'the science' },
+			{ :name => 'credits', :desc => 'credits' }
+		]
 
 		# fetch the page content from the corresponding html file
 		@content = haml :frontpage
@@ -40,12 +40,12 @@ class Bifocal < Sinatra::Base
 		# @page is the page they wanted
 		@page = params[:captures].first
 
-		@pagelist = {
-			:about => 'about Bifocal',
-			:using => 'using Bifocal',
-			:science => 'the science',
-			:credits => 'credits'
-		}
+		@pagelist = [
+			{ :name => 'about',   :desc => 'about Bifocal' },
+			{ :name => 'using',   :desc => 'using Bifocal' },
+			{ :name => 'science', :desc => 'the science' },
+			{ :name => 'credits', :desc => 'credits' }
+		]
 
 		# fetch the page content from the corresponding html file
 		@content = File.read "pages/#{@page}.html"
