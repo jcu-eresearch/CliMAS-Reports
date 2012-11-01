@@ -5,9 +5,9 @@ require 'pp'
 line = 0
 pres = {}
 
-sqlfile = File.open "presence_lists.sql", 'w'
+sqlfile = File.open "bird_presence_lists.sql", 'w'
 
-CSV.foreach('region-preslist.csv', {:headers => true}) do |row|
+CSV.foreach('bird.summary.csv', {:headers => true}) do |row|
 
     line += 1
 
@@ -15,7 +15,7 @@ CSV.foreach('region-preslist.csv', {:headers => true}) do |row|
 
     pres[preskey] ||= {}
 
-    years = [ 
+    years = [
         row['X2015'], row['X2025'], row['X2035'], row['X2045'],
         row['X2055'], row['X2065'], row['X2075'], row['X2085']
     ]
