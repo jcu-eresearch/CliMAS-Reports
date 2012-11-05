@@ -1,9 +1,9 @@
 .navbarwrapper.clearfix
     %ul.nav.clearfix
         %li
-            %a{ :href => "#{@siteurlprefix}", :class => (@page ? ('') : ('current')) }
+            %a{ :href => url("/"), :class => (@page ? ('') : ('current')) }
                 generate reports
         - @pagelist.each do |page|
 
             %li
-                %a{ :href => "#{@siteurlprefix}#{page[:name]}", :class => ((@page && @page.to_s == page[:name]) ? ('current') : ('')) }= page[:desc]
+                %a{ :href => url("#{page[:name]}"), :class => ((@page && @page.to_s == page[:name]) ? ('current') : ('')) }= page[:desc]

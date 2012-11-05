@@ -23,12 +23,14 @@
       return result.join("");
     },
     _splitDoc: function(doc) {
-      var bits, part, parts, rawparts, _i, _len;
+      var bits, closeregex, openregex, part, parts, rawparts, _i, _len;
       parts = [];
-      rawparts = doc.split(/[^\S\n]*\[\[\s*/);
+      openregex = /\[\[\s*/;
+      rawparts = doc.split(openregex);
       for (_i = 0, _len = rawparts.length; _i < _len; _i++) {
         part = rawparts[_i];
-        bits = part.split(/\s*\]\][^\S\n]*/);
+        closeregex = /\s*\]\][^\S\n]*/;
+        bits = part.split(closeregex);
         if (bits.length > 1) {
           parts.push({
             condition: bits[0],
@@ -54,20 +56,20 @@
         },
         "([\\s\\S]*)\\s+(and|AND)\\s+([\\s\\S]*)": function(matches) {
           var left, right;
-          left = RA._conditionHolds(matches[1], data);
-          right = RA._conditionHolds(matches[3], data);
+          left = RA._conditionHolds(matches[1], data, log_callback);
+          right = RA._conditionHolds(matches[3], data, log_callback);
           return left && right;
         },
         "([\\s\\S]*)\\s+(or|OR)\\s+([\\s\\S]*)": function(matches) {
           var left, right;
-          left = RA._conditionHolds(matches[1], data);
-          right = RA._conditionHolds(matches[3], data);
+          left = RA._conditionHolds(matches[1], data, log_callback);
+          right = RA._conditionHolds(matches[3], data, log_callback);
           return left || right;
         },
         "(\\S+)\\s*(<|>|==?|!==?|<>)\\s*(\\S+)": function(matches) {
           var left, right;
-          left = RA._resolveTerm(matches[1], data);
-          right = RA._resolveTerm(matches[3], data);
+          left = RA._resolveTerm(matches[1], data, log_callback);
+          right = RA._resolveTerm(matches[3], data, log_callback);
           switch (matches[2]) {
             case '<':
               return left < right;
@@ -105,14 +107,23 @@
       }
       return filledOut;
     },
-    _resolveTerm: function(term, data) {
-      if (isNaN(term)) {
-        if (term.indexOf("$$") !== -1) {
-          term = RA._fillOut(term, data);
+    _resolveTerm: function(term, data, log_callback) {
+      var value;
+      if (term.slice(0, 2) === "$$") {
+        term = term.slice(2);
+      }
+      if (term.indexOf("$$") !== -1) {
+        term = RA._fillOut(term, data);
+      }
+      if (data[term]) {
+        value = data[term];
+        if (isNaN(value)) {
+          return value;
+        } else {
+          return parseFloat(value);
         }
-        return data[term];
       } else {
-        return parseInt(term);
+        return parseFloat(term);
       }
     }
   };
