@@ -137,20 +137,18 @@ define [
 
             @updateProgress()
 
-            # fresh data every time
+            # fresh every time
+            @doc = null
             @data = null
-
-            # fresh appendix every time
             @appendix = null
 
-            # re-use the old doc if we already fetched it
-            @fetchDoc() unless @doc
+            @fetchDoc()
             @fetchData()
             @fetchAppendix()
 
             @updateProgress()
 
-            false
+            e.preventDefault()
         # ----------------------------------------------------------------
         updateProgress: () ->
             fetchlist = {
@@ -172,10 +170,11 @@ define [
             if done
                 $button.removeAttr 'disabled'
                 $button.css 'cursor', 'pointer'
+                @$('.generate').html 'generate report'
             else
                 $button.attr 'disabled', 'disabled'
                 $button.css 'cursor', 'wait'
-            @$('.generate').html progress
+                @$('.generate').html progress
         # ----------------------------------------------------------------
         fetchData: () ->
             if @data
@@ -185,11 +184,11 @@ define [
                 $.ajax data_url, {
                     context: this
                     dataType: 'json'
-                    success: (data) ->
+                    success: (data) =>
                         @data = data
                         @progress()
-                    error: () ->
-                        console.log "oops didn't get data"
+                    error: () =>
+                        alert "Could not fetch data for this region.\nPlease reload the page and try again."
                 }
         # ----------------------------------------------------------------
         fetchDoc: () ->
@@ -200,28 +199,26 @@ define [
                 $.ajax doc_url, {
                     context: this
                     dataType: 'text'
-                    success: (data) ->
+                    success: (data) =>
                         @doc = data
                         @progress()
-                    error: () ->
-                        console.log "oops didn't get doc"
+                    error: () =>
+                        alert "Could not fetch the report template.\nPlease reload the page and try again."
                 }
         # ----------------------------------------------------------------
         fetchAppendix: () ->
             if @appendix
                 @progress
             else
-#                @appendix = "<p>(appendix will go here)</p>"
-
                 appendix_url = window.settings.siteUrlPrefix + "region/#{@selected_region}/#{@year}/speciestables.html"
                 $.ajax appendix_url, {
                     context: this
                     dataType: 'html'
-                    success: (data) ->
+                    success: (data) =>
                         @appendix = data
                         @progress()
-                    error: () ->
-                        console.log "oops didn't get appendix"
+                    error: () =>
+                        alert "Could not fetch species lists for this region.\nPlease reload the page and try again."
                 }
         # ----------------------------------------------------------------
         progress: () ->
@@ -239,8 +236,6 @@ define [
             @data['rg_short_name'] = the_region.get 'name'
             @data['rg_long_name'] = the_region.get 'long_name'
 
-            console.log @data
-
             resolution = RA.resolve @doc, @data
             html = new Showdown.converter().makeHtml resolution
 
@@ -249,9 +244,8 @@ define [
             if @format == 'preview'
                 # this appends the report into the current window
                 $('body').append $('<div id="report"></div>')
-                $('#report').append html
+                $('#report').html html
                 $('#report').get(0).scrollIntoView true
-
 
             else
                 # this posts the report content back to the server so it returns as a url document

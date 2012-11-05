@@ -115,15 +115,14 @@
         this.$('#report').empty();
         document.body.style.cursor = 'wait';
         this.updateProgress();
+        this.doc = null;
         this.data = null;
         this.appendix = null;
-        if (!this.doc) {
-          this.fetchDoc();
-        }
+        this.fetchDoc();
         this.fetchData();
         this.fetchAppendix();
         this.updateProgress();
-        return false;
+        return e.preventDefault();
       },
       updateProgress: function() {
         var $button, done, fetchlist, item, name, progress;
@@ -149,14 +148,16 @@
         if (done) {
           $button.removeAttr('disabled');
           $button.css('cursor', 'pointer');
+          return this.$('.generate').html('generate report');
         } else {
           $button.attr('disabled', 'disabled');
           $button.css('cursor', 'wait');
+          return this.$('.generate').html(progress);
         }
-        return this.$('.generate').html(progress);
       },
       fetchData: function() {
-        var data_url;
+        var data_url,
+          _this = this;
         if (this.data) {
           return this.progress;
         } else {
@@ -165,17 +166,18 @@
             context: this,
             dataType: 'json',
             success: function(data) {
-              this.data = data;
-              return this.progress();
+              _this.data = data;
+              return _this.progress();
             },
             error: function() {
-              return console.log("oops didn't get data");
+              return alert("Could not fetch data for this region.\nPlease reload the page and try again.");
             }
           });
         }
       },
       fetchDoc: function() {
-        var doc_url;
+        var doc_url,
+          _this = this;
         if (this.doc) {
           return this.progress;
         } else {
@@ -184,17 +186,18 @@
             context: this,
             dataType: 'text',
             success: function(data) {
-              this.doc = data;
-              return this.progress();
+              _this.doc = data;
+              return _this.progress();
             },
             error: function() {
-              return console.log("oops didn't get doc");
+              return alert("Could not fetch the report template.\nPlease reload the page and try again.");
             }
           });
         }
       },
       fetchAppendix: function() {
-        var appendix_url;
+        var appendix_url,
+          _this = this;
         if (this.appendix) {
           return this.progress;
         } else {
@@ -203,11 +206,11 @@
             context: this,
             dataType: 'html',
             success: function(data) {
-              this.appendix = data;
-              return this.progress();
+              _this.appendix = data;
+              return _this.progress();
             },
             error: function() {
-              return console.log("oops didn't get appendix");
+              return alert("Could not fetch species lists for this region.\nPlease reload the page and try again.");
             }
           });
         }
@@ -225,13 +228,12 @@
         this.data['rg_url'] = this.regionDataUrl(the_region);
         this.data['rg_short_name'] = the_region.get('name');
         this.data['rg_long_name'] = the_region.get('long_name');
-        console.log(this.data);
         resolution = RA.resolve(this.doc, this.data);
         html = new Showdown.converter().makeHtml(resolution);
         html += this.appendix;
         if (this.format === 'preview') {
           $('body').append($('<div id="report"></div>'));
-          $('#report').append(html);
+          $('#report').html(html);
           $('#report').get(0).scrollIntoView(true);
         } else {
           this.postback(html, 'report', this.format);
