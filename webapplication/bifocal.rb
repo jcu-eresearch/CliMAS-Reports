@@ -20,6 +20,13 @@ class Bifocal < Sinatra::Base
 			{ :name => 'credits', :desc => 'credits' }
 		]
 
+		@pagelist = [
+			{ :name => 'about',   :desc => 'about Report Tool' },
+			{ :name => 'using',   :desc => 'using Report Tool' },
+			{ :name => 'science', :desc => 'the science' },
+			{ :name => 'credits', :desc => 'credits' }
+		]
+
 		# fetch the page content from the corresponding html file
 		@content = haml :frontpage
 
@@ -43,6 +50,13 @@ class Bifocal < Sinatra::Base
 		@pagelist = [
 			{ :name => 'about',   :desc => 'about Bifocal' },
 			{ :name => 'using',   :desc => 'using Bifocal' },
+			{ :name => 'science', :desc => 'the science' },
+			{ :name => 'credits', :desc => 'credits' }
+		]
+
+		@pagelist = [
+			{ :name => 'about',   :desc => 'about Report Tool' },
+			{ :name => 'using',   :desc => 'using Report Tool' },
 			{ :name => 'science', :desc => 'the science' },
 			{ :name => 'credits', :desc => 'credits' }
 		]
