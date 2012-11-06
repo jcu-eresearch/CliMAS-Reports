@@ -23,16 +23,18 @@
         type_choices = [];
         this.region_types.each(function(rt) {
           var info, region_list;
-          region_list = [];
-          me.regions.each(function(r) {
-            if (r.get('region_type_regiontype') === rt.get('regiontype')) {
-              return region_list.push(AppView.region_option(r.attributes));
-            }
-          });
-          info = _.extend({
-            regions: region_list.join('')
-          }, rt.attributes);
-          return type_choices.push(AppView.type_choice(info));
+          if (rt.get('regiontype') !== 'National') {
+            region_list = [];
+            me.regions.each(function(r) {
+              if (r.get('region_type_regiontype') === rt.get('regiontype')) {
+                return region_list.push(AppView.region_option(r.attributes));
+              }
+            });
+            info = _.extend({
+              regions: region_list.join('')
+            }, rt.attributes);
+            return type_choices.push(AppView.type_choice(info));
+          }
         });
         form_parts.push(AppView.type_chooser({
           regiontypes: type_choices.join('')

@@ -31,15 +31,19 @@ define [
             type_choices = []
             @region_types.each (rt) ->
 
-                # make a list of that region type's regions
-                region_list = []
-                me.regions.each (r) ->
-                    if r.get('region_type_regiontype') == rt.get('regiontype')
-                        region_list.push AppView.region_option(r.attributes)
+                # skip countries for now
+                # TODO add this back in
+                if rt.get('regiontype') isnt 'National'
 
-                # merge the region list into the region type attributes
-                info = _.extend({regions: region_list.join('')}, rt.attributes)
-                type_choices.push AppView.type_choice(info)
+                    # make a list of that region type's regions
+                    region_list = []
+                    me.regions.each (r) ->
+                        if r.get('region_type_regiontype') == rt.get('regiontype')
+                            region_list.push AppView.region_option(r.attributes)
+
+                    # merge the region list into the region type attributes
+                    info = _.extend({regions: region_list.join('')}, rt.attributes)
+                    type_choices.push AppView.type_choice(info)
 
             form_parts.push AppView.type_chooser({ regiontypes: type_choices.join('') })
 
