@@ -292,7 +292,10 @@ define [
         # ----------------------------------------------------------------
         form: _.template """
             <p class="toolintro">
-                Get a regional report on projected changes in temperature, rainfall, and species composition for a selected year.
+                Get a regional report on projected changes in temperature,
+                rainfall, and species composition for a selected year.
+                <br>Species included are land-based Australian birds, mammals,
+                reptiles and amphibians.
             </p>
             <form id="kickoffform" class="clearfix">
                 <%= formcontent %>

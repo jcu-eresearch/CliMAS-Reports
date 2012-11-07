@@ -259,7 +259,7 @@
         return form.appendTo('body').submit();
       }
     }, {
-      form: _.template("<p class=\"toolintro\">\n    Get a regional report on projected changes in temperature, rainfall, and species composition for a selected year.\n</p>\n<form id=\"kickoffform\" class=\"clearfix\">\n    <%= formcontent %>\n</form>"),
+      form: _.template("<p class=\"toolintro\">\n    Get a regional report on projected changes in temperature,\n    rainfall, and species composition for a selected year.\n    <br>Species included are land-based Australian birds, mammals,\n    reptiles and amphibians.\n</p>\n<form id=\"kickoffform\" class=\"clearfix\">\n    <%= formcontent %>\n</form>"),
       format_option: _.template("<label><input type=\"radio\" class=\"format\" name=\"formatradio\" value=\"<%= format %>\">\n    <%= formatname %>\n</label>"),
       format_chooser: _.template("<div class=\"onefield formatselection formsection\">\n    <h3>Select an output format</h3>\n    <%= formats %>\n    <button class=\"generate\" disabled=\"disabled\">generate report</button>\n</div>"),
       year_option: _.template("<label><input type=\"radio\" class=\"year\" name=\"yearradio\" value=\"<%= year %>\">\n    <%= year %>\n</label>"),
