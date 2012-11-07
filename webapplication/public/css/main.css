@@ -80,7 +80,7 @@ a:hover {
     font-size: inherit;
     text-shadow: 1px 1px 3px #000;
     padding: 0;
-    margin: 2px 0 30px;
+    margin: 2px 0 24px;
 }
 
 /* nav  - - - - - - - - - - - - */
@@ -162,14 +162,31 @@ a:hover {
     border-top: 1px solid rgba(30,33,42, 1);
 }
 
-
 /* page content - - - - - - - - */
-
 
 #notreport h2 {
     font-size: 150%;
     padding: 2em 0 0.33em;
     margin-bottom: 1em;
+}
+
+#notreport .toolintro {
+    xbackground: rgba(207,198,169, 0.1);
+    xborder: 2px groove rgba(255,255,255, 0.45);
+    xborder: 1px inset rgba(255,255,255, 0.45);
+    -xmoz-border-radius: 1em;
+    -xwebkit-border-radius: 1em;
+    xborder-radius: 1em;
+
+    text-align: center;
+    font-size: 90%;
+    padding: 0 0 1em;
+    margin: 0 auto 2em;
+    border-bottom: 2px groove rgba(255,255,255, 0.45);
+}
+
+#notreport .maincontent .toolintro {
+    padding-top: 2.2em;
 }
 
 #notreport .maincontent {
@@ -220,6 +237,8 @@ a:hover {
     margin: 0 4% 0;  /* 8% text border = 4% margin, 4% padding */
     padding: 3em 0;
     margin: 0;
+
+    padding-top: 0;
 }
 
 #kickoffform .onefield {

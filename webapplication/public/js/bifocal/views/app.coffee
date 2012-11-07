@@ -291,6 +291,9 @@ define [
         # templates here
         # ----------------------------------------------------------------
         form: _.template """
+            <p class="toolintro">
+                Get a regional report on projected changes in temperature, rainfall, and species composition for a selected year.
+            </p>
             <form id="kickoffform" class="clearfix">
                 <%= formcontent %>
             </form>
