@@ -50,7 +50,6 @@
         }));
         formats = [];
         _ref = {
-          'msword-html': 'MS Word-compatible HTML document',
           'html': 'Clean HTML document',
           'preview': 'Preview in this browser window'
         };
