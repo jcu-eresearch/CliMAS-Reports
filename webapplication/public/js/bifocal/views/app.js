@@ -148,7 +148,7 @@
         }
         $button = this.$('.generate');
         if (done) {
-          return exitLoadingState();
+          return this.exitLoadingState();
         } else if (this.loading) {
           return this.$('.generate').html(progress);
         }
@@ -218,14 +218,12 @@
       },
       enterLoadingState: function() {
         this.loading = true;
-        console.log('enter loading state');
         document.body.style.cursor = 'wait';
         this.$('.generate').attr('disabled', 'disabled');
         return this.$('.generate').css('cursor', 'wait');
       },
       exitLoadingState: function() {
         this.loading = false;
-        console.log('exit loading state');
         document.body.style.cursor = 'default';
         this.$('.generate').removeAttr('disabled').css('cursor', 'pointer');
         return this.$('.generate').html('generate report');

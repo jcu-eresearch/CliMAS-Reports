@@ -172,7 +172,7 @@ define [
                 progress += ' '
             $button = @$('.generate')
             if done
-                exitLoadingState()
+                @exitLoadingState()
             else if @loading
                 @$('.generate').html progress
         # ----------------------------------------------------------------
@@ -242,14 +242,12 @@ Let us know if you think we're missing data for your region.
         # ----------------------------------------------------------------
         enterLoadingState: () ->
             @loading = true
-            console.log 'enter loading state'
             document.body.style.cursor = 'wait'
             @$('.generate').attr 'disabled', 'disabled'
             @$('.generate').css 'cursor', 'wait'
         # ----------------------------------------------------------------
         exitLoadingState: () ->
             @loading = false
-            console.log 'exit loading state'
             document.body.style.cursor = 'default'
             @$('.generate').removeAttr('disabled').css 'cursor', 'pointer'
             @$('.generate').html 'generate report'
