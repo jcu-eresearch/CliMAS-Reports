@@ -60,7 +60,7 @@ define [
             formats = []
             for f, n of {
 #                'msword-html': 'MS Word-compatible HTML document'
-                'html'       : 'Clean HTML document'
+                'html'       : 'Download a HTML document'
                 'preview'    : 'Preview in this browser window'
             }
                 formats.push AppView.format_option { format: f, formatname: n }

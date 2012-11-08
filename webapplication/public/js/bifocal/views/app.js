@@ -50,7 +50,7 @@
         }));
         formats = [];
         _ref = {
-          'html': 'Clean HTML document',
+          'html': 'Download a HTML document',
           'preview': 'Preview in this browser window'
         };
         for (f in _ref) {
