@@ -14,15 +14,8 @@ class Bifocal < Sinatra::Base
 		@custommapsurl = Settings::CustomMapsUrl
 
 		@pagelist = [
-			{ :name => 'about',   :desc => 'about Bifocal' },
-			{ :name => 'using',   :desc => 'using Bifocal' },
-			{ :name => 'science', :desc => 'the science' },
-			{ :name => 'credits', :desc => 'credits' }
-		]
-
-		@pagelist = [
-			{ :name => 'about',   :desc => 'about Report Tool' },
-			{ :name => 'using',   :desc => 'using Report Tool' },
+			{ :name => 'about',   :desc => 'about Reports' },
+			{ :name => 'using',   :desc => 'using Reports' },
 			{ :name => 'science', :desc => 'the science' },
 			{ :name => 'credits', :desc => 'credits' }
 		]
@@ -35,28 +28,26 @@ class Bifocal < Sinatra::Base
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	# remove trailing slash from content pages
-	get %r{(about|using|science|credits)\/} do
+	get %r{(tools|about|using|science|credits)\/} do
 		redirect params[:captures].first
 	end
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	# serve the about, using, science, and credits pages
-	get %r{(about|using|science|credits)} do
+	get %r{(tools|about|using|science|credits)} do
 
 		@siteurlprefix = Settings::SiteUrlPrefix
 
 		# @page is the page they wanted
 		@page = params[:captures].first
 
-		@pagelist = [
-			{ :name => 'about',   :desc => 'about Bifocal' },
-			{ :name => 'using',   :desc => 'using Bifocal' },
-			{ :name => 'science', :desc => 'the science' },
-			{ :name => 'credits', :desc => 'credits' }
-		]
+		# redirect 'tools' to the CliMAS app index
+		if @page == 'tools'
+			redirect '/tools/applications'
+		end
 
 		@pagelist = [
-			{ :name => 'about',   :desc => 'about Report Tool' },
-			{ :name => 'using',   :desc => 'using Report Tool' },
+			{ :name => 'about',   :desc => 'about Reports' },
+			{ :name => 'using',   :desc => 'using Reports' },
 			{ :name => 'science', :desc => 'the science' },
 			{ :name => 'credits', :desc => 'credits' }
 		]

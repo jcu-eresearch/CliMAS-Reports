@@ -1,6 +1,8 @@
 .navbarwrapper.clearfix
     %ul.nav.clearfix
         %li
+            %a{ :href => url("/tools/applications") }
+                &laquo; CliMAS tools
             %a{ :href => url("/"), :class => (@page ? ('') : ('current')) }
                 generate reports
         - @pagelist.each do |page|
