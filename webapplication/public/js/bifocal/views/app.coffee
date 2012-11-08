@@ -137,7 +137,7 @@ define [
 
             @$('#report').empty()
 
-            document.body.style.cursor = 'wait'
+            @enterLoadingState()
 
             @updateProgress()
 
@@ -172,12 +172,8 @@ define [
                 progress += ' '
             $button = @$('.generate')
             if done
-                $button.removeAttr 'disabled'
-                $button.css 'cursor', 'pointer'
-                @$('.generate').html 'generate report'
-            else
-                $button.attr 'disabled', 'disabled'
-                $button.css 'cursor', 'wait'
+                exitLoadingState()
+            else if @loading
                 @$('.generate').html progress
         # ----------------------------------------------------------------
         fetchData: () ->
@@ -192,7 +188,14 @@ define [
                         @data = data
                         @progress()
                     error: () =>
-                        alert "Could not fetch data for this region.\nPlease reload the page and try again."
+                        @exitLoadingState()
+                        alert """
+Could not fetch data for this region.
+
+Due to modelling constraints, we can only report on continental Australia.
+
+Let us know if you think we're missing data for your region.
+"""
                 }
         # ----------------------------------------------------------------
         fetchDoc: () ->
@@ -207,7 +210,12 @@ define [
                         @doc = data
                         @progress()
                     error: () =>
-                        alert "Could not fetch the report template.\nPlease reload the page and try again."
+                        @exitLoadingState()
+                        alert """
+Could not fetch the report template.
+
+This should only happen if your network is down; if you're sure your connection is okay, we'd appreciate it if you reported this problem to the developers.
+"""
                 }
         # ----------------------------------------------------------------
         fetchAppendix: () ->
@@ -222,8 +230,29 @@ define [
                         @appendix = data
                         @progress()
                     error: () =>
-                        alert "Could not fetch species lists for this region.\nPlease reload the page and try again."
+                        @exitLoadingState()
+                        alert """
+Could not fetch data for this region.
+
+Due to modelling constraints, we can only report on continental Australia.
+
+Let us know if you think we're missing data for your region.
+"""
                 }
+        # ----------------------------------------------------------------
+        enterLoadingState: () ->
+            @loading = true
+            console.log 'enter loading state'
+            document.body.style.cursor = 'wait'
+            @$('.generate').attr 'disabled', 'disabled'
+            @$('.generate').css 'cursor', 'wait'
+        # ----------------------------------------------------------------
+        exitLoadingState: () ->
+            @loading = false
+            console.log 'exit loading state'
+            document.body.style.cursor = 'default'
+            @$('.generate').removeAttr('disabled').css 'cursor', 'pointer'
+            @$('.generate').html 'generate report'
         # ----------------------------------------------------------------
         progress: () ->
             @updateProgress()

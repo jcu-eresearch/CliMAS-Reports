@@ -115,7 +115,7 @@
       },
       startReport: function(e) {
         this.$('#report').empty();
-        document.body.style.cursor = 'wait';
+        this.enterLoadingState();
         this.updateProgress();
         this.doc = null;
         this.data = null;
@@ -148,12 +148,8 @@
         }
         $button = this.$('.generate');
         if (done) {
-          $button.removeAttr('disabled');
-          $button.css('cursor', 'pointer');
-          return this.$('.generate').html('generate report');
-        } else {
-          $button.attr('disabled', 'disabled');
-          $button.css('cursor', 'wait');
+          return exitLoadingState();
+        } else if (this.loading) {
           return this.$('.generate').html(progress);
         }
       },
@@ -172,7 +168,8 @@
               return _this.progress();
             },
             error: function() {
-              return alert("Could not fetch data for this region.\nPlease reload the page and try again.");
+              _this.exitLoadingState();
+              return alert("Could not fetch data for this region.\n\nDue to modelling constraints, we can only report on continental Australia.\n\nLet us know if you think we're missing data for your region.");
             }
           });
         }
@@ -192,7 +189,8 @@
               return _this.progress();
             },
             error: function() {
-              return alert("Could not fetch the report template.\nPlease reload the page and try again.");
+              _this.exitLoadingState();
+              return alert("Could not fetch the report template.\n\nThis should only happen if your network is down; if you're sure your connection is okay, we'd appreciate it if you reported this problem to the developers.");
             }
           });
         }
@@ -212,10 +210,25 @@
               return _this.progress();
             },
             error: function() {
-              return alert("Could not fetch species lists for this region.\nPlease reload the page and try again.");
+              _this.exitLoadingState();
+              return alert("Could not fetch data for this region.\n\nDue to modelling constraints, we can only report on continental Australia.\n\nLet us know if you think we're missing data for your region.");
             }
           });
         }
+      },
+      enterLoadingState: function() {
+        this.loading = true;
+        console.log('enter loading state');
+        document.body.style.cursor = 'wait';
+        this.$('.generate').attr('disabled', 'disabled');
+        return this.$('.generate').css('cursor', 'wait');
+      },
+      exitLoadingState: function() {
+        this.loading = false;
+        console.log('exit loading state');
+        document.body.style.cursor = 'default';
+        this.$('.generate').removeAttr('disabled').css('cursor', 'pointer');
+        return this.$('.generate').html('generate report');
       },
       progress: function() {
         this.updateProgress();
