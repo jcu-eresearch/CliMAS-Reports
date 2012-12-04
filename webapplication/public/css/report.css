@@ -108,10 +108,9 @@ body {
 
 #report table.specieslist td {
     margin: 1px 0;
-    padding: 0;
+    padding: 2pt 0 2pt 0.5em;
+    text-indent: -0.5em;
     font-size: 8pt;
-    line-height: 1.0;
+    line-height: 0.9;
     text-align: left;
-    padding-left: 0.75em;
-    text-indent: -0.75em;
 }

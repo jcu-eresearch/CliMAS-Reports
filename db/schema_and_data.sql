@@ -1165,15 +1165,6 @@ insert into species values(null, "mammals", null, "Zyzomys pedunculatus", null);
 insert into species values(null, "mammals", null, "Zyzomys woodwardi", null);
 
 
-CREATE TABLE "presences" (
-    "year" INTEGER NOT NULL,
-    "scenario" VARCHAR(4) NOT NULL,
-    "presence" VARCHAR(4),
-    "species_id" INTEGER NOT NULL,
-    "region_id" INTEGER NOT NULL,
-    PRIMARY KEY("year", "scenario", "species_id", "region_id")
-);
-
 CREATE TABLE "presence_lists" (
 
     "species_id" INTEGER NOT NULL,
@@ -1205,9 +1196,6 @@ CREATE INDEX "index_presence_lists_species" ON "presence_lists" ("species_id");
 
 CREATE INDEX "index_regions_region_type" ON "regions" ("region_type_regiontype");
 CREATE INDEX "index_regions_shapefile_id" ON "regions" ("shapefile_id");
-
-CREATE INDEX "index_presences_species" ON "presences" ("species_id");
-CREATE INDEX "index_presences_region" ON "presences" ("region_id");
 
 create index "index_species_scientific_name" on "species" ("scientific_name");
 create index "index_species_class" on "species" ("class");

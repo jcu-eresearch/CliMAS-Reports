@@ -13,6 +13,10 @@ module Settings
     DatabaseConnectionString = "sqlite3://#{Dir.pwd}/../db/development.sqlite"
 #    DatabaseConnectionString = "sqlite3://#{Dir.pwd}/../db/test.sqlite"
 
+    # the file path that comes before ..."regions/NRM_My_Favourite_Region/data.json"
+    # For example:
+    #    DataFilePrefix = '/home/TDH/data/tool3/assets/data/'
+    DataFilePrefix = '/home/TDH/data/Gilbert/bifocal/'
 
     # the URL prefix that comes before ..."regions/NRM_My_Favourite_Region/figure1.png"
     # For example:
