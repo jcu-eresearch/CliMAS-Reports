@@ -111,20 +111,20 @@ define [
                 $('#chosen_' + $(elem).val()).css "visibility", "hidden"
 
             # reset the region to the selected one for this type
-            @changeRegion { srcElement: $('#chosen_' + selected_region_type) }
+            @changeRegion { target: $('#chosen_' + selected_region_type) }
         # ----------------------------------------------------------------
         changeRegion: (e) ->
-            @selected_region = $(e.srcElement).val()
+            @selected_region = $(e.target).val()
             if @selected_region == "invalid"
                 @selected_region = null
             @updateReportButton()
         # ----------------------------------------------------------------
         changeYear: (e) ->
-            @year = $(e.srcElement).val()
+            @year = $(e.target).val()
             @updateReportButton()
         # ----------------------------------------------------------------
         changeFormat: (e) ->
-            @format = $(e.srcElement).val()
+            @format = $(e.target).val()
             @updateReportButton()
         # ----------------------------------------------------------------
         updateReportButton: () ->
