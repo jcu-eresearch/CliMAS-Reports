@@ -340,7 +340,7 @@ Let us know if you think we're missing data for your region.
             <div class="onefield formatselection formsection">
                 <h3>Select an output format</h3>
                 <%= formats %>
-                <button class="generate" disabled="disabled">generate report</button>
+                <button class="generate">generate report</button>
             </div>
         """
         # ----------------------------------------------------------------
