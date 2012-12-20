@@ -12,9 +12,9 @@ occurfiles = Dir.new 'regional.occurrences'
 occurfiles.each do |file|
 
 	filename = 'regional.occurrences/' + file
-	puts filename
 	next unless File.file?(filename)
-	puts filename
+
+	print file
 
 	regiontype = file.split('.')[0]
 
@@ -41,7 +41,7 @@ occurfiles.each do |file|
 	    	sql << "species_id = ("
 	    	sql << "select id from species where scientific_name = '#{speciesname}'"
 	    	sql << ") and region_id = ("
-	    	sql << "select id from region where region_type_regiontype = '#{regiontype}' and shapefile_id = #{shapefileid}"
+	    	sql << "select id from regions where region_type_regiontype = '#{regiontype}' and shapefile_id = #{shapefileid}"
 	    	sql << ");\n"
 
             sqlfile.write sql.join('')
