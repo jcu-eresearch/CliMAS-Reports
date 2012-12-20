@@ -30,6 +30,12 @@ module Settings
 
     SiteUrlPrefix = '/climas/reports/'
 
+    # the base URL for linking back to the parent index.
+    # For example:
+    #    ParentSiteUrl = '/climas/'
+
+    ParentSiteUrl = '/climas/'
+
     # the URL for the alternate 'custom maps' front end.
     # For example:
     #    CustomMapsUrl = 'http://tdh-tools-2.hpc.jcu.edu.au/tools/applications/HotSpots.php'

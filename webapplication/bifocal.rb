@@ -11,6 +11,7 @@ class Bifocal < Sinatra::Base
 		@regions = Region.all
 		@dataurlprefix = Settings::DataUrlPrefix
 		@siteurlprefix = Settings::SiteUrlPrefix
+		@parentsiteurl = Settings::ParentSiteUrl
 
 		@pagelist = [
 			{ :name => 'about',   :desc => 'about Reports' },
