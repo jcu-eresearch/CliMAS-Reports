@@ -5,29 +5,30 @@
 module Settings
 
     # the database connection string for DataMapper
+    # Example for postgres:
+    #    DatabaseConnectionString = "postgres://user:password@hostname/database"
     # Example for sqlite:
     #    DatabaseConnectionString = "sqlite3://#{Dir.pwd}/../db/development.sqlite"
 
-    # Example for postgres:
-    #    DatabaseConnectionString = "postgres://user:password@hostname/database"
-    DatabaseConnectionString = "sqlite3://#{Dir.pwd}/../db/development.sqlite"
-#    DatabaseConnectionString = "sqlite3://#{Dir.pwd}/../db/test.sqlite"
+    DatabaseConnectionString = "sqlite3://#{Dir.pwd}/../db/production.sqlite"
 
     # the file path that comes before ..."regions/NRM_My_Favourite_Region/data.json"
     # For example:
     #    DataFilePrefix = '/home/TDH/data/tool3/assets/data/'
-    DataFilePrefix = '/home/TDH/data/Gilbert/bifocal/'
+
+    DataFilePrefix = '/climas/data/'
 
     # the URL prefix that comes before ..."regions/NRM_My_Favourite_Region/figure1.png"
     # For example:
     #    DataUrlPrefix = 'http://tool3:9292/assets/data/'
-#    DataUrlPrefix = 'http://tdh-tools-2.hpc.jcu.edu.au:9292/assets/data/'
-    DataUrlPrefix = 'http://tool3:9292/assets/data/'
+
+    DataUrlPrefix = '/climas/data/'
 
     # the base URL prefix for fetching site-local items.
     # For example:
     #    SiteUrlPrefix = '/bifocal/'
-    SiteUrlPrefix = 'http://tool3:9292/'
+
+    SiteUrlPrefix = '/climas/reports/'
 
     # the URL for the alternate 'custom maps' front end.
     # For example:

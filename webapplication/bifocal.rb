@@ -11,7 +11,6 @@ class Bifocal < Sinatra::Base
 		@regions = Region.all
 		@dataurlprefix = Settings::DataUrlPrefix
 		@siteurlprefix = Settings::SiteUrlPrefix
-		@custommapsurl = Settings::CustomMapsUrl
 
 		@pagelist = [
 			{ :name => 'about',   :desc => 'about Reports' },
