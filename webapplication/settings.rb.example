@@ -16,13 +16,13 @@ module Settings
     # For example:
     #    DataFilePrefix = '/home/TDH/data/tool3/assets/data/'
 
-    DataFilePrefix = '/climas/data/'
+    DataFilePrefix = '/climas/reportdata/'
 
     # the URL prefix that comes before ..."regions/NRM_My_Favourite_Region/figure1.png"
     # For example:
     #    DataUrlPrefix = 'http://tool3:9292/assets/data/'
 
-    DataUrlPrefix = '/climas/data/'
+    DataUrlPrefix = '/climas/reportdata/'
 
     # the base URL prefix for fetching site-local items.
     # For example:
