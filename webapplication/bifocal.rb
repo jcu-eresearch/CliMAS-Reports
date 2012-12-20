@@ -64,6 +64,17 @@ class Bifocal < Sinatra::Base
 		region = Region.get params[:regionid]
 		year = params[:year]
 
+		displayable_output = {
+			'occurs kept'      => { :current => 'occurs',   :future => 'kept' },
+			'occurs lost'      => { :current => 'occurs',   :future => 'LOST' },
+			'occurs gain'      => { :current => 'occurs',   :future => 'kept' },
+			'occurs '          => { :current => 'occurs',   :future => 'unsuitable' },
+			'doesntoccur kept' => { :current => 'suitable', :future => 'suitable' },
+			'doesntoccur lost' => { :current => 'suitable', :future => '&mdash;' },
+			'doesntoccur gain' => { :current => '&mdash;', :future => 'suitable' },
+			'doesntoccur '     => { :current => '&mdash;', :future => '&mdash;' },
+		}
+
 		answer = ["<h2>Biodiversity Details</h2>\n"]
 
 		['mammals', 'birds', 'reptiles', 'amphibians'].each do |flavour|
@@ -73,38 +84,27 @@ class Bifocal < Sinatra::Base
 
 			# start the table
 			answer << "\n<table class='specieslist'>"
-
 			answer << "<thead>"
 
 			# wide header row
 			answer << "<tr>"
-
-			answer << "<th colspan='7'>"
-			answer << flavour
-			answer << "with climate suitability in"
-			answer << "#{region.long_name}, #{year}"
+			answer << "<th colspan='9'>"
+			answer << "#{flavour} with climate suitability in #{region.long_name}, #{year}"
 			answer << "</th></tr>"
 
-
 			answer << "<tr>"
-
+			answer << "<th rowspan='2'>current</th>"
 			answer << "<th colspan='2'>emission scenario</th>"
 			answer << "<th rowspan='2'>Species</th>"
-
 			answer << "<td rowspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
-
+			answer << "<th rowspan='2'>current</th>"
 			answer << "<th colspan='2'>emission scenario</th>"
 			answer << "<th rowspan='2'>Species</th>"
-
 			answer << "</tr>"
 
-
 			answer << "<tr>"
-			answer << "<th>high</th>"
-			answer << "<th>low</th>"
-
-			answer << "<th>high</th>"
-			answer << "<th>low</th>"
+			answer << "<th>high</th><th>low</th>"
+			answer << "<th>high</th><th>low</th>"
 			answer << "</tr>"
 
 			answer << "</thead><tbody>"
@@ -119,25 +119,32 @@ class Bifocal < Sinatra::Base
 
 			allpresences.each do |presence|
 
+				# pluck info from the db
+				occurs = presence.occurrences
 				low = presence.send :"presence#{year}low"
 				high = presence.send :"presence#{year}high"
 
-				next if low == '' and high == ''
+				# skip out if this species is completely uninvolved with this region
+				next if occurs == 0 and low == '' and high == ''
 
+				# prepare to look up our output for this particular combination
+				keyprefix = (occurs == 0 ? 'doesntoccur' : 'occurs')
+
+				keylow = keyprefix + ' ' + low
+				keyhigh = keyprefix + ' ' + high
+
+				outputcurrent = displayable_output[keylow][:current]
+				outputlow = displayable_output[keylow][:future]
+				outputhigh = displayable_output[keyhigh][:future]
+
+				# start a table row, every second species
 				answer << "<tr>" if index % 2 == 0
 
-				low = 'gained' if low == 'gain'
-				low = '&ndash;' if low == ''
+				answer << "<td style='text-align: center' class='#{outputcurrent}'>#{outputcurrent}</td>"
+				answer << "<td style='text-align: center' class='#{outputhigh}'>#{outputhigh}</td>"
+				answer << "<td style='text-align: center' class='#{outputlow}'>#{outputlow}</td>"
 
-				high = 'gained' if high == 'gain'
-				high = '&ndash;' if high == ''
-
-				answer << "<td style='text-align: center' class='#{high}'>#{high}</td>"
-				answer << "<td style='text-align: center' class='#{low}'>#{low}</td>"
-
-				answer << "</td><td>"
-				answer << presence.species.scientific_name
-				answer << "</td>"
+				answer << "<td>#{presence.species.scientific_name}</td>"
 
 				answer << "<td></td>" if index % 2 == 0
 				answer << "</tr>" if index % 2 == 1

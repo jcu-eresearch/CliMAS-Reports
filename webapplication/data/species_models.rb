@@ -10,27 +10,14 @@ class Species
     property :scientific_name,  String, :length => 128
     property :common_name,      String, :length => 64
 
-#    has n, :presences
-#    has n, :regions, :through => :presences
-
     has n, :presence_lists
     has n, :regions, :through => :presence_lists
-
 end
-# --------------------------------------------------------------
-#class Presence
-#    include DataMapper::Resource
-#
-#    property :year,             Integer, :key => true
-#    property :scenario,         String, :length => 4, :key => true
-#    property :presence,         String, :length => 4
-
-#    belongs_to :species, :key => true
-#    belongs_to :region,  :key => true
-#end
 # --------------------------------------------------------------
 class PresenceList
     include DataMapper::Resource
+
+    property :occurrences,        Integer
 
     property :presence2015low,    String, :length => 4
     property :presence2025low,    String, :length => 4
