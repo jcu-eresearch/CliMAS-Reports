@@ -65,9 +65,9 @@ class Bifocal < Sinatra::Base
 		year = params[:year]
 
 		displayable_output = {
-			'occurs kept'      => { :current => 'occurs',   :future => 'kept' },
-			'occurs lost'      => { :current => 'occurs',   :future => 'LOST' },
-			'occurs gain'      => { :current => 'occurs',   :future => 'kept' },
+			'occurs kept'      => { :current => 'occurs',   :future => 'suitable' },
+			'occurs lost'      => { :current => 'occurs',   :future => 'unsuitable' },
+			'occurs gain'      => { :current => 'occurs',   :future => 'suitable' },
 			'occurs '          => { :current => 'occurs',   :future => 'unsuitable' },
 			'doesntoccur kept' => { :current => 'suitable', :future => 'suitable' },
 			'doesntoccur lost' => { :current => 'suitable', :future => '&mdash;' },
