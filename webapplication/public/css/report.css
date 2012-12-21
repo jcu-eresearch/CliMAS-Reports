@@ -54,7 +54,8 @@ body {
 }
 
 #report h2 {
-    margin: 3em 0 1em 0;
+    margin: 1.5em 0 0.5em 0;
+    padding: 1.5em 0 0.5em 0;
     page-break-before: always;
     font-size: 24pt;
     font-family: "Segoe UI", Segoe, Tahoma, Geneva, Verdana, sans-serif;
@@ -62,13 +63,15 @@ body {
 
 @media print {
     #report h2 {
-        margin: 0 0 1em 0;
+        margin: 0 0 0.5em 0;
+        padding: 0 0 0.5em 0;
         page-break-before: always;
     }
 }
 
 #report h3 {
-    margin: 3em 0 1em 0;
+    margin: 1.5em 0 0.5em 0;
+    padding: 1.5em 0 0.5em 0;
     page-break-after: avoid;
     font-size: 14pt;
     font-family: "Segoe UI", Segoe, Tahoma, Geneva, Verdana, sans-serif;
