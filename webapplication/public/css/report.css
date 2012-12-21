@@ -30,7 +30,7 @@ body {
 }
 
 #report .frontpagecredits {
-    page-break-after: always;
+    xpage-break-after: always;
     font-style: italic;
     margin: 3em 25mm;
 }
