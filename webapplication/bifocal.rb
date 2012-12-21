@@ -103,8 +103,8 @@ class Bifocal < Sinatra::Base
 			answer << "</tr>"
 
 			answer << "<tr>"
-			answer << "<th>high</th><th>low</th>"
-			answer << "<th>high</th><th>low</th>"
+			answer << "<th>low</th><th>high</th>"
+			answer << "<th>low</th><th>high</th>"
 			answer << "</tr>"
 
 			answer << "</thead><tbody>"
@@ -141,8 +141,8 @@ class Bifocal < Sinatra::Base
 				answer << "<tr>" if index % 2 == 0
 
 				answer << "<td style='text-align: center' class='#{outputcurrent}'>#{outputcurrent}</td>"
-				answer << "<td style='text-align: center' class='#{outputhigh}'>#{outputhigh}</td>"
 				answer << "<td style='text-align: center' class='#{outputlow}'>#{outputlow}</td>"
+				answer << "<td style='text-align: center' class='#{outputhigh}'>#{outputhigh}</td>"
 
 				answer << "<td>#{presence.species.scientific_name}</td>"
 
