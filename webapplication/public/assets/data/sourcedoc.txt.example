@@ -184,17 +184,20 @@ with other species is not modelled here.
     </tr><tr>
         <th rowspan="2">Current<br>climate</th>
         <th colspan="2">
-            Projected climate in $$year<br>
-            Count
-            (<span class="gained">+gained</span>
-            <span class="lost">-lost</span>)
+            Climate in $$year
         </th>
     </tr><tr>
         <th>
             Low emission scenario
+            <br>count
+            (<span class="gained">+gained</span>
+            <span class="lost">-lost</span>)
         </th>
         <th>
             High emission scenario
+            <br>count
+            (<span class="gained">+gained</span>
+            <span class="lost">-lost</span>)
         </th>
     </tr><tr>
         <td>Mammals</td>
