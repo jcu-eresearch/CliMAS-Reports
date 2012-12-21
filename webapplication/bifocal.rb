@@ -66,9 +66,9 @@ class Bifocal < Sinatra::Base
 
 		displayable_output = {
 			'occurs kept'      => { :current => 'occurs',   :future => 'suitable' },
-			'occurs lost'      => { :current => 'occurs',   :future => 'unsuitable' },
+			'occurs lost'      => { :current => 'occurs',   :future => '<b>unsuitable</b>' },
 			'occurs gain'      => { :current => 'occurs',   :future => 'suitable' },
-			'occurs '          => { :current => 'occurs',   :future => 'unsuitable' },
+			'occurs '          => { :current => 'occurs',   :future => '<b>unsuitable</b>' },
 			'doesntoccur kept' => { :current => 'suitable', :future => 'suitable' },
 			'doesntoccur lost' => { :current => 'suitable', :future => '&mdash;' },
 			'doesntoccur gain' => { :current => '&mdash;', :future => 'suitable' },
