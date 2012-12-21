@@ -36,6 +36,7 @@ class Bifocal < Sinatra::Base
 	get %r{(tools|about|using|science|credits)} do
 
 		@siteurlprefix = Settings::SiteUrlPrefix
+		@parentsiteurl = Settings::ParentSiteUrl
 
 		# @page is the page they wanted
 		@page = params[:captures].first
