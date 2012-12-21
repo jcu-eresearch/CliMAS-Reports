@@ -9,7 +9,7 @@ region_dirs = Dir.new(Settings::DataFilePrefix + 'regions')
 abort "Didn't find #{region_dirs}.. is your settings.rb file correct?" unless File.directory? region_dirs
 
 region_dirs.entries.each do |dir|
-	dirpath = File.join region_dirs.to_s, dir
+	dirpath = File.join region_dirs.to_s, dir.to_s
 	puts dirpath
 	next unless File.directory? dirpath  # bail of this isn't a dir
 	next if dir[0] == '.' # don't process . and .. (or any hidden dirs)
@@ -19,7 +19,4 @@ region_dirs.entries.each do |dir|
 	`zip #{dirpath}/#{dir}.zip #{dirpath}/* -x #{dirpath}/*.zip`
 
 end
-
-
-
 
