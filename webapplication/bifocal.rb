@@ -65,14 +65,14 @@ class Bifocal < Sinatra::Base
 		year = params[:year]
 
 		displayable_output = {
-			'occurs kept'      => { :current => 'occurs',   :future => 'suitable' },
-			'occurs lost'      => { :current => 'occurs',   :future => '<b>unsuitable</b>' },
-			'occurs gain'      => { :current => 'occurs',   :future => 'suitable' },
-			'occurs '          => { :current => 'occurs',   :future => '<b>unsuitable</b>' },
-			'doesntoccur kept' => { :current => 'suitable', :future => 'suitable' },
-			'doesntoccur lost' => { :current => 'suitable', :future => '&mdash;' },
-			'doesntoccur gain' => { :current => '&mdash;', :future => 'suitable' },
-			'doesntoccur '     => { :current => '&mdash;', :future => '&mdash;' },
+			'occurs kept'      => { :current => 'occurs',   :panic => false, :future => 'suitable' },
+			'occurs lost'      => { :current => 'occurs',   :panic => true,  :future => '<b>unsuitable</b>' },
+			'occurs gain'      => { :current => 'occurs',   :panic => false, :future => 'suitable' },
+			'occurs '          => { :current => 'occurs',   :panic => true,  :future => '<b>unsuitable</b>' },
+			'doesntoccur kept' => { :current => 'suitable', :panic => false, :future => 'suitable' },
+			'doesntoccur lost' => { :current => 'suitable', :panic => false, :future => '&mdash;' },
+			'doesntoccur gain' => { :current => '&mdash;',  :panic => false, :future => 'suitable' },
+			'doesntoccur '     => { :current => '&mdash;',  :panic => false, :future => '&mdash;' },
 		}
 
 		answer = ["<h2>Biodiversity Details</h2>\n"]
@@ -136,6 +136,7 @@ class Bifocal < Sinatra::Base
 				outputcurrent = displayable_output[keylow][:current]
 				outputlow = displayable_output[keylow][:future]
 				outputhigh = displayable_output[keyhigh][:future]
+				outputpanic = displayable_output[keyhigh][:panic] || displayable_output[keylow][:panic]
 
 				# start a table row, every second species
 				answer << "<tr>" if index % 2 == 0
@@ -144,7 +145,11 @@ class Bifocal < Sinatra::Base
 				answer << "<td style='text-align: center' class='#{outputlow}'>#{outputlow}</td>"
 				answer << "<td style='text-align: center' class='#{outputhigh}'>#{outputhigh}</td>"
 
-				answer << "<td>#{presence.species.scientific_name}</td>"
+				if outputpanic
+					answer << "<td><b>#{presence.species.scientific_name}</b></td>"
+				else
+					answer << "<td>#{presence.species.scientific_name}</td>"
+				end
 
 				answer << "<td></td>" if index % 2 == 0
 				answer << "</tr>" if index % 2 == 1
