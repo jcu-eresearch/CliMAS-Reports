@@ -66,10 +66,10 @@ class Bifocal < Sinatra::Base
 		year = params[:year]
 
 		displayable_output = {
-			'occurs kept'      => { :current => 'occurs',   :panic => false, :future => 'suitable' },
-			'occurs lost'      => { :current => 'occurs',   :panic => true,  :future => '<b>unsuitable</b>' },
-			'occurs gain'      => { :current => 'occurs',   :panic => false, :future => 'suitable' },
-			'occurs '          => { :current => 'occurs',   :panic => true,  :future => '<b>unsuitable</b>' },
+			'occurs kept'      => { :current => 'observed', :panic => false, :future => 'suitable' },
+			'occurs lost'      => { :current => 'observed', :panic => true,  :future => '<b>unsuitable</b>' },
+			'occurs gain'      => { :current => 'observed', :panic => false, :future => 'suitable' },
+			'occurs '          => { :current => 'observed', :panic => true,  :future => '<b>unsuitable</b>' },
 			'doesntoccur kept' => { :current => 'suitable', :panic => false, :future => 'suitable' },
 			'doesntoccur lost' => { :current => 'suitable', :panic => false, :future => '&mdash;' },
 			'doesntoccur gain' => { :current => '&mdash;',  :panic => false, :future => 'suitable' },
@@ -94,18 +94,18 @@ class Bifocal < Sinatra::Base
 			answer << "</th></tr>"
 
 			answer << "<tr>"
-			answer << "<th rowspan='2'>current</th>"
-			answer << "<th colspan='2'>emission scenario</th>"
+			answer << "<th rowspan='2'>Current</th>"
+			answer << "<th colspan='2'>Emission scenario</th>"
 			answer << "<th rowspan='2'>Species</th>"
 			answer << "<td rowspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
-			answer << "<th rowspan='2'>current</th>"
-			answer << "<th colspan='2'>emission scenario</th>"
+			answer << "<th rowspan='2'>Current</th>"
+			answer << "<th colspan='2'>Emission scenario</th>"
 			answer << "<th rowspan='2'>Species</th>"
 			answer << "</tr>"
 
 			answer << "<tr>"
-			answer << "<th>low</th><th>high</th>"
-			answer << "<th>low</th><th>high</th>"
+			answer << "<th>Low</th><th>High</th>"
+			answer << "<th>Low</th><th>High</th>"
 			answer << "</tr>"
 
 			answer << "</thead><tbody>"
