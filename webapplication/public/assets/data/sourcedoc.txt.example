@@ -179,7 +179,8 @@ with other species is not modelled here.
         <th rowspan="3">Class</th>
         <th rowspan="3">Observed<br>species<br>count</th>
         <th colspan="3">
-            Count of species with projected suitable climate in $$rg_long_name
+            Count of species with projected suitable climate
+            <br>in $$rg_long_name
         </th>
     </tr><tr>
         <th rowspan="2">Current<br>climate</th>
