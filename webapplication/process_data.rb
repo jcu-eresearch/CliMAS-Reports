@@ -14,7 +14,7 @@ Dir.foreach(region_dirs) do |dir|
 	next if dir[0] == '.'[0] # don't process . and .. (or any hidden dirs)
 
 	print "zipping in #{dirpath}.. "
-	`zip #{dirpath}/#{dir}.zip #{dirpath}/* -x #{dirpath}/*.zip`
+	`zip -j #{dirpath}/#{dir}.zip #{dirpath}/* -x #{dirpath}/*.zip`
 	puts " ..done."
 
 end
