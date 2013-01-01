@@ -95,6 +95,11 @@
         if (this.selected_region === "invalid") {
           this.selected_region = null;
         }
+        if (this.selected_region) {
+          console.log('showing region dl');
+        } else {
+          console.log('hiding region dl');
+        }
         return this.updateReportButton();
       },
       changeYear: function(e) {

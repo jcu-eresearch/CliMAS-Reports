@@ -102,12 +102,10 @@ define [
             selected_region_type = @$('.rtype:checked').val()
 
             # show the good region selector dropdown
-#            $('#chosen_' + selected_region_type).show 'fast'
             $('#chosen_' + selected_region_type).css "visibility", "visible"
 
             # hide the other dropdowns
             @$('.rtype').not(':checked').each (i, elem) ->
-#                $('#chosen_' + $(elem).val()).hide 'fast'
                 $('#chosen_' + $(elem).val()).css "visibility", "hidden"
 
             # reset the region to the selected one for this type
@@ -117,6 +115,14 @@ define [
             @selected_region = $(e.target).val()
             if @selected_region == "invalid"
                 @selected_region = null
+            
+            # update and show the download-region-data link
+            # if there is a selected region
+            if @selected_region
+                console.log 'showing region dl'
+            else
+                console.log 'hiding region dl'
+
             @updateReportButton()
         # ----------------------------------------------------------------
         changeYear: (e) ->

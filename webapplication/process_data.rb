@@ -10,7 +10,7 @@ abort "Didn't find #{region_dirs}.. is your settings.rb file correct?" unless Fi
 
 Dir.foreach(region_dirs) do |dir|
 	dirpath = File.join region_dirs, dir
-	next unless File.directory? dirpath  # bail of this isn't a dir
+	next unless File.directory? dirpath  # bail if this isn't a directory
 	next if dir[0] == '.'[0] # don't process . and .. (or any hidden dirs)
 
 	print "zipping in #{dirpath}.. "
