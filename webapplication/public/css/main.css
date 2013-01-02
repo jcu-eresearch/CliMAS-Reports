@@ -31,7 +31,6 @@ a:hover {
     #notreport {
         display: none;
     }
-
 }
 
 #notreport h1 {
@@ -40,8 +39,6 @@ a:hover {
     margin: 0 0 15px 0;
     font-size: 200%;
     text-shadow: 1px 1px 1px #999;
-
-
 }
 
 /* header - - - - - - - - - - - - */
@@ -83,7 +80,6 @@ a:hover {
     margin: 2px 0 24px;
 }
 
-/* nav  - - - - - - - - - - - - */
 /* navbar ------------------------------------------------------ */
 
 /*
@@ -269,12 +265,12 @@ a:hover {
 
 #kickoffform .regiontypeselection {
     position: relative;
-    padding-bottom: 4em;
+    padding-bottom: 5em;
 }
 
 #kickoffform .regionselect {
     position: absolute;
-    bottom: 1.5em;
+    bottom: 2.25em;
     left: 1.25em;
     right: 0.5em;
     padding: 0.25em 0;
@@ -283,6 +279,21 @@ a:hover {
 
     clear: both; /* this is for IE6 :( */
     zoom: 1;     /* another dagger in my heart from IE */
+}
+
+#kickoffform #regiondownloadlink {
+    /* you're right, no need for two ids in the selector,
+    they're there to show where the dl link is. */
+    xfont-size: 90%;
+    text-align: right;
+    position: absolute;
+    bottom: 0.75em;
+    right: 0;
+
+    visibility: hidden;
+
+    clear: both; /* for IE6 */
+    zoom: 1;     /* for IE6 */
 }
 
 #kickoffform input[type="radio"] {
