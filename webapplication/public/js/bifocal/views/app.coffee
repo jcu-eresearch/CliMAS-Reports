@@ -101,7 +101,7 @@ define [
             url
         # ----------------------------------------------------------------
         regionZipUrl: (region) ->
-            url = regionDataUrl region
+            url = @regionDataUrl region
             # lazily retrieve the clean name..
             clean_name = url.split('/')[-1]
             console.log 'clean name is ' + clean_name
