@@ -87,16 +87,25 @@ define [
                 # if it's a region id, fetch the model
                 the_region = @regions.get region
 
+            clean_name = the_region.get('name').replace /[^A-Za-z0-9-]/g, '_'
+
             url = [
                 window.settings.dataUrlPrefix
                 "regions/"
                 the_region.get 'region_type_regiontype'
                 "_"
-                the_region.get('name').replace /[^A-Za-z0-9-]/g, '_'
+                clean_name
                 "/"
             ].join ""
 
             url
+        # ----------------------------------------------------------------
+        regionZipUrl: (region) ->
+            url = regionDataUrl region
+            # lazily retrieve the clean name..
+            clean_name = url.split('/')[-1]
+            console.log 'clean name is ' + clean_name
+            url + '/' + clean_name + '.zip'
         # ----------------------------------------------------------------
         changeRegionType: () ->
             selected_region_type = @$('.rtype:checked').val()
@@ -120,7 +129,7 @@ define [
             # if there is a selected region
             if @selected_region
                 console.log 'showing region dl'
-                @$('#regiondownloadlink').prop 'href', @regionDataUrl(@selected_region)
+                @$('#regiondownloadlink').prop 'href', @regionZipUrl(@selected_region)
                 @$('#regiondownloadlink').css "visibility", "visible"
             else
                 @$('#regiondownloadlink').css "visibility", "hidden"

@@ -71,13 +71,21 @@
         return $('.maincontent').append(this.$el);
       },
       regionDataUrl: function(region) {
-        var the_region, url;
+        var clean_name, the_region, url;
         the_region = region;
         if (typeof region === 'string') {
           the_region = this.regions.get(region);
         }
-        url = [window.settings.dataUrlPrefix, "regions/", the_region.get('region_type_regiontype'), "_", the_region.get('name').replace(/[^A-Za-z0-9-]/g, '_'), "/"].join("");
+        clean_name = the_region.get('name').replace(/[^A-Za-z0-9-]/g, '_');
+        url = [window.settings.dataUrlPrefix, "regions/", the_region.get('region_type_regiontype'), "_", clean_name, "/"].join("");
         return url;
+      },
+      regionZipUrl: function(region) {
+        var clean_name, url;
+        url = regionDataUrl(region);
+        clean_name = url.split('/')[-1];
+        console.log('clean name is ' + clean_name);
+        return url + '/' + clean_name + '.zip';
       },
       changeRegionType: function() {
         var selected_region_type;
@@ -97,7 +105,7 @@
         }
         if (this.selected_region) {
           console.log('showing region dl');
-          this.$('#regiondownloadlink').prop('href', this.regionDataUrl(this.selected_region));
+          this.$('#regiondownloadlink').prop('href', this.regionZipUrl(this.selected_region));
           this.$('#regiondownloadlink').css("visibility", "visible");
         } else {
           this.$('#regiondownloadlink').css("visibility", "hidden");
