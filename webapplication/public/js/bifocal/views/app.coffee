@@ -384,6 +384,7 @@ Let us know if you think we're missing data for your region.
             <div class="onefield regiontypeselection formsection">
                 <h3>Select a region</h3>
                 <%= regiontypes %>
+                <a href="">download region data</a>
             </div>
         """
         # ----------------------------------------------------------------

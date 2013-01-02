@@ -281,7 +281,7 @@
       year_chooser: _.template("<div class=\"onefield yearselection formsection\">\n    <h3>Select a year</h3>\n    <%= years %>\n</div>"),
       type_choice: _.template("<div class=\"regiontypeselector\">\n    <label><input type=\"radio\" class=\"rtype\" name=\"regiontyperadio\"\n            value=\"<%= regiontype %>\"><%= regiontypename_plural %></label>\n    <select class=\"regionselect\" name=\"chosen_<%= regiontype %>\" id=\"chosen_<%= regiontype %>\">\n        <option disabled=\"disabled\" selected=\"selected\" value=\"invalid\">choose a region...</option>\n        <%= regions %>\n    </select>\n</div>"),
       region_option: _.template("<option value=\"<%= id %>\"><%= name %></option>"),
-      type_chooser: _.template("<div class=\"onefield regiontypeselection formsection\">\n    <h3>Select a region</h3>\n    <%= regiontypes %>\n</div>")
+      type_chooser: _.template("<div class=\"onefield regiontypeselection formsection\">\n    <h3>Select a region</h3>\n    <%= regiontypes %>\n    <a href=\"\">download region data</a>\n</div>")
     });
     return AppView;
   });
