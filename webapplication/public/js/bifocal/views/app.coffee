@@ -104,9 +104,9 @@ define [
             url = @regionDataUrl region
             # lazily retrieve the clean name..
             bits = url.split '/'
-            clean_name = bits[bits.length - 1]
+            clean_name = bits[bits.length - 2]
             console.log 'clean name is ' + clean_name
-            url + '/' + clean_name + '.zip'
+            url + clean_name + '.zip'
         # ----------------------------------------------------------------
         changeRegionType: () ->
             selected_region_type = @$('.rtype:checked').val()
