@@ -120,8 +120,10 @@ define [
             # if there is a selected region
             if @selected_region
                 console.log 'showing region dl'
+                @$('#regiondownloadlink').href @regionDataUrl(@selected_region)
+                @$('#regiondownloadlink').css "visibility", "visible"
             else
-                console.log 'hiding region dl'
+                @$('#regiondownloadlink').css "visibility", "hidden"
 
             @updateReportButton()
         # ----------------------------------------------------------------
@@ -384,7 +386,7 @@ Let us know if you think we're missing data for your region.
             <div class="onefield regiontypeselection formsection">
                 <h3>Select a region</h3>
                 <%= regiontypes %>
-                <a href="">download region data</a>
+                <a id="regiondownloadlink" href="">download region data</a>
             </div>
         """
         # ----------------------------------------------------------------
