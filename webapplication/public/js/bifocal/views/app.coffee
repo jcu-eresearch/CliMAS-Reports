@@ -103,7 +103,8 @@ define [
         regionZipUrl: (region) ->
             url = @regionDataUrl region
             # lazily retrieve the clean name..
-            clean_name = url.split('/')[-2]
+            bits = url.split '/'
+            clean_name = bits[bits.length - 1]
             console.log 'clean name is ' + clean_name
             url + '/' + clean_name + '.zip'
         # ----------------------------------------------------------------

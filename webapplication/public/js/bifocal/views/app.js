@@ -81,9 +81,10 @@
         return url;
       },
       regionZipUrl: function(region) {
-        var clean_name, url;
+        var bits, clean_name, url;
         url = this.regionDataUrl(region);
-        clean_name = url.split('/')[-2];
+        bits = url.split('/');
+        clean_name = bits[bits.length - 1];
         console.log('clean name is ' + clean_name);
         return url + '/' + clean_name + '.zip';
       },
