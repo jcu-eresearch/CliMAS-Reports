@@ -120,7 +120,7 @@ define [
             # if there is a selected region
             if @selected_region
                 console.log 'showing region dl'
-                @$('#regiondownloadlink').href @regionDataUrl(@selected_region)
+                @$('#regiondownloadlink').prop 'href', @regionDataUrl(@selected_region)
                 @$('#regiondownloadlink').css "visibility", "visible"
             else
                 @$('#regiondownloadlink').css "visibility", "hidden"

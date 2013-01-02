@@ -97,7 +97,7 @@
         }
         if (this.selected_region) {
           console.log('showing region dl');
-          this.$('#regiondownloadlink').href(this.regionDataUrl(this.selected_region));
+          this.$('#regiondownloadlink').prop('href', this.regionDataUrl(this.selected_region));
           this.$('#regiondownloadlink').css("visibility", "visible");
         } else {
           this.$('#regiondownloadlink').css("visibility", "hidden");
