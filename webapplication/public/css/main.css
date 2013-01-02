@@ -284,11 +284,11 @@ a:hover {
 #kickoffform #regiondownloadlink {
     /* you're right, no need for two ids in the selector,
     they're there to show where the dl link is. */
-    xfont-size: 90%;
+    font-size: 90%;
     text-align: right;
     position: absolute;
     bottom: 0.75em;
-    right: 0;
+    right: 0.55555555em; /* 0.5em at 90% font size */
 
     visibility: hidden;
 
