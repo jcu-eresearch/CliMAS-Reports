@@ -297,6 +297,8 @@ a:hover {
     zoom: 1;     /* for IE6 */
 }
 
+#regiondownloadlink:hover { opacity: 1; }
+
 #kickoffform input[type="radio"] {
     margin-right: 0.3em;
 }
