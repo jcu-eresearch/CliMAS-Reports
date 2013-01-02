@@ -105,7 +105,6 @@ define [
             # lazily retrieve the clean name..
             bits = url.split '/'
             clean_name = bits[bits.length - 2]
-            console.log 'clean name is ' + clean_name
             url + clean_name + '.zip'
         # ----------------------------------------------------------------
         changeRegionType: () ->
@@ -129,7 +128,6 @@ define [
             # update and show the download-region-data link
             # if there is a selected region
             if @selected_region
-                console.log 'showing region dl'
                 @$('#regiondownloadlink').prop 'href', @regionZipUrl(@selected_region)
                 @$('#regiondownloadlink').css "visibility", "visible"
             else

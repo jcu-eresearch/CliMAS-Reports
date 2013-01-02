@@ -85,7 +85,6 @@
         url = this.regionDataUrl(region);
         bits = url.split('/');
         clean_name = bits[bits.length - 2];
-        console.log('clean name is ' + clean_name);
         return url + clean_name + '.zip';
       },
       changeRegionType: function() {
@@ -105,7 +104,6 @@
           this.selected_region = null;
         }
         if (this.selected_region) {
-          console.log('showing region dl');
           this.$('#regiondownloadlink').prop('href', this.regionZipUrl(this.selected_region));
           this.$('#regiondownloadlink').css("visibility", "visible");
         } else {
