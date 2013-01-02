@@ -83,7 +83,7 @@
       regionZipUrl: function(region) {
         var clean_name, url;
         url = this.regionDataUrl(region);
-        clean_name = url.split('/')[-1];
+        clean_name = url.split('/')[-2];
         console.log('clean name is ' + clean_name);
         return url + '/' + clean_name + '.zip';
       },
