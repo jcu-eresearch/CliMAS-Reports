@@ -214,9 +214,8 @@ class Bifocal < Sinatra::Base
 
 		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/#{params[:figure]}.png"
 
-		content_type 'image/png'
-
 		if File.exists? data_file_path
+			content_type 'image/png'
 			File.read(data_file_path)
 		else
 			error 404
@@ -227,9 +226,21 @@ class Bifocal < Sinatra::Base
 
 		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/data.json"
 
-		content_type 'application/json'
 
 		if File.exists? data_file_path
+			content_type 'application/json'
+			File.read(data_file_path)
+		else
+			error 404
+		end
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	get "/assets/data/regions/:regidentifier/:file" do
+
+		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/#{params[:file]}"
+
+		if File.exists? data_file_path
+			content_type 'aplication/octet-stream'
 			File.read(data_file_path)
 		else
 			error 404
