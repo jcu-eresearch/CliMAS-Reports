@@ -71,13 +71,21 @@
         return $('.maincontent').append(this.$el);
       },
       regionDataUrl: function(region) {
-        var the_region, url;
+        var clean_name, the_region, url;
         the_region = region;
         if (typeof region === 'string') {
           the_region = this.regions.get(region);
         }
-        url = [window.settings.dataUrlPrefix, "regions/", the_region.get('region_type_regiontype'), "_", the_region.get('name').replace(/[^A-Za-z0-9-]/g, '_'), "/"].join("");
+        clean_name = the_region.get('name').replace(/[^A-Za-z0-9-]/g, '_');
+        url = [window.settings.dataUrlPrefix, "regions/", the_region.get('region_type_regiontype'), "_", clean_name, "/"].join("");
         return url;
+      },
+      regionZipUrl: function(region) {
+        var bits, clean_name, url;
+        url = this.regionDataUrl(region);
+        bits = url.split('/');
+        clean_name = bits[bits.length - 2];
+        return url + clean_name + '.zip';
       },
       changeRegionType: function() {
         var selected_region_type;
@@ -94,6 +102,12 @@
         this.selected_region = $(e.target).val();
         if (this.selected_region === "invalid") {
           this.selected_region = null;
+        }
+        if (this.selected_region) {
+          this.$('#regiondownloadlink').prop('href', this.regionZipUrl(this.selected_region));
+          this.$('#regiondownloadlink').css("visibility", "visible");
+        } else {
+          this.$('#regiondownloadlink').css("visibility", "hidden");
         }
         return this.updateReportButton();
       },
@@ -276,7 +290,7 @@
       year_chooser: _.template("<div class=\"onefield yearselection formsection\">\n    <h3>Select a year</h3>\n    <%= years %>\n</div>"),
       type_choice: _.template("<div class=\"regiontypeselector\">\n    <label><input type=\"radio\" class=\"rtype\" name=\"regiontyperadio\"\n            value=\"<%= regiontype %>\"><%= regiontypename_plural %></label>\n    <select class=\"regionselect\" name=\"chosen_<%= regiontype %>\" id=\"chosen_<%= regiontype %>\">\n        <option disabled=\"disabled\" selected=\"selected\" value=\"invalid\">choose a region...</option>\n        <%= regions %>\n    </select>\n</div>"),
       region_option: _.template("<option value=\"<%= id %>\"><%= name %></option>"),
-      type_chooser: _.template("<div class=\"onefield regiontypeselection formsection\">\n    <h3>Select a region</h3>\n    <%= regiontypes %>\n</div>")
+      type_chooser: _.template("<div class=\"onefield regiontypeselection formsection\">\n    <h3>Select a region</h3>\n    <%= regiontypes %>\n    <a id=\"regiondownloadlink\" href=\"\">download region data</a>\n</div>")
     });
     return AppView;
   });

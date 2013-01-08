@@ -16,7 +16,7 @@ class Bifocal < Sinatra::Base
 		@pagelist = [
 			{ :name => 'about',   :desc => 'about Reports' },
 			{ :name => 'using',   :desc => 'using Reports' },
-			{ :name => 'science', :desc => 'the science' },
+#			{ :name => 'science', :desc => 'the science' },
 			{ :name => 'credits', :desc => 'credits' }
 		]
 
@@ -36,6 +36,7 @@ class Bifocal < Sinatra::Base
 	get %r{(tools|about|using|science|credits)} do
 
 		@siteurlprefix = Settings::SiteUrlPrefix
+		@parentsiteurl = Settings::ParentSiteUrl
 
 		# @page is the page they wanted
 		@page = params[:captures].first
@@ -48,7 +49,7 @@ class Bifocal < Sinatra::Base
 		@pagelist = [
 			{ :name => 'about',   :desc => 'about Reports' },
 			{ :name => 'using',   :desc => 'using Reports' },
-			{ :name => 'science', :desc => 'the science' },
+#			{ :name => 'science', :desc => 'the science' },
 			{ :name => 'credits', :desc => 'credits' }
 		]
 
@@ -65,14 +66,14 @@ class Bifocal < Sinatra::Base
 		year = params[:year]
 
 		displayable_output = {
-			'occurs kept'      => { :current => 'occurs',   :future => 'suitable' },
-			'occurs lost'      => { :current => 'occurs',   :future => 'unsuitable' },
-			'occurs gain'      => { :current => 'occurs',   :future => 'suitable' },
-			'occurs '          => { :current => 'occurs',   :future => 'unsuitable' },
-			'doesntoccur kept' => { :current => 'suitable', :future => 'suitable' },
-			'doesntoccur lost' => { :current => 'suitable', :future => '&mdash;' },
-			'doesntoccur gain' => { :current => '&mdash;', :future => 'suitable' },
-			'doesntoccur '     => { :current => '&mdash;', :future => '&mdash;' },
+			'occurs kept'      => { :current => 'observed', :panic => false, :future => 'suitable' },
+			'occurs lost'      => { :current => 'observed', :panic => true,  :future => '<b>unsuitable</b>' },
+			'occurs gain'      => { :current => 'observed', :panic => false, :future => 'suitable' },
+			'occurs '          => { :current => 'observed', :panic => true,  :future => '<b>unsuitable</b>' },
+			'doesntoccur kept' => { :current => 'suitable', :panic => false, :future => 'suitable' },
+			'doesntoccur lost' => { :current => 'suitable', :panic => false, :future => '&mdash;' },
+			'doesntoccur gain' => { :current => '&mdash;',  :panic => false, :future => 'suitable' },
+			'doesntoccur '     => { :current => '&mdash;',  :panic => false, :future => '&mdash;' },
 		}
 
 		answer = ["<h2>Biodiversity Details</h2>\n"]
@@ -93,18 +94,18 @@ class Bifocal < Sinatra::Base
 			answer << "</th></tr>"
 
 			answer << "<tr>"
-			answer << "<th rowspan='2'>current</th>"
-			answer << "<th colspan='2'>emission scenario</th>"
+			answer << "<th rowspan='2'>Current</th>"
+			answer << "<th colspan='2'>Emission scenario</th>"
 			answer << "<th rowspan='2'>Species</th>"
 			answer << "<td rowspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>"
-			answer << "<th rowspan='2'>current</th>"
-			answer << "<th colspan='2'>emission scenario</th>"
+			answer << "<th rowspan='2'>Current</th>"
+			answer << "<th colspan='2'>Emission scenario</th>"
 			answer << "<th rowspan='2'>Species</th>"
 			answer << "</tr>"
 
 			answer << "<tr>"
-			answer << "<th>high</th><th>low</th>"
-			answer << "<th>high</th><th>low</th>"
+			answer << "<th>Low</th><th>High</th>"
+			answer << "<th>Low</th><th>High</th>"
 			answer << "</tr>"
 
 			answer << "</thead><tbody>"
@@ -136,15 +137,20 @@ class Bifocal < Sinatra::Base
 				outputcurrent = displayable_output[keylow][:current]
 				outputlow = displayable_output[keylow][:future]
 				outputhigh = displayable_output[keyhigh][:future]
+				outputpanic = displayable_output[keyhigh][:panic] || displayable_output[keylow][:panic]
 
 				# start a table row, every second species
 				answer << "<tr>" if index % 2 == 0
 
 				answer << "<td style='text-align: center' class='#{outputcurrent}'>#{outputcurrent}</td>"
-				answer << "<td style='text-align: center' class='#{outputhigh}'>#{outputhigh}</td>"
 				answer << "<td style='text-align: center' class='#{outputlow}'>#{outputlow}</td>"
+				answer << "<td style='text-align: center' class='#{outputhigh}'>#{outputhigh}</td>"
 
-				answer << "<td>#{presence.species.scientific_name}</td>"
+				if outputpanic
+					answer << "<td><b>#{presence.species.scientific_name}</b></td>"
+				else
+					answer << "<td>#{presence.species.scientific_name}</td>"
+				end
 
 				answer << "<td></td>" if index % 2 == 0
 				answer << "</tr>" if index % 2 == 1
@@ -208,9 +214,8 @@ class Bifocal < Sinatra::Base
 
 		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/#{params[:figure]}.png"
 
-		content_type 'image/png'
-
 		if File.exists? data_file_path
+			content_type 'image/png'
 			File.read(data_file_path)
 		else
 			error 404
@@ -221,9 +226,21 @@ class Bifocal < Sinatra::Base
 
 		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/data.json"
 
-		content_type 'application/json'
 
 		if File.exists? data_file_path
+			content_type 'application/json'
+			File.read(data_file_path)
+		else
+			error 404
+		end
+	end
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	get "/assets/data/regions/:regidentifier/:file" do
+
+		data_file_path = Settings::DataFilePrefix + "regions/#{params[:regidentifier]}/#{params[:file]}"
+
+		if File.exists? data_file_path
+			content_type 'aplication/octet-stream'
 			File.read(data_file_path)
 		else
 			error 404

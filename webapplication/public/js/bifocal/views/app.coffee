@@ -87,27 +87,34 @@ define [
                 # if it's a region id, fetch the model
                 the_region = @regions.get region
 
+            clean_name = the_region.get('name').replace /[^A-Za-z0-9-]/g, '_'
+
             url = [
                 window.settings.dataUrlPrefix
                 "regions/"
                 the_region.get 'region_type_regiontype'
                 "_"
-                the_region.get('name').replace /[^A-Za-z0-9-]/g, '_'
+                clean_name
                 "/"
             ].join ""
 
             url
         # ----------------------------------------------------------------
+        regionZipUrl: (region) ->
+            url = @regionDataUrl region
+            # lazily retrieve the clean name..
+            bits = url.split '/'
+            clean_name = bits[bits.length - 2]
+            url + clean_name + '.zip'
+        # ----------------------------------------------------------------
         changeRegionType: () ->
             selected_region_type = @$('.rtype:checked').val()
 
             # show the good region selector dropdown
-#            $('#chosen_' + selected_region_type).show 'fast'
             $('#chosen_' + selected_region_type).css "visibility", "visible"
 
             # hide the other dropdowns
             @$('.rtype').not(':checked').each (i, elem) ->
-#                $('#chosen_' + $(elem).val()).hide 'fast'
                 $('#chosen_' + $(elem).val()).css "visibility", "hidden"
 
             # reset the region to the selected one for this type
@@ -117,6 +124,15 @@ define [
             @selected_region = $(e.target).val()
             if @selected_region == "invalid"
                 @selected_region = null
+            
+            # update and show the download-region-data link
+            # if there is a selected region
+            if @selected_region
+                @$('#regiondownloadlink').prop 'href', @regionZipUrl(@selected_region)
+                @$('#regiondownloadlink').css "visibility", "visible"
+            else
+                @$('#regiondownloadlink').css "visibility", "hidden"
+
             @updateReportButton()
         # ----------------------------------------------------------------
         changeYear: (e) ->
@@ -378,6 +394,7 @@ Let us know if you think we're missing data for your region.
             <div class="onefield regiontypeselection formsection">
                 <h3>Select a region</h3>
                 <%= regiontypes %>
+                <a id="regiondownloadlink" href="">download region data</a>
             </div>
         """
         # ----------------------------------------------------------------

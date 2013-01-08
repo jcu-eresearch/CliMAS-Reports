@@ -176,27 +176,35 @@ with other species is not modelled here.
 
 <table>
     <tr>
-        <th rowspan="2">Class</th>
-        <th rowspan="2">Current species count</th>
+        <th rowspan="3">Class</th>
+        <th rowspan="3">Observed<br>species<br>count</th>
+        <th colspan="3">
+            Count of species with projected suitable climate
+            <br>in $$rg_long_name
+        </th>
+    </tr><tr>
+        <th rowspan="2">Current<br>climate</th>
         <th colspan="2">
-            Projected species count in $$year
+            Climate in $$year
         </th>
     </tr><tr>
         <th>
-            Low emission scenario<br>
-            Count
+            Low emission scenario
+            <br>count
             (<span class="gained">+gained</span>
             <span class="lost">-lost</span>)
         </th>
         <th>
-            High emission scenario<br>
-            Count
+            High emission scenario
+            <br>count
             (<span class="gained">+gained</span>
             <span class="lost">-lost</span>)
         </th>
     </tr><tr>
         <td>Mammals</td>
         <td>
+            $$occur_mammals_current
+        </td><td>
             $$low_mammals_total_current
         </td><td>
             $$low_mammals_total_$$year
@@ -210,6 +218,8 @@ with other species is not modelled here.
     </tr><tr>
         <td>Birds</td>
         <td>
+            $$occur_birds_current
+        </td><td>
             $$low_birds_total_current
         </td><td>
             $$low_birds_total_$$year
@@ -224,6 +234,8 @@ with other species is not modelled here.
     </tr><tr>
         <td>Amphibians</td>
         <td>
+            $$occur_amphibians_current
+        </td><td>
             $$low_amphibians_total_current
         </td><td>
             $$low_amphibians_total_$$year
@@ -238,6 +250,8 @@ with other species is not modelled here.
     </tr><tr>
         <td>Reptiles</td>
         <td>
+            $$occur_reptiles_current
+        </td><td>
             $$low_reptiles_total_current
         </td><td>
             $$low_reptiles_total_$$year
@@ -252,6 +266,8 @@ with other species is not modelled here.
     </tr><tr class="totals">
         <td>Totals</td>
         <td>
+            $$occur_total_current
+        </td><td>
             $$low_total_total_current
         </td><td>
             $$low_total_total_$$year
