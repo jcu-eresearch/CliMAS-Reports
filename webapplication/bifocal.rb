@@ -16,7 +16,7 @@ class Bifocal < Sinatra::Base
 		@pagelist = [
 			{ :name => 'about',   :desc => 'about Reports' },
 			{ :name => 'using',   :desc => 'using Reports' },
-			{ :name => 'science', :desc => 'the science' },
+#			{ :name => 'science', :desc => 'the science' },
 			{ :name => 'credits', :desc => 'credits' }
 		]
 
@@ -49,7 +49,7 @@ class Bifocal < Sinatra::Base
 		@pagelist = [
 			{ :name => 'about',   :desc => 'about Reports' },
 			{ :name => 'using',   :desc => 'using Reports' },
-			{ :name => 'science', :desc => 'the science' },
+#			{ :name => 'science', :desc => 'the science' },
 			{ :name => 'credits', :desc => 'credits' }
 		]
 
