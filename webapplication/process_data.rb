@@ -18,7 +18,7 @@ Dir.foreach(region_dirs) do |dir|
     # make the metadata override file
 
     # first find out more about our region.
-    dir_parts = dir.split('_').first
+    dir_parts = dir.split('_')
     region_type = dir_parts[0]
     region_name = dir_parts[1..-1].join ' '
 
