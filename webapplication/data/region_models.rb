@@ -41,7 +41,7 @@ class Region
     property :governing_body,           String, :length => 128
     property :reportable,               Boolean
     property :includes_significant_sea, Boolean
-    property :sinplified_polygon,       String, :length => 1024
+    property :simplified_polygon,       String, :length => 1024
 
     belongs_to :region_type
 
