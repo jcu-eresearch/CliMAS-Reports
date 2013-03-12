@@ -32,15 +32,16 @@ end
 class Region
     include DataMapper::Resource
 
-    property :id,                 Serial
-    property :type_local_code,    String, :length => 16
-    property :shapefile_id,       Integer
-    property :name,               String, :length => 64
-    property :long_name,          String, :length => 64
-    property :state,              String, :length => 16
-    property :governing_body,     String, :length => 128
-    property :reportable,         Boolean
-    property :includes_sea,       Boolean
+    property :id,                       Serial
+    property :type_local_code,          String, :length => 16
+    property :shapefile_id,             Integer
+    property :name,                     String, :length => 64
+    property :long_name,                String, :length => 64
+    property :state,                    String, :length => 16
+    property :governing_body,           String, :length => 128
+    property :reportable,               Boolean
+    property :includes_significant_sea, Boolean
+    property :sinplified_polygon,       String, :length => 1024
 
     belongs_to :region_type
 
