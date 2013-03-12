@@ -54,7 +54,7 @@ Dir.foreach(region_dirs) do |dir|
     }   }   }
 
     # now write the override metadata into a file..
-    File.open(dirpath + '/climas-reports-specific.json', 'w') do |file|
+    File.open(dirpath + '/climas-reports-metadata-override.json', 'w') do |file|
         file.write(JSON.pretty_generate metadata)
     end
 
