@@ -36,7 +36,7 @@ Dir.foreach(region_dirs) do |dir|
     # States just get called "Thingy" (no suffix)
 
     # we need the region's simplified polygon out of the database.
-    poly = Region.first(:name => region_name).simplified_polygon
+    region_poly = Region.first(:name => region_name).simplified_polygon
 
     # it's a JSON serialisation, so let's just build a native object and then serialise it to JSON.
     metadata = {
