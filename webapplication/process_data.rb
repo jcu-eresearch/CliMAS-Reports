@@ -17,7 +17,7 @@ Dir.foreach(region_dirs) do |dir|
 	next if dir[0] == '.'[0] # don't process . and .. (or any hidden dirs)
 
     # ------------------------------------------------------
-    # make the metadata override file
+    # gather data together for the metadata override file
 
     # first find out more about our region.
     dir_parts = dir.split('_')
@@ -25,20 +25,35 @@ Dir.foreach(region_dirs) do |dir|
 
     region_name = dir_parts[1..-1].join ' '
 
-    region_long_name = region_name
+    # fancy-up a pretty version of the name for humans to read:
+
+    region_nice_name = region_name
 
     # NRM regions get called "Northern Thingy Region"
-    region_long_name += ' NRM Region' if region_type == 'NRM'
-
+    region_nice_name += ' NRM Region' if region_type == 'NRM'
     # IBRA regions get called "Northern Thingy Bioregion"
-    region_long_name += ' IBRA Bioregion' if region_type == 'IBRA'
-
+    region_nice_name += ' IBRA Bioregion' if region_type == 'IBRA'
     # States just get called "Thingy" (no suffix)
 
-    # we need the region's simplified polygon out of the database.
+    # put the fancy name into a phrase for use in textual descriptions:
+
+    region_name_phrase = region_nice_name
+    if region_type == 'State' and not region_name =~ /Territory$/
+        # States get called 'the Australian state of ...'
+        region_name_phrase = 'the Australian state of ' + region_nice_name
+    else
+        # Australian Territories, IBRA regions, and NRM regions just get 'the ...'
+        region_name_phrase = 'the ' + region_nice_name
+    end
+
+    # we need the region's simplified polygon out of the database:
+
     region_poly = Region.first(:name => region_name).simplified_polygon
 
-    # it's a JSON serialisation, so let's just build a native object and then serialise it to JSON.
+    # ------------------------------------------------------
+    # now we've assembled all the data we need. The metadata
+    # override file is a JSON serialisation, so let's just
+    # build a native object and then serialise it to JSON.
     metadata = {
         'harvester' => {
             'type' => 'directory',
@@ -46,7 +61,8 @@ Dir.foreach(region_dirs) do |dir|
                 'climas_reports' => [
                     {
                         'DATA_SUBSTITUTIONS' => {
-                            'REGION_NAME' => region_long_name,
+                            'REGION_NAME' => region_nice_name,
+                            'REGION_PHRASE' => region_name_phrase,
                             'REGION_POLY' => region_poly,
                             'DATA_LOCATION' => "https://eresearch.jcu.edu.au/tdh/datasets/Gilbert/bifocal/regions/#{dir}/#{dir}.zip"
                     }   }
