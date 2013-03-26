@@ -38,12 +38,27 @@ Dir.foreach(region_dirs) do |dir|
     # put the fancy name into a phrase for use in textual descriptions:
 
     region_name_phrase = region_nice_name
-    if region_type == 'State' and not region_name =~ /Territory$/
+
+    if region_type == 'NRM'
+        # NRM Regions get called 'the Australian NRM region of ...'
+        region_name_phrase = 'the Australian NRM region of ' + region_name
+
+    elsif region_type == 'IBRA'
+        # IBRA Regions get called 'the Australian IBRA bioregion of ...'
+        region_name_phrase = 'the Australian IBRA bioregion of ' + region_name
+
+    elsif region_type == 'State' and region_name =~ /^Australian/
+        # Territories starting with 'Australian' get called 'the [Australian]...'
+        region_name_phrase = 'the ' + region_name
+
+    elsif region_type == 'State' and region_name =~ /Territory$/
+        # Other territories get called 'the ...[Territory] of Australia'
+        region_name_phrase = 'the ' + region_name + ' of Australia'
+
+    elsif region_type == 'State'
         # States get called 'the Australian state of ...'
-        region_name_phrase = 'the Australian state of ' + region_nice_name
-    else
-        # Australian Territories, IBRA regions, and NRM regions just get 'the ...'
-        region_name_phrase = 'the ' + region_nice_name
+        region_name_phrase = 'the Australian state of ' + region_name
+
     end
 
     # we need the region's simplified polygon out of the database:
